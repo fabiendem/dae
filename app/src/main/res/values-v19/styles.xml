@@ -9,12 +9,14 @@
         <item name="colorPrimaryDark">@color/darkRed</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/white</item>
+    </style>
 
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
+    <style name="AppTheme.TranslucentStatusBar">
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
     <style name="AppTheme.OpaqueStatusBar">
-        <!--<item name="android:windowTranslucentStatus">false</item>-->
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 </resources>
 

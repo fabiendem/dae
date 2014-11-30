@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="topMarginToolbar">0dp</dimen>
-    <dimen name="topPaddingContent">0dp</dimen>
+    <!-- For API < 19 no need to push down the content as we don't draw behind the status bar -->
+    <dimen name="topMarginStatusBar">0dp</dimen>
 </resources>

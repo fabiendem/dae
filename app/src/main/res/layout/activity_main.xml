@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    >
 
     <!-- Your normal content view -->
     <FrameLayout
@@ -17,24 +18,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!-- Add some top padding when we draw behind the status bar (API >= 19) -->
         <ImageButton
             android:id="@+id/drawer_toggle_btn"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/topMarginToolbar"
+            android:layout_marginTop="@dimen/topMarginStatusBar"
             android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_menu_black_24dp"
             android:contentDescription="Menu"
             />
     </FrameLayout>
 
-    <!-- The navigation drawer -->
+    <!--
+        The navigation drawer
+        Fits System Windows, so the items are not hidden behind the status bar
+     -->
     <LinearLayout android:id="@+id/left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
         android:background="#FAFAFA"
+        android:fitsSystemWindows="true"
         >
 
         <Button

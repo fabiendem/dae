@@ -11,6 +11,12 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="AppTheme.TranslucentStatusBar">
+    </style>
+
+    <style name="AppTheme.OpaqueStatusBar">
+    </style>
+
     <style name="DrawerHandler">
 
     </style>
