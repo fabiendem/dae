@@ -35,13 +35,20 @@
         Fits System Windows, so the items are not hidden behind the status bar
      -->
     <LinearLayout android:id="@+id/left_drawer"
-        android:layout_width="240dp"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
         android:background="#FAFAFA"
-        android:fitsSystemWindows="true"
         >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bkg_drawer"
+            android:scaleType="center"
+            android:layout_marginBottom="8dp"
+        />
 
         <Button
             android:id="@+id/map_type_chooser_btn"
