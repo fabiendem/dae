@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Your normal content view -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <!-- The main content view -->
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/drawer_toggle_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="@dimen/topMarginToolbar"
+            android:background="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_menu_black_24dp"
+            android:contentDescription="Menu"
+            />
+    </FrameLayout>
+
+    <!-- The navigation drawer -->
+    <LinearLayout android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="start"
+        android:background="#FAFAFA"
+        >
+
+        <Button
+            android:id="@+id/map_type_chooser_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DrawerButton"
+            android:text="Satellite"
+            android:drawableLeft="@drawable/ic_satellite_black_24dp"
+            />
+
+        <View style="@style/Divider"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DrawerButton"
+            android:text="Settings"
+            android:drawableLeft="@drawable/ic_settings_black_24dp"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DrawerButton"
+            android:text="Contact us"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            />
+        <Button
+            android:id="@+id/about_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/DrawerButton"
+            android:text="About"
+            android:drawableLeft="@drawable/ic_info_black_24dp"
+            />
+
+    </LinearLayout>
+</android.support.v4.widget.DrawerLayout>

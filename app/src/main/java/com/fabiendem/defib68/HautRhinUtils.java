@@ -1,5 +1,8 @@
 package com.fabiendem.defib68;
 
+import android.location.Location;
+
+import com.fabiendem.defib68.map.MapUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.geometry.Bounds;
@@ -21,5 +24,9 @@ public class HautRhinUtils {
         return new LatLngBounds(
                 new LatLng(BOTTOM_BOUND, LEFT_BOUND),
                 new LatLng(TOP_BOUND, RIGHT_BOUND));
+    }
+
+    public static boolean isLocationInHautRhin(Location location) {
+        return MapUtils.isLocationInBounds(location, HautRhinUtils.getLatLngBounds());
     }
 }

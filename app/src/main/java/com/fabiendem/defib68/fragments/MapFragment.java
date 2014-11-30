@@ -1,4 +1,4 @@
-package com.fabiendem.defib68.activities;
+package com.fabiendem.defib68.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,10 +6,14 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -48,23 +53,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapActivity extends ActionBarActivity
+public class MapFragment extends Fragment
         implements GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener,
-        LocationListener, ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem> {
+                    GooglePlayServicesClient.OnConnectionFailedListener,
+                    LocationListener,
+                    ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>, View.OnClickListener {
 
-    public static final String TAG = "MapActivity";
+    public static final String TAG = "MapFragment";
 
+    private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Polyline mWalkingPerimeterCircle;
 
+    private CameraPosition mSavedCameraPosition;
+
     private Circle mCircleWalkingPerimeter;
     private TextView mErrorTxt;
+    private Button mShowMyLocationBtn;
+    private Button mShowHautRhinBtn;
+    private Button mShowClosestDefibBtn;
+
 
     private List<DefibrillatorModel> mDefibrillators;
     private ClusterManager<DefibrillatorClusterItem> mClusterManager;
     private PointQuadTree<DefibrillatorClusterItem> mPointQuadTree;
     private HashMap<String, DefibrillatorModel> mMapDefibrillators;
+
 
     // Grab location
     /*
@@ -96,13 +110,55 @@ public class MapActivity extends ActionBarActivity
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
 
+    public MapFragment() {
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
 
-        mErrorTxt = (TextView) findViewById(R.id.error_txt);
+        setupDefibrillators();
+        setupLocationClient();
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        mErrorTxt = (TextView) view.findViewById(R.id.error_txt);
+        mShowMyLocationBtn = (Button) view.findViewById(R.id.show_my_location_btn);
+        mShowHautRhinBtn = (Button) view.findViewById(R.id.show_haut_rhin_btn);
+        mShowClosestDefibBtn = (Button) view.findViewById(R.id.show_closest_defib_btn);
+
+        mShowMyLocationBtn.setOnClickListener(this);
+        mShowHautRhinBtn.setOnClickListener(this);
+        mShowClosestDefibBtn.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FragmentManager fragmentManager = getChildFragmentManager();
+        mSupportMapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.map);
+        if (mSupportMapFragment == null) {
+            mSupportMapFragment = SupportMapFragment.newInstance();
+            fragmentManager.beginTransaction().replace(R.id.map, mSupportMapFragment).commit();
+        }
+        setUpMapIfNeeded();
+
+        if(savedInstanceState != null) {
+            CameraPosition cameraPosition = savedInstanceState.getParcelable("SAVED_CAMERA_POSITION");
+            if(cameraPosition != null) {
+                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }
+    }
+
+    private void setupDefibrillators() {
         // Setup some defibrillators
         mDefibrillators = DummyDefibrillators.ITEMS;
         mPointQuadTree = new PointQuadTree<DefibrillatorClusterItem>(
@@ -111,15 +167,14 @@ public class MapActivity extends ActionBarActivity
                 HautRhinUtils.BOTTOM_BOUND,
                 HautRhinUtils.TOP_BOUND);
         mMapDefibrillators = new HashMap<String, DefibrillatorModel>();
+    }
 
-        // Setup the map
-        setUpMapIfNeeded();
-
+    private void setupLocationClient() {
         /*
          * Create a new location client, using the enclosing class to
          * handle callbacks.
          */
-        mLocationClient = new LocationClient(this, this, this);
+        mLocationClient = new LocationClient(getActivity(), this, this);
 
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create();
@@ -132,17 +187,11 @@ public class MapActivity extends ActionBarActivity
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
-
     /*
      * Called when the Activity becomes visible.
      */
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         if(isGooglePlayServicesAvailable(true)) {
             // Connect the client.
@@ -150,11 +199,34 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
-    /*
-     * Called when the Activity is no longer visible.
-     */
     @Override
-    protected void onStop() {
+    public void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+
+        if (mSavedCameraPosition != null) {
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mSavedCameraPosition));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        mSavedCameraPosition = mMap.getCameraPosition();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    /*
+         * Called when the Activity is no longer visible.
+         */
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop");
         // If the client is connected
         if (mLocationClient.isConnected()) {
             /*
@@ -177,7 +249,7 @@ public class MapActivity extends ActionBarActivity
      * by Google Play services
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Decide what to do based on the original request code
         switch (requestCode) {
             case GP_CONNECTION_FAILURE_RESOLUTION_REQUEST :
@@ -206,7 +278,7 @@ public class MapActivity extends ActionBarActivity
 
     private boolean isGooglePlayServicesAvailable(boolean showErrorDialog) {
         // Check that Google Play services is available
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
 
         // If Google Play services is available
         if (ConnectionResult.SUCCESS == resultCode) {
@@ -215,7 +287,7 @@ public class MapActivity extends ActionBarActivity
             return true;
         } else {
             if(showErrorDialog) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this, GP_CONNECTION_FAILURE_RESOLUTION_REQUEST).show();
+                GooglePlayServicesUtil.getErrorDialog(resultCode, getActivity(), GP_CONNECTION_FAILURE_RESOLUTION_REQUEST).show();
             }
             return false;
         }
@@ -244,8 +316,9 @@ public class MapActivity extends ActionBarActivity
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-                    .getMap();
+            //FragmentManager fragmentManager = getChildFragmentManager();
+            //SupportMapFragment fragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.map);
+            mMap = mSupportMapFragment.getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -265,8 +338,11 @@ public class MapActivity extends ActionBarActivity
         // Enable compass
         UiSettings uiMapSettings = mMap.getUiSettings();
         uiMapSettings.setCompassEnabled(true);
+
         // Disable default my location button
         uiMapSettings.setMyLocationButtonEnabled(false);
+
+        uiMapSettings.setZoomControlsEnabled(false);
 
         // Display my location
         mMap.setMyLocationEnabled(true);
@@ -277,8 +353,8 @@ public class MapActivity extends ActionBarActivity
     private void setupClusterer() {
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<DefibrillatorClusterItem>(this, getMap());
-        mClusterManager.setRenderer(new DefibrillatorClusterRenderer(this, getMap(), mClusterManager));
+        mClusterManager = new ClusterManager<DefibrillatorClusterItem>(getActivity(), getMap());
+        mClusterManager.setRenderer(new DefibrillatorClusterRenderer(getActivity(), getMap(), mClusterManager));
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
 
         // Point the map's listeners at the listeners implemented by the cluster
@@ -300,25 +376,46 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
+    private void moveCameraToHautRhin() {
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
+                UiUtils.dpToPx(getActivity(), 100)));
+    }
+
     private void animateCameraToHautRhin() {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(47.8657299, 7.2315736), 8));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
+                UiUtils.dpToPx(getActivity(), 100)));
     }
 
     private void animateCameraToCurrentLocation() {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MapUtils.getLatLng(mCurrentLocation), 15));
     }
 
-
-    public void onClickClosestBtn(View view) {
-        new GetClosestDefibrillatorAsyncTask().execute();
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.show_haut_rhin_btn:
+                onClickHautRhinBtn(view);
+                break;
+            case R.id.show_closest_defib_btn:
+                onClickClosestBtn(view);
+                break;
+            case R.id.show_my_location_btn:
+                onClickMyLocationBtn(view);
+                break;
+        }
     }
 
-    public void onClickMyLocationBtn(View view) {
+    private void onClickClosestBtn(View view) {
+        new ShowClosestDefibrillatorAsyncTask().execute();
+    }
+
+    private void onClickMyLocationBtn(View view) {
         if(mCurrentLocation != null) {
             animateCameraToCurrentLocation();
         }
     }
-    public void onClickHautRhinBtn(View view) {
+
+    private void onClickHautRhinBtn(View view) {
         animateCameraToHautRhin();
     }
 
@@ -358,6 +455,48 @@ public class MapActivity extends ActionBarActivity
     public void onLocationChanged(Location location) {
         updateCurrentLocation(location);
     }
+
+    private void updateCurrentLocation(Location location) {
+        if(location != null) {
+            if(mCurrentLocation != null) {
+                if(mCurrentLocation.getLongitude() != location.getLongitude() ||
+                        mCurrentLocation.getLatitude() != location.getLatitude()) {
+                    Log.d(TAG, "Current location updated: " + location.toString());
+                    mCurrentLocation = location;
+                    onReallyNewCurrentLocation();
+                }
+            }
+            else {
+                Log.d(TAG, "Current location updated: " + location.toString());
+                mCurrentLocation = location;
+                onReallyNewCurrentLocation();
+            }
+            hideErrorMessage();
+        }
+        else {
+            Log.e(TAG, "Current location unknown");
+            onLocationUnknown();
+        }
+    }
+
+    private void onReallyNewCurrentLocation() {
+        mShowMyLocationBtn.setEnabled(true);
+        if(HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
+            Toast.makeText(getActivity(), "Dans le haut rhin", Toast.LENGTH_LONG).show();
+            mShowClosestDefibBtn.setEnabled(true);
+        }
+        else {
+            Toast.makeText(getActivity(), "Hors du haut rhin", Toast.LENGTH_LONG).show();
+            mShowClosestDefibBtn.setEnabled(false);
+        }
+        drawCircleWalkingPerimeter();
+    }
+
+    private void onLocationUnknown() {
+        showErrorMessage("Votre localisation est inconnue");
+        setLocationButtonsEnabled(false);
+    }
+
 
     private DefibrillatorClusterItem getClosestDefibrillator(Bounds maxBoundsSearch) {
         if(mCurrentLocation == null) {
@@ -433,43 +572,6 @@ public class MapActivity extends ActionBarActivity
         return closestDefibrillator;
     }
 
-    private void updateCurrentLocation(Location location) {
-        if(location != null) {
-            if(mCurrentLocation != null) {
-                if(mCurrentLocation.getLongitude() != location.getLongitude() ||
-                        mCurrentLocation.getLatitude() != location.getLatitude()) {
-                    Log.d(TAG, "Current location updated: " + location.toString());
-                    mCurrentLocation = location;
-                    onReallyNewCurrentLocation();
-                }
-            }
-            else {
-                Log.d(TAG, "Current location updated: " + location.toString());
-                mCurrentLocation = location;
-                onReallyNewCurrentLocation();
-            }
-            hideErrorMessage();
-        }
-        else {
-            Log.e(TAG, "Current location unknown");
-
-            showErrorMessage("Votre localisation est inconnue");
-        }
-    }
-
-    private void onReallyNewCurrentLocation() {
-        if(isLocationInHautRhin(mCurrentLocation)) {
-            Toast.makeText(this, "Dans le haut rhin", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(this, "Hors du haut rhin", Toast.LENGTH_LONG).show();
-        }
-        drawCircleWalkingPerimeter();
-    }
-
-    private boolean isLocationInHautRhin(Location location) {
-        return MapUtils.isLocationInBounds(location, HautRhinUtils.getLatLngBounds());
-    }
 
     @Override
     public void onClusterItemInfoWindowClick(DefibrillatorClusterItem item) {
@@ -480,7 +582,7 @@ public class MapActivity extends ActionBarActivity
         Intent chooserMapApplication = Intent.createChooser(intentWalkingDirections, "Display walking directions via:");
 
         // Verify the intent will resolve to at least one activity
-        if (intentWalkingDirections.resolveActivity(getPackageManager()) != null) {
+        if (intentWalkingDirections.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(chooserMapApplication);
         }
     }
@@ -501,7 +603,7 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
-    private class GetClosestDefibrillatorAsyncTask extends AsyncTask<Void, Void, DefibrillatorClusterItem> {
+    private class ShowClosestDefibrillatorAsyncTask extends AsyncTask<Void, Void, DefibrillatorClusterItem> {
 
         @Override
         protected DefibrillatorClusterItem doInBackground(Void... params) {
@@ -529,7 +631,7 @@ public class MapActivity extends ActionBarActivity
                         MapUtils.getLatLngBounds(currentLocationLatLng, closestDefib.getPosition());
                 mMap.animateCamera(
                         CameraUpdateFactory.newLatLngBounds(boundsCurrentLocationAndDefibrillator,
-                        UiUtils.dpToPx(MapActivity.this, 100)));
+                        UiUtils.dpToPx(getActivity(), 100)));
             }
             else {
                 Log.d(TAG, "Couldn't find closest defib");
@@ -537,11 +639,11 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
-    class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+    private class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         private View mInfoContentsView;
 
         DefibrillatorInfoWindowAdapter() {
-            mInfoContentsView = MapActivity.this.getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
+            mInfoContentsView = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
         }
 
         @Override
@@ -553,7 +655,7 @@ public class MapActivity extends ActionBarActivity
         public View getInfoContents(Marker marker) {
             String markerId = marker.getTitle();
             Log.d(TAG, "Marker id: " + markerId);
-            final DefibrillatorModel defibrillatorModel = MapActivity.this.mMapDefibrillators.get(markerId);
+            final DefibrillatorModel defibrillatorModel = MapFragment.this.mMapDefibrillators.get(markerId);
             if(defibrillatorModel == null) {
                 Log.e(TAG, "Defibrillator " + markerId + " unknown");
                 return null;
@@ -579,6 +681,7 @@ public class MapActivity extends ActionBarActivity
         }
     }
 
+
     private void showErrorMessage(String message) {
         if(mErrorTxt.getText() != message) {
             mErrorTxt.setText(message);
@@ -592,5 +695,26 @@ public class MapActivity extends ActionBarActivity
         if(mErrorTxt.getVisibility() == View.VISIBLE) {
             mErrorTxt.setVisibility(View.GONE);
         }
+    }
+
+    private void setLocationButtonsEnabled(boolean enabled) {
+        mShowMyLocationBtn.setEnabled(enabled);
+        mShowClosestDefibBtn.setEnabled(enabled);
+    }
+
+    public int toggleMapType() {
+        int newMapType;
+        if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL) {
+            newMapType = GoogleMap.MAP_TYPE_NORMAL;
+        }
+        else {
+            newMapType = GoogleMap.MAP_TYPE_HYBRID;
+        }
+        mMap.setMapType(newMapType);
+        return newMapType;
+    }
+
+    public int getMapType() {
+        return mMap.getMapType();
     }
 }

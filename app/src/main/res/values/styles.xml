@@ -11,4 +11,25 @@
         <item name="colorAccent">@color/white</item>
     </style>
 
+    <style name="DrawerHandler">
+
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#1f000000</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="DrawerButton">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:drawablePadding">32dp</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:color">#de000000</item>
+    </style>
 </resources>

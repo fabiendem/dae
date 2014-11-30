@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="primary" type="color">@color/red</item>
+    <item name="primary_pressed" type="color">@color/white</item>
+    <item name="ripple" type="color">@color/white</item>
+
     <item name="red" type="color">#ffff4444</item>
     <item name="darkRed" type="color">#ffc23030</item>
     <item name="white" type="color">#ffffffff</item>
-
 </resources>
