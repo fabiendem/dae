@@ -7,11 +7,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.fabiendem.defib68.R;
+import com.fabiendem.defib68.UiUtils;
 import com.fabiendem.defib68.fragments.AboutFragment;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +52,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerContent = findViewById(R.id.left_drawer);
 
+        computeDrawerWidth();
+
         mDrawerToogleButton.setOnClickListener(this);
 
         // Drawer interactions
@@ -70,7 +74,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             mCurrentFragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction().add(R.id.content_frame, mCurrentFragment).commit();
         }
+    }
 
+    private void computeDrawerWidth() {
+        int defaultActionBarHeight = 56;
+        int actionBarHeight = UiUtils.dpToPx(this, defaultActionBarHeight);
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+        int width = getResources().getDisplayMetrics().widthPixels - actionBarHeight;
+        DrawerLayout.LayoutParams params = (android.support.v4.widget.DrawerLayout.LayoutParams) mDrawerContent.getLayoutParams();
+        params.width = width;
+        mDrawerContent.setLayoutParams(params);
     }
 
     @Override
