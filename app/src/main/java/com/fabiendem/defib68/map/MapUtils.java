@@ -1,10 +1,15 @@
 package com.fabiendem.defib68.map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 
 import com.fabiendem.defib68.DummyDefibrillators;
+import com.fabiendem.defib68.HautRhinUtils;
+import com.fabiendem.defib68.UiUtils;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -77,6 +82,20 @@ public class MapUtils {
         public String getCode() {
             return this.code;
         }
+    }
+
+    public static void moveCameraToHautRhin(Context context, GoogleMap map) {
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
+                UiUtils.dpToPx(context, 100)));
+    }
+
+    public static void animateCameraToHautRhin(Context context, GoogleMap map) {
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
+                UiUtils.dpToPx(context, 100)));
+    }
+
+    public static void animateCameraToCurrentLocation(GoogleMap map, Location currentLocation) {
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(MapUtils.getLatLng(currentLocation), 15));
     }
 
 }

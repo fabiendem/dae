@@ -22,8 +22,9 @@ import com.fabiendem.defib68.HautRhinUtils;
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.UiUtils;
 import com.fabiendem.defib68.map.DefibrillatorClusterRenderer;
+import com.fabiendem.defib68.map.DefibrillatorFinder;
+import com.fabiendem.defib68.map.DefibrillatorInfoWindowAdapter;
 import com.fabiendem.defib68.map.MapUtils;
-import com.fabiendem.defib68.models.EnvironmentEnum;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,15 +42,11 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.geometry.Bounds;
 import com.google.maps.android.quadtree.PointQuadTree;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -333,7 +330,8 @@ public class MapFragment extends Fragment
      */
     private void setUpMap() {
 
-        mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter());
+        View infoWindow = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
+        mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter(infoWindow, mMapDefibrillators));
 
         // Enable compass
         UiSettings uiMapSettings = mMap.getUiSettings();
@@ -376,20 +374,6 @@ public class MapFragment extends Fragment
         }
     }
 
-    private void moveCameraToHautRhin() {
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
-                UiUtils.dpToPx(getActivity(), 100)));
-    }
-
-    private void animateCameraToHautRhin() {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
-                UiUtils.dpToPx(getActivity(), 100)));
-    }
-
-    private void animateCameraToCurrentLocation() {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MapUtils.getLatLng(mCurrentLocation), 15));
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -411,12 +395,12 @@ public class MapFragment extends Fragment
 
     private void onClickMyLocationBtn(View view) {
         if(mCurrentLocation != null) {
-            animateCameraToCurrentLocation();
+            MapUtils.animateCameraToCurrentLocation(mMap, mCurrentLocation);
         }
     }
 
     private void onClickHautRhinBtn(View view) {
-        animateCameraToHautRhin();
+        MapUtils.animateCameraToHautRhin(getActivity(), mMap);
     }
 
     /*
@@ -497,82 +481,6 @@ public class MapFragment extends Fragment
         setLocationButtonsEnabled(false);
     }
 
-
-    private DefibrillatorClusterItem getClosestDefibrillator(Bounds maxBoundsSearch) {
-        if(mCurrentLocation == null) {
-            return null;
-        }
-
-        double incrementRadian = 0.005;
-        double minX = mCurrentLocation.getLongitude() - incrementRadian;
-        double maxX = mCurrentLocation.getLongitude() + incrementRadian;
-        double minY = mCurrentLocation.getLatitude() - incrementRadian;
-        double maxY = mCurrentLocation.getLatitude() + incrementRadian;
-
-        Bounds boundsSearch = new Bounds(minX, maxX, minY, maxY);
-
-        ArrayList<DefibrillatorClusterItem> closeDefibrillators = (ArrayList<DefibrillatorClusterItem>)
-                mPointQuadTree.search(boundsSearch);
-        Log.d(TAG, "Got " + closeDefibrillators.size() + " close defibrillator");
-
-        Log.d(TAG, "Looking for defib in bounds minX:" + minX + " maxX:" + maxX + " minY:" + minY + " maxY:" + maxY);
-
-        while(closeDefibrillators.size() < 1 &&
-                (minX >= maxBoundsSearch.minX ||
-                maxX <= maxBoundsSearch.maxX ||
-                minY >= maxBoundsSearch.minY ||
-                maxY <= maxBoundsSearch.maxY)) {
-
-            if(minX > maxBoundsSearch.minX) {
-                minX -= incrementRadian;
-            }
-            if(maxX < maxBoundsSearch.maxX) {
-                maxX += incrementRadian;
-            }
-            if(minY > maxBoundsSearch.minY) {
-                minY -= incrementRadian;
-            }
-            if(maxY < maxBoundsSearch.maxY) {
-                maxY += incrementRadian;
-            }
-
-            Log.d(TAG, "Looking for defib in bounds minX:" + minX + " maxX:" + maxX + " minY:" + minY + " maxY:" + maxY);
-            boundsSearch = new Bounds(minX, maxX, minY, maxY);
-            closeDefibrillators = (ArrayList<DefibrillatorClusterItem>)
-                    mPointQuadTree.search(boundsSearch);
-        }
-
-        Log.d(TAG, "After the loop Got " + closeDefibrillators.size() + " close defibrillators");
-
-        DefibrillatorClusterItem closestDefibrillator = null;
-        // If a defib has been found
-        if(closeDefibrillators.size() > 0) {
-            // Get the distance
-            LatLng currentLocationLatLng = MapUtils.getLatLng(mCurrentLocation);
-            closestDefibrillator = closeDefibrillators.get(0);
-            double minDistance = SphericalUtil.computeDistanceBetween(currentLocationLatLng, MapUtils.getLatLng(closestDefibrillator.getLatitude(), closestDefibrillator.getLongitude()));
-
-            // If there are more than 1 defib found
-            if(closeDefibrillators.size() > 1) {
-                DefibrillatorClusterItem closeDefibrillator;
-
-                // Get the closest one
-                double distance;
-                for (int index = 0; index < closeDefibrillators.size(); index++) {
-                    closeDefibrillator = closeDefibrillators.get(index);
-                    distance = SphericalUtil.computeDistanceBetween(currentLocationLatLng, MapUtils.getLatLng(closeDefibrillator.getLatitude(), closeDefibrillator.getLongitude()));
-                    if(distance < minDistance) {
-                        minDistance = distance;
-                        closestDefibrillator = closeDefibrillator;
-                    }
-                }
-            }
-        }
-
-        return closestDefibrillator;
-    }
-
-
     @Override
     public void onClusterItemInfoWindowClick(DefibrillatorClusterItem item) {
         Log.d(TAG, "onClusterItemInfoWindowClick");
@@ -594,7 +502,7 @@ public class MapFragment extends Fragment
             CircleOptions circleOptions = new CircleOptions()
                     .center(currentLocationLatLng)
                     .strokeColor(Color.argb(100, 0, 255, 0))
-                    .radius(400); // In meters
+                    .radius(200); // In meters, 400 hundreds meters return in 5 minutes
             // Get back the mutable Circle
             mCircleWalkingPerimeter = mMap.addCircle(circleOptions);
         }
@@ -607,7 +515,7 @@ public class MapFragment extends Fragment
 
         @Override
         protected DefibrillatorClusterItem doInBackground(Void... params) {
-            return getClosestDefibrillator(HautRhinUtils.getBounds());
+            return DefibrillatorFinder.getClosestDefibrillator(mCurrentLocation, mPointQuadTree, HautRhinUtils.getBounds());
         }
 
         @Override
@@ -638,49 +546,6 @@ public class MapFragment extends Fragment
             }
         }
     }
-
-    private class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-        private View mInfoContentsView;
-
-        DefibrillatorInfoWindowAdapter() {
-            mInfoContentsView = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            return null;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            String markerId = marker.getTitle();
-            Log.d(TAG, "Marker id: " + markerId);
-            final DefibrillatorModel defibrillatorModel = MapFragment.this.mMapDefibrillators.get(markerId);
-            if(defibrillatorModel == null) {
-                Log.e(TAG, "Defibrillator " + markerId + " unknown");
-                return null;
-            }
-
-            String environment;
-            if (defibrillatorModel.getEnvironment() == EnvironmentEnum.OUTDOORS) {
-                environment = "Extérieur";
-            }
-            else {
-                environment = "Intérieur";
-            }
-
-            TextView txtDescription = ((TextView) mInfoContentsView.findViewById(R.id.txt_description));
-            TextView txtEnvironment = ((TextView) mInfoContentsView.findViewById(R.id.txt_environment));
-            TextView txtAddress = ((TextView) mInfoContentsView.findViewById(R.id.txt_address));
-
-            txtDescription.setText(defibrillatorModel.getLocationDescription());
-            txtEnvironment.setText(environment);
-            txtAddress.setText("Lat/Lng: " + defibrillatorModel.getLatitude() + "," + defibrillatorModel.getLongitude());
-
-            return mInfoContentsView;
-        }
-    }
-
 
     private void showErrorMessage(String message) {
         if(mErrorTxt.getText() != message) {
