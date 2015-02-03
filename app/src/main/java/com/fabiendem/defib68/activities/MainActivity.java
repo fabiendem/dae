@@ -2,6 +2,7 @@ package com.fabiendem.defib68.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -144,6 +145,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if(mapFragment != null) {
                         int mapType = mapFragment.toggleMapType();
+                        if(mapType == GoogleMap.MAP_TYPE_HYBRID) {
+                            view.setBackgroundColor(Color.GREEN);
+                        }
+                        else {
+                            view.setBackgroundColor(Color.GRAY);
+                        }
                         mDrawerLayout.closeDrawer(mDrawerContent);
                     }
                     break;
