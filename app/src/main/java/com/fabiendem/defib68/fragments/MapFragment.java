@@ -30,9 +30,10 @@ import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -51,10 +52,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment
-        implements GooglePlayServicesClient.ConnectionCallbacks,
-                    GooglePlayServicesClient.OnConnectionFailedListener,
-                    LocationListener,
-                    ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>, View.OnClickListener {
+        implements  ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>,
+                    View.OnClickListener,
+                    GoogleApiClient.ConnectionCallbacks,
+                    GoogleApiClient.OnConnectionFailedListener,
+                    LocationListener {
 
     public static final String TAG = "MapFragment";
 
@@ -102,10 +104,12 @@ public class MapFragment extends Fragment
     private static final long FASTEST_INTERVAL =
             MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
 
-    private LocationClient mLocationClient;
+    private GoogleApiClient mGoogleApiClient;
+
     // Define an object that holds accuracy and frequency parameters
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
+    private boolean mRequestingLocationUpdates;
 
     public MapFragment() {
 
@@ -167,12 +171,22 @@ public class MapFragment extends Fragment
     }
 
     private void setupLocationClient() {
+        mRequestingLocationUpdates = false;
+
         /*
          * Create a new location client, using the enclosing class to
          * handle callbacks.
          */
-        mLocationClient = new LocationClient(getActivity(), this, this);
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
+        createLocationRequest();
+    }
+
+    private void createLocationRequest() {
         // Create the LocationRequest object
         mLocationRequest = LocationRequest.create();
         // Use high accuracy
@@ -192,7 +206,7 @@ public class MapFragment extends Fragment
         super.onStart();
         if(isGooglePlayServicesAvailable(true)) {
             // Connect the client.
-            mLocationClient.connect();
+            mGoogleApiClient.connect();
         }
     }
 
@@ -204,6 +218,12 @@ public class MapFragment extends Fragment
         if (mSavedCameraPosition != null) {
             mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mSavedCameraPosition));
         }
+
+        if (mGoogleApiClient.isConnected() &&
+                ! mRequestingLocationUpdates) {
+            mRequestingLocationUpdates = true;
+            startLocationUpdates();
+        }
     }
 
     @Override
@@ -211,6 +231,13 @@ public class MapFragment extends Fragment
         super.onPause();
         Log.d(TAG, "onPause");
         mSavedCameraPosition = mMap.getCameraPosition();
+
+        // If the client is connected
+        if (mGoogleApiClient.isConnected() &&
+                mRequestingLocationUpdates) {
+            mRequestingLocationUpdates = false;
+            stopLocationUpdates();
+        }
     }
 
     @Override
@@ -224,20 +251,12 @@ public class MapFragment extends Fragment
     @Override
     public void onStop() {
         Log.d(TAG, "onStop");
-        // If the client is connected
-        if (mLocationClient.isConnected()) {
-            /*
-             * Remove location updates for a listener.
-             * The current Activity is the listener, so
-             * the argument is "this".
-             */
-            mLocationClient.removeLocationUpdates(this);
-        }
+
         /*
          * After disconnect() is called, the client is
          * considered "dead".
          */
-        mLocationClient.disconnect();
+        mGoogleApiClient.disconnect();
         super.onStop();
     }
 
@@ -260,7 +279,7 @@ public class MapFragment extends Fragment
                      * Try the request again
                      */
                         if(isGooglePlayServicesAvailable(false)) {
-                            mLocationClient.connect();
+                            mGoogleApiClient.connect();
                         }
                         else {
                             // TODO: Show an error dialog explaining that GP services is missing
@@ -412,9 +431,13 @@ public class MapFragment extends Fragment
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "Location services connected");
 
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
         // Get last location
-        updateCurrentLocation(mLocationClient.getLastLocation());
-        mLocationClient.requestLocationUpdates(mLocationRequest, this);
+        updateCurrentLocation(lastLocation);
+        if(mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
     }
 
     /*
@@ -422,7 +445,7 @@ public class MapFragment extends Fragment
      * location client drops because of an error.
      */
     @Override
-    public void onDisconnected() {
+    public void onConnectionSuspended(int i) {
         Log.w(TAG, "Location services disconnected");
     }
 
@@ -433,6 +456,16 @@ public class MapFragment extends Fragment
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.e(TAG, "Location services connection failed");
+    }
+
+    protected void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, mLocationRequest, this);
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
     }
 
     @Override
