@@ -361,6 +361,9 @@ public class MapFragment extends Fragment
 
         uiMapSettings.setZoomControlsEnabled(false);
 
+        // Remove map
+        uiMapSettings.setMapToolbarEnabled(false);
+
         // Display my location
         mMap.setMyLocationEnabled(true);
 
