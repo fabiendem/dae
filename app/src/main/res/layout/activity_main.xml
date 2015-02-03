@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
             android:text="Satellite"
-            android:drawableLeft="@drawable/ic_satellite_black_24dp"
+            android:drawableLeft="@drawable/ic_satellite_grey600_24dp"
             />
 
         <View style="@style/Divider"/>
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
             android:text="Settings"
-            android:drawableLeft="@drawable/ic_settings_black_24dp"
+            android:drawableLeft="@drawable/ic_settings_grey600_24dp"
             />
 
         <Button
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
             android:text="Contact us"
-            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:drawableLeft="@drawable/ic_email_grey600_24dp"
             />
         <Button
             android:id="@+id/about_btn"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
             android:text="About"
-            android:drawableLeft="@drawable/ic_info_black_24dp"
+            android:drawableLeft="@drawable/ic_info_grey600_24dp"
             />
 
     </LinearLayout>
