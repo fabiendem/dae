@@ -1,10 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="primary" type="color">@color/red</item>
-    <item name="primary_pressed" type="color">@color/white</item>
-    <item name="ripple" type="color">@color/white</item>
+    <item name="primary" type="color">@color/green_500</item>
+    <item name="primary_dark" type="color">@color/green_900</item>
+    <item name="primary_pressed" type="color">@color/green_400</item>
+    <item name="primary_ripple" type="color">@color/green_200</item>
+    <item name="accent" type="color">@color/deep_orange_A400</item>
+    <item name="accent_dark" type="color">@color/deep_orange_A700</item>
+    <item name="accent_pressed" type="color">@color/deep_orange_A200</item>
+    <item name="accent_ripple" type="color">@color/deep_orange_A100</item>
 
-    <item name="red" type="color">#ffff4444</item>
-    <item name="darkRed" type="color">#ffc23030</item>
+    <color name="green_50">#e8f5e9</color>
+    <color name="green_100">#c8e6c9</color>
+    <color name="green_200">#a5d6a7</color>
+    <color name="green_300">#81c784</color>
+    <color name="green_400">#66bb6a</color>
+    <color name="green_500">#4caf50</color>
+    <color name="green_600">#43a047</color>
+    <color name="green_700">#388e3c</color>
+    <color name="green_800">#2e7d32</color>
+    <color name="green_900">#1b5e20</color>
+    <color name="green_A100">#b9f6ca</color>
+    <color name="green_A200">#69f0ae</color>
+    <color name="green_A400">#00e676</color>
+    <color name="green_A700">#00c853</color>
+
+    <color name="deep_orange_A100">#ff9e80</color>
+    <color name="deep_orange_A200">#ff6e40</color>
+    <color name="deep_orange_A400">#ff3d00</color>
+    <color name="deep_orange_A700">#dd2c00</color>
+
     <item name="white" type="color">#ffffffff</item>
 </resources>
