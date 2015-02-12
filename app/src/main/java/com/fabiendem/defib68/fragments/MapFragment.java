@@ -504,11 +504,11 @@ public class MapFragment extends Fragment
         mShowMyLocationBtn.setEnabled(true);
         if(HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
             Toast.makeText(getActivity(), "Dans le haut rhin", Toast.LENGTH_LONG).show();
-            mShowClosestDefibBtn.setEnabled(true);
+            UiUtils.setImageButtonEnabled(getActivity(), true, mShowClosestDefibBtn, R.drawable.fab_defib);
         }
         else {
             Toast.makeText(getActivity(), "Hors du haut rhin", Toast.LENGTH_LONG).show();
-            mShowClosestDefibBtn.setEnabled(false);
+            UiUtils.setImageButtonEnabled(getActivity(), false, mShowClosestDefibBtn, R.drawable.fab_defib);
         }
         drawCircleWalkingPerimeter();
     }

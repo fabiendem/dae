@@ -30,4 +30,6 @@
     <color name="deep_orange_A700">#dd2c00</color>
 
     <item name="white" type="color">#ffffffff</item>
+
+    <item name="gray_disabled" type="color">#26000000</item>
 </resources>

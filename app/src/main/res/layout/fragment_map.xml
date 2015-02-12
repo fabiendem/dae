@@ -38,37 +38,7 @@
             android:textColor="@color/white"
             android:visibility="gone"
             />
-<!--
-        <Button
-            android:id="@+id/show_haut_rhin_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="110dp"
-            android:layout_marginRight="8dp"
-            android:text="68" />
 
-        <Button
-            android:id="@+id/show_my_location_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="62dp"
-            android:layout_marginRight="8dp"
-            android:text="Ici" />
-
-        <Button
-            android:id="@+id/show_closest_defib_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="14dp"
-            android:layout_marginRight="8dp"
-            android:text="D" />
--->
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/show_haut_rhin_btn"
             android:layout_width="wrap_content"
