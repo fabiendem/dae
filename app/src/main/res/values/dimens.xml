@@ -2,4 +2,5 @@
 <resources>
     <!-- For API < 19 no need to push down the content as we don't draw behind the status bar -->
     <dimen name="topMarginStatusBar">0dp</dimen>
+    <dimen name="topMarginBtnDrawer">16dp</dimen>
 </resources>
