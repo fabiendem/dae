@@ -1,20 +1,15 @@
 package com.fabiendem.defib68.map;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import com.fabiendem.defib68.R;
-import com.fabiendem.defib68.models.EnvironmentEnum;
-import com.fabiendem.defib68.models.defibrillator.Defibrillator;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 
 /**
  * Created by Fabien on 26/10/2014.
@@ -23,6 +18,23 @@ public class DefibrillatorClusterRenderer extends DefaultClusterRenderer<Defibri
 
     public DefibrillatorClusterRenderer(Context context, GoogleMap map, ClusterManager<DefibrillatorClusterItem> clusterManager) {
         super(context, map, clusterManager);
+    }
+
+    /**
+     * Called before the marker for a Cluster is added to the map.
+     * The default implementation draws a circle with a rough count of the number of items.
+     */
+    @Override
+    protected void onBeforeClusterRendered(Cluster<DefibrillatorClusterItem> cluster, MarkerOptions markerOptions) {
+        int bucket = getBucket(cluster);
+        BitmapDescriptor descriptor = mIcons.get(bucket);
+        if (descriptor == null) {
+            mColoredCircleBackground.getPaint().setColor(getColor(bucket));
+            descriptor = BitmapDescriptorFactory.fromBitmap(mIconGenerator.makeIcon(getClusterText(bucket)));
+            mIcons.put(bucket, descriptor);
+        }
+        // TODO: consider adding anchor(.5, .5) (Individual markers will overlap more often)
+        markerOptions.icon(descriptor);
     }
 
     @Override
