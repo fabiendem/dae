@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,9 +69,9 @@ public class MapFragment extends Fragment
 
     private Circle mCircleWalkingPerimeter;
     private TextView mErrorTxt;
-    private Button mShowMyLocationBtn;
-    private Button mShowHautRhinBtn;
-    private Button mShowClosestDefibBtn;
+    private ImageButton mShowMyLocationBtn;
+    private ImageButton mShowHautRhinBtn;
+    private ImageButton mShowClosestDefibBtn;
 
 
     private List<DefibrillatorModel> mDefibrillators;
@@ -129,9 +130,9 @@ public class MapFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         mErrorTxt = (TextView) view.findViewById(R.id.error_txt);
-        mShowMyLocationBtn = (Button) view.findViewById(R.id.show_my_location_btn);
-        mShowHautRhinBtn = (Button) view.findViewById(R.id.show_haut_rhin_btn);
-        mShowClosestDefibBtn = (Button) view.findViewById(R.id.show_closest_defib_btn);
+        mShowMyLocationBtn = (ImageButton) view.findViewById(R.id.show_my_location_btn);
+        mShowHautRhinBtn = (ImageButton) view.findViewById(R.id.show_haut_rhin_btn);
+        mShowClosestDefibBtn = (ImageButton) view.findViewById(R.id.show_closest_defib_btn);
 
         mShowMyLocationBtn.setOnClickListener(this);
         mShowHautRhinBtn.setOnClickListener(this);

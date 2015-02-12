@@ -27,6 +27,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:6.5.87'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
-
-
+    compile 'com.melnykov:floatingactionbutton:1.1.0'
 }
