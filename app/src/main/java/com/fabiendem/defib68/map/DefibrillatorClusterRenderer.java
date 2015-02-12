@@ -1,6 +1,7 @@
 package com.fabiendem.defib68.map;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
@@ -18,6 +19,32 @@ public class DefibrillatorClusterRenderer extends DefaultClusterRenderer<Defibri
 
     public DefibrillatorClusterRenderer(Context context, GoogleMap map, ClusterManager<DefibrillatorClusterItem> clusterManager) {
         super(context, map, clusterManager);
+    }
+
+    @Override
+    protected int getColor(int clusterSize) {
+        if(clusterSize > 1000) {
+            return Color.rgb(1,87,155); // LB 900
+        }
+        if(clusterSize > 500) {
+            return Color.rgb(2,119,189); // LB 800
+        }
+        if(clusterSize > 200) {
+            return Color.rgb(2,136,209); // LB 700
+        }
+        if(clusterSize > 100) {
+            return Color.rgb(3,155,229); // LB 600
+        }
+        if(clusterSize > 50) {
+            return Color.rgb(3,169,244); // LB 500
+        }
+        if(clusterSize > 20) {
+            return Color.rgb(41,182,246); // LB 400
+        }
+        if(clusterSize > 10) {
+            return Color.rgb(79,195,247); // LB 300
+        }
+        return Color.rgb(129,212,250); // LB 200
     }
 
     /**
