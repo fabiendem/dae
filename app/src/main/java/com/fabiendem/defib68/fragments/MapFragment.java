@@ -171,7 +171,7 @@ public class MapFragment extends Fragment
     }
 
     private void setupLocationClient() {
-        mRequestingLocationUpdates = false;
+        mRequestingLocationUpdates = true;
 
         /*
          * Create a new location client, using the enclosing class to
@@ -434,6 +434,7 @@ public class MapFragment extends Fragment
         // Get last location
         updateCurrentLocation(lastLocation);
         if(mRequestingLocationUpdates) {
+            Log.d(TAG, "Requesting location updates");
             startLocationUpdates();
         }
     }
@@ -457,17 +458,20 @@ public class MapFragment extends Fragment
     }
 
     protected void startLocationUpdates() {
+        Log.d(TAG, "Start location updates");
         LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
     }
 
     protected void stopLocationUpdates() {
+        Log.d(TAG, "Stop location updates");
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d(TAG, "Location changed");
         updateCurrentLocation(location);
     }
 
