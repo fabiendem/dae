@@ -63,7 +63,6 @@ public class MapFragment extends Fragment
 
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Polyline mWalkingPerimeterCircle;
 
     private CameraPosition mSavedCameraPosition;
 
@@ -563,15 +562,6 @@ public class MapFragment extends Fragment
                 Log.d(TAG, "Got it: " + closestDefib.getLocationDescription());
 
                 LatLng currentLocationLatLng = MapUtils.getLatLng(mCurrentLocation);
-
-                // Draw a line between location and defibrillator
-                PolylineOptions rectOptions = new PolylineOptions()
-                        .add(closestDefib.getPosition())
-                        .add(currentLocationLatLng)
-                        .width(3)
-                        .color(Color.BLUE);
-                mWalkingPerimeterCircle = mMap.addPolyline(rectOptions);
-
                 LatLngBounds boundsCurrentLocationAndDefibrillator =
                         MapUtils.getLatLngBounds(currentLocationLatLng, closestDefib.getPosition());
                 mMap.animateCamera(
