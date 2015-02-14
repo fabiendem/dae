@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +28,6 @@ import com.fabiendem.defib68.map.MapUtils;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -46,8 +44,6 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.quadtree.PointQuadTree;
 
@@ -83,7 +79,8 @@ public class MapFragment extends Fragment
     private PointQuadTree<DefibrillatorClusterItem> mPointQuadTree;
     private HashMap<String, DefibrillatorModel> mMapDefibrillators;
 
-    private Marker mActiveMarker;
+    private Marker mActiveDefibrillatorMarker;
+    private Marker mClosestDefibrillatorMarker;
 
     // Grab location
     /*
@@ -538,8 +535,9 @@ public class MapFragment extends Fragment
         Log.d(TAG, "onClusterItemClick");
         // Reset previous marker
         resetActiveMarker();
-        mActiveMarker = mClusterRenderer.getMarker(defibrillatorClusterItem);
-        mActiveMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_active));
+        if(! mClusterRenderer.getMarker(defibrillatorClusterItem).equals(mClosestDefibrillatorMarker)) {
+            highlightActiveDefibrillator(defibrillatorClusterItem);
+        }
         return false;
     }
 
@@ -558,10 +556,45 @@ public class MapFragment extends Fragment
         }
     }
 
+    private void highlightActiveDefibrillatorMarker(Marker activeDefibrillatorMarker) {
+        mActiveDefibrillatorMarker = activeDefibrillatorMarker;
+        if(mActiveDefibrillatorMarker != null) {
+            mActiveDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_active));
+        }
+    }
+
+    private void highlightActiveDefibrillator(DefibrillatorClusterItem defibrillatorClusterItem) {
+        highlightActiveDefibrillatorMarker(mClusterRenderer.getMarker(defibrillatorClusterItem));
+    }
+
     private void resetActiveMarker() {
-        if(mActiveMarker != null) {
+        if(mActiveDefibrillatorMarker != null) {
             try {
-                mActiveMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+                mActiveDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+                mActiveDefibrillatorMarker = null;
+            }
+            catch (IllegalArgumentException pinRemovedException) {
+                Log.d(TAG, "Marker already removed");
+            }
+        }
+    }
+
+    private void highlightClosestMarker(Marker closestDefibrillatorMarker) {
+        mClosestDefibrillatorMarker = closestDefibrillatorMarker;
+        if(mClosestDefibrillatorMarker != null) {
+            mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_closest));
+        }
+    }
+
+    private void highlightClosestDefibrillator(DefibrillatorClusterItem defibrillatorClusterItem) {
+        highlightClosestMarker(mClusterRenderer.getMarker(defibrillatorClusterItem));
+    }
+
+    private void resetClosestMarker() {
+        if(mClosestDefibrillatorMarker != null) {
+            try {
+                mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+                mClosestDefibrillatorMarker = null;
             }
             catch (IllegalArgumentException pinRemovedException) {
                 Log.d(TAG, "Marker already removed");
@@ -595,7 +628,7 @@ public class MapFragment extends Fragment
         }
 
         @Override
-        protected void onPostExecute(DefibrillatorClusterItem closestDefib) {
+        protected void onPostExecute(final DefibrillatorClusterItem closestDefib) {
             super.onPostExecute(closestDefib);
 
             if(closestDefib != null) {
@@ -603,10 +636,52 @@ public class MapFragment extends Fragment
 
                 LatLng currentLocationLatLng = MapUtils.getLatLng(mCurrentLocation);
                 LatLngBounds boundsCurrentLocationAndDefibrillator =
-                        MapUtils.getLatLngBounds(currentLocationLatLng, closestDefib.getPosition());
+                    MapUtils.getLatLngBounds(currentLocationLatLng, closestDefib.getPosition());
+
                 mMap.animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(boundsCurrentLocationAndDefibrillator,
-                        UiUtils.dpToPx(getActivity(), 100)));
+                    CameraUpdateFactory.newLatLngBounds(
+                        boundsCurrentLocationAndDefibrillator,
+                        UiUtils.dpToPx(getActivity(), 100)),
+                        new GoogleMap.CancelableCallback() {
+                            @Override
+                            public void onFinish() {
+                                Log.d(TAG, "Map animation finished");
+
+                                // Reset active marker
+                                resetActiveMarker();
+
+                                if(mClosestDefibrillatorMarker == null ||
+                                    ! mClosestDefibrillatorMarker.equals(mClusterRenderer.getMarker(closestDefib))) {
+                                    Log.d(TAG, "Closest marker is null or different than new one");
+
+                                    // Because we zoom, the marker may be rendered later on
+                                    mClusterRenderer.setClusterItemRenderingListener(new DefibrillatorClusterRenderer.ClusterItemRenderingListener() {
+                                        @Override
+                                        public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
+                                            Log.d(TAG, "Cluster item rendered: " + defibrillatorClusterItem.getLocationDescription());
+
+                                            if(defibrillatorClusterItem.equals(closestDefib)) {
+                                                Log.d(TAG, "Marker rendered is the closest one, highlight");
+                                                highlightClosestDefibrillator(closestDefib);
+
+                                                // Self destruct
+                                                mClusterRenderer.setClusterItemRenderingListener(null);
+                                            }
+                                        }
+                                    });
+                                }
+                                else {
+                                    Log.d(TAG, "Active marker is still the same");
+                                    highlightClosestMarker(mClosestDefibrillatorMarker);
+                                }
+                            }
+
+                            @Override
+                            public void onCancel() {
+
+                            }
+                        }
+                );
             }
             else {
                 Log.d(TAG, "Couldn't find closest defib");

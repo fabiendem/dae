@@ -8,6 +8,7 @@ import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
@@ -17,8 +18,14 @@ import com.google.maps.android.clustering.ClusterManager;
  */
 public class DefibrillatorClusterRenderer extends DefaultClusterRenderer<DefibrillatorClusterItem> {
 
+    private ClusterItemRenderingListener mClusterItemRenderingListener;
+
     public DefibrillatorClusterRenderer(Context context, GoogleMap map, ClusterManager<DefibrillatorClusterItem> clusterManager) {
         super(context, map, clusterManager);
+    }
+
+    public void setClusterItemRenderingListener(ClusterItemRenderingListener clusterItemRenderingListener) {
+        mClusterItemRenderingListener = clusterItemRenderingListener;
     }
 
     @Override
@@ -65,8 +72,19 @@ public class DefibrillatorClusterRenderer extends DefaultClusterRenderer<Defibri
     }
 
     @Override
-    protected void onBeforeClusterItemRendered(DefibrillatorClusterItem defibrillator, MarkerOptions markerOptions) {
-        markerOptions.title(String.valueOf(defibrillator.getId()))
+    protected void onBeforeClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, MarkerOptions markerOptions) {
+        markerOptions.title(String.valueOf(defibrillatorClusterItem.getId()))
                      .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+    }
+
+    @Override
+    protected void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
+        if(mClusterItemRenderingListener != null) {
+            mClusterItemRenderingListener.onClusterItemRendered(defibrillatorClusterItem, marker);
+        }
+    }
+
+    public interface ClusterItemRenderingListener {
+        public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker);
     }
 }
