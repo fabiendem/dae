@@ -39,11 +39,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.ClusterManager;
@@ -53,7 +55,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment
-        implements  ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>,
+        implements  ClusterManager.OnClusterItemClickListener<DefibrillatorClusterItem>,
+                    ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>,
+                    GoogleMap.OnMapClickListener,
                     View.OnClickListener,
                     GoogleApiClient.ConnectionCallbacks,
                     GoogleApiClient.OnConnectionFailedListener,
@@ -74,10 +78,12 @@ public class MapFragment extends Fragment
 
 
     private List<DefibrillatorModel> mDefibrillators;
+    private DefibrillatorClusterRenderer mClusterRenderer;
     private ClusterManager<DefibrillatorClusterItem> mClusterManager;
     private PointQuadTree<DefibrillatorClusterItem> mPointQuadTree;
     private HashMap<String, DefibrillatorModel> mMapDefibrillators;
 
+    private Marker mActiveMarker;
 
     // Grab location
     /*
@@ -368,13 +374,18 @@ public class MapFragment extends Fragment
         mMap.setMyLocationEnabled(true);
 
         setupClusterer();
+
+        // Listen to clicks on the map
+        mMap.setOnMapClickListener(this);
     }
 
     private void setupClusterer() {
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
         mClusterManager = new ClusterManager<DefibrillatorClusterItem>(getActivity(), getMap());
-        mClusterManager.setRenderer(new DefibrillatorClusterRenderer(getActivity(), getMap(), mClusterManager));
+        mClusterRenderer = new DefibrillatorClusterRenderer(getActivity(), getMap(), mClusterManager);
+        mClusterManager.setRenderer(mClusterRenderer);
+        mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
 
         // Point the map's listeners at the listeners implemented by the cluster
@@ -518,6 +529,22 @@ public class MapFragment extends Fragment
     }
 
     @Override
+    public void onMapClick(LatLng latLng) {
+        resetActiveMarker();
+    }
+
+    @Override
+    public boolean onClusterItemClick(DefibrillatorClusterItem defibrillatorClusterItem) {
+        Log.d(TAG, "onClusterItemClick");
+        // Reset previous marker
+        resetActiveMarker();
+        mActiveMarker = mClusterRenderer.getMarker(defibrillatorClusterItem);
+        mActiveMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_active));
+        return false;
+    }
+
+
+    @Override
     public void onClusterItemInfoWindowClick(DefibrillatorClusterItem item) {
         Log.d(TAG, "onClusterItemInfoWindowClick");
 
@@ -528,6 +555,17 @@ public class MapFragment extends Fragment
         // Verify the intent will resolve to at least one activity
         if (intentWalkingDirections.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(chooserMapApplication);
+        }
+    }
+
+    private void resetActiveMarker() {
+        if(mActiveMarker != null) {
+            try {
+                mActiveMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
+            }
+            catch (IllegalArgumentException pinRemovedException) {
+                Log.d(TAG, "Marker already removed");
+            }
         }
     }
 
