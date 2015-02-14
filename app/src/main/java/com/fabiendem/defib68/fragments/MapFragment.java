@@ -35,6 +35,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -51,7 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MapFragment extends Fragment
-        implements  ClusterManager.OnClusterItemClickListener<DefibrillatorClusterItem>,
+        implements OnMapReadyCallback,
+                    ClusterManager.OnClusterItemClickListener<DefibrillatorClusterItem>,
                     ClusterManager.OnClusterItemInfoWindowClickListener<DefibrillatorClusterItem>,
                     GoogleMap.OnMapClickListener,
                     View.OnClickListener,
@@ -63,8 +65,6 @@ public class MapFragment extends Fragment
 
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
-    private CameraPosition mSavedCameraPosition;
 
     private Circle mCircleWalkingPerimeter;
     private TextView mErrorTxt;
@@ -114,9 +114,7 @@ public class MapFragment extends Fragment
     private Location mCurrentLocation;
     private boolean mRequestingLocationUpdates;
 
-    public MapFragment() {
-
-    }
+    public MapFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -152,14 +150,13 @@ public class MapFragment extends Fragment
             mSupportMapFragment = SupportMapFragment.newInstance();
             fragmentManager.beginTransaction().replace(R.id.map, mSupportMapFragment).commit();
         }
-        setUpMapIfNeeded();
 
-        if(savedInstanceState != null) {
-            CameraPosition cameraPosition = savedInstanceState.getParcelable("SAVED_CAMERA_POSITION");
-            if(cameraPosition != null) {
-                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            }
-        }
+        mSupportMapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        setUpMapIfNeeded();
     }
 
     private void setupDefibrillators() {
@@ -218,10 +215,6 @@ public class MapFragment extends Fragment
         super.onResume();
         setUpMapIfNeeded();
 
-        if (mSavedCameraPosition != null) {
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mSavedCameraPosition));
-        }
-
         if (mGoogleApiClient.isConnected() &&
                 ! mRequestingLocationUpdates) {
             mRequestingLocationUpdates = true;
@@ -233,7 +226,6 @@ public class MapFragment extends Fragment
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        mSavedCameraPosition = mMap.getCameraPosition();
 
         // If the client is connected
         if (mGoogleApiClient.isConnected() &&
@@ -241,11 +233,6 @@ public class MapFragment extends Fragment
             mRequestingLocationUpdates = false;
             stopLocationUpdates();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     /*
