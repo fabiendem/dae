@@ -34,57 +34,68 @@
     <!--
         The navigation drawer
         Fits System Windows, so the items are not hidden behind the status bar
+        Drawer width based on advices from
+        https://medium.com/sebs-top-tips/material-navigation-drawer-sizing-558aea1ad266
      -->
-    <LinearLayout android:id="@+id/left_drawer"
-        android:layout_width="300dp"
+    <ScrollView
+        android:id="@+id/left_drawer"
+        android:layout_width="@dimen/drawerWidth"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_gravity="start"
         android:background="#FAFAFA"
         >
 
-        <ImageView
+        <LinearLayout android:id="@+id/left_drawer_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/bkg_drawer"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="8dp"
-        />
+            android:orientation="vertical"
+            android:layout_gravity="start"
+            >
 
-        <Button
-            android:id="@+id/map_type_chooser_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/DrawerButton"
-            android:text="Satellite"
-            android:drawableLeft="@drawable/ic_satellite_grey600_24dp"
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bkg_drawer"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="8dp"
             />
 
-        <View style="@style/Divider"/>
+            <Button
+                android:id="@+id/map_type_chooser_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DrawerButton"
+                android:text="Satellite"
+                android:drawableLeft="@drawable/ic_satellite_grey600_24dp"
+                />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/DrawerButton"
-            android:text="Settings"
-            android:drawableLeft="@drawable/ic_settings_grey600_24dp"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/DrawerButton"
-            android:text="Contact us"
-            android:drawableLeft="@drawable/ic_email_grey600_24dp"
-            />
-        <Button
-            android:id="@+id/about_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/DrawerButton"
-            android:text="About"
-            android:drawableLeft="@drawable/ic_info_grey600_24dp"
-            />
+            <View style="@style/Divider"/>
 
-    </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DrawerButton"
+                android:text="Settings"
+                android:drawableLeft="@drawable/ic_settings_grey600_24dp"
+                />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DrawerButton"
+                android:text="Contact us"
+                android:drawableLeft="@drawable/ic_email_grey600_24dp"
+                />
+            <Button
+                android:id="@+id/about_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/DrawerButton"
+                android:text="About"
+                android:drawableLeft="@drawable/ic_info_grey600_24dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
 </android.support.v4.widget.DrawerLayout>
