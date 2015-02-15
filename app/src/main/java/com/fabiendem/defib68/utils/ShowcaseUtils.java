@@ -66,16 +66,17 @@ public class ShowcaseUtils {
         return svBuilder;
     }
 
-    private static RelativeLayout.LayoutParams getButtonPositinBottomLeft(Activity activity) {
+    private static RelativeLayout.LayoutParams getButtonPositionBottomLeft(Activity activity) {
         RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         lps.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        int margin = ((Number) (activity.getResources().getDisplayMetrics().density * 12)).intValue();
-        lps.setMargins(margin, margin, margin, margin);
+        lps.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        int marginLeft = UiUtils.dpToPx(activity, 24);
+        int marginTop = UiUtils.dpToPx(activity, 200);
+        lps.setMargins(marginLeft, marginTop, 0, 0);
         return lps;
     }
 
     private static void setButtonPositionBottomLeft(Activity activity, ShowcaseView showcaseView) {
-        showcaseView.setButtonPosition(getButtonPositinBottomLeft(activity));
+        showcaseView.setButtonPosition(getButtonPositionBottomLeft(activity));
     }
 }
