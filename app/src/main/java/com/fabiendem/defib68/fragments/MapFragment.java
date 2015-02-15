@@ -345,14 +345,12 @@ public class MapFragment extends Fragment
 
         // Enable compass
         UiSettings uiMapSettings = mMap.getUiSettings();
-        uiMapSettings.setCompassEnabled(true);
 
         // Disable default my location button
         uiMapSettings.setMyLocationButtonEnabled(false);
-
         uiMapSettings.setZoomControlsEnabled(false);
-
-        // Remove map
+        uiMapSettings.setCompassEnabled(false);
+        // Remove map toolbar
         uiMapSettings.setMapToolbarEnabled(false);
 
         // Display my location
