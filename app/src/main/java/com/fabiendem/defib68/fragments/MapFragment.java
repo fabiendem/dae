@@ -220,9 +220,7 @@ public class MapFragment extends Fragment
         super.onResume();
         setUpMapIfNeeded();
 
-        if (mGoogleApiClient.isConnected() &&
-                ! mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = true;
+        if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
     }
@@ -233,16 +231,14 @@ public class MapFragment extends Fragment
         Log.d(TAG, "onPause");
 
         // If the client is connected
-        if (mGoogleApiClient.isConnected() &&
-                mRequestingLocationUpdates) {
-            mRequestingLocationUpdates = false;
+        if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
         }
     }
 
     /*
-         * Called when the Activity is no longer visible.
-         */
+     * Called when the Activity is no longer visible.
+     */
     @Override
     public void onStop() {
         Log.d(TAG, "onStop");
@@ -483,7 +479,6 @@ public class MapFragment extends Fragment
     private void updateCurrentLocation(Location location) {
         if(location != null) {
             hideErrorMessage();
-            mShowMyLocationBtn.setEnabled(true);
             if(mCurrentLocation != null) {
                 if(mCurrentLocation.getLongitude() != location.getLongitude() ||
                         mCurrentLocation.getLatitude() != location.getLatitude()) {
@@ -506,14 +501,13 @@ public class MapFragment extends Fragment
 
     private void onReallyNewCurrentLocation() {
         if(! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
-            showErrorMessage("Il semblerait que vous êtes hors du Haut-Rhin, pas de défibrillateur recensé à proximité");
+            showErrorMessage("Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité");
         }
         drawCircleWalkingPerimeter();
     }
 
     private void onLocationUnknown() {
         showErrorMessage("Votre localisation est inconnue");
-        setLocationButtonsEnabled(false);
     }
 
     @Override
@@ -693,11 +687,6 @@ public class MapFragment extends Fragment
         if(mErrorTxt.getVisibility() == View.VISIBLE) {
             mErrorTxt.setVisibility(View.GONE);
         }
-    }
-
-    private void setLocationButtonsEnabled(boolean enabled) {
-        mShowMyLocationBtn.setEnabled(enabled);
-        mShowClosestDefibBtn.setEnabled(enabled);
     }
 
     public int toggleMapType() {
