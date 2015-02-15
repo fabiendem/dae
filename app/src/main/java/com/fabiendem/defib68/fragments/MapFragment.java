@@ -604,7 +604,7 @@ public class MapFragment extends Fragment
             // Instantiates a new CircleOptions object and defines the center and radius
             CircleOptions circleOptions = new CircleOptions()
                     .center(currentLocationLatLng)
-                    .strokeColor(Color.argb(100, 0, 255, 0))
+                    .strokeColor(getResources().getColor(R.color.primary))
                     .strokeWidth(4)
                     .fillColor(Color.argb(100, 255, 255, 255))
                     .radius(200); // In meters, 400 hundreds meters return in 5 minutes
