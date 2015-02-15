@@ -28,6 +28,8 @@
     <color name="deep_orange_A200">#ff6e40</color>
     <color name="deep_orange_A400">#ff3d00</color>
     <color name="deep_orange_A700">#dd2c00</color>
+    <color name="deep_orange_A700_85">#d9dd2c00</color>
+
 
     <item name="white" type="color">#ffffffff</item>
     <item name="black_85" type="color">#D9000000</item>

@@ -482,6 +482,8 @@ public class MapFragment extends Fragment
 
     private void updateCurrentLocation(Location location) {
         if(location != null) {
+            hideErrorMessage();
+            mShowMyLocationBtn.setEnabled(true);
             if(mCurrentLocation != null) {
                 if(mCurrentLocation.getLongitude() != location.getLongitude() ||
                         mCurrentLocation.getLatitude() != location.getLatitude()) {
@@ -495,7 +497,6 @@ public class MapFragment extends Fragment
                 mCurrentLocation = location;
                 onReallyNewCurrentLocation();
             }
-            hideErrorMessage();
         }
         else {
             Log.e(TAG, "Current location unknown");
@@ -504,14 +505,8 @@ public class MapFragment extends Fragment
     }
 
     private void onReallyNewCurrentLocation() {
-        mShowMyLocationBtn.setEnabled(true);
-        if(HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
-            Toast.makeText(getActivity(), "Dans le haut rhin", Toast.LENGTH_LONG).show();
-            UiUtils.setImageButtonEnabled(getActivity(), true, mShowClosestDefibBtn, R.drawable.fab_defib);
-        }
-        else {
-            Toast.makeText(getActivity(), "Hors du haut rhin", Toast.LENGTH_LONG).show();
-            UiUtils.setImageButtonEnabled(getActivity(), false, mShowClosestDefibBtn, R.drawable.fab_defib);
+        if(! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
+            showErrorMessage("Il semblerait que vous êtes hors du Haut-Rhin, pas de défibrillateur recensé à proximité");
         }
         drawCircleWalkingPerimeter();
     }
