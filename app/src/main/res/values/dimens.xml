@@ -3,4 +3,8 @@
     <!-- For API < 19 no need to push down the content as we don't draw behind the status bar -->
     <dimen name="topMarginStatusBar">0dp</dimen>
     <dimen name="topMarginBtnDrawer">16dp</dimen>
+
+    <dimen name="showcase_radius">64dp</dimen>
+    <dimen name="showcase_radius_inner">64dp</dimen>
+    <dimen name="showcase_radius_outer">98dp</dimen>
 </resources>

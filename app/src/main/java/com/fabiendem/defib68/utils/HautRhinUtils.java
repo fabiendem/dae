@@ -1,4 +1,4 @@
-package com.fabiendem.defib68;
+package com.fabiendem.defib68.utils;
 
 import android.location.Location;
 

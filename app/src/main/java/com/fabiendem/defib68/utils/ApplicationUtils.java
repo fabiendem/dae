@@ -1,3 +1,5 @@
+package com.fabiendem.defib68.utils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;

@@ -14,19 +14,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fabiendem.defib68.DummyDefibrillators;
-import com.fabiendem.defib68.HautRhinUtils;
+import com.fabiendem.defib68.utils.HautRhinUtils;
 import com.fabiendem.defib68.R;
-import com.fabiendem.defib68.UiUtils;
+import com.fabiendem.defib68.utils.ShowcaseUtils;
+import com.fabiendem.defib68.utils.UiUtils;
 import com.fabiendem.defib68.map.DefibrillatorClusterRenderer;
 import com.fabiendem.defib68.map.DefibrillatorFinder;
 import com.fabiendem.defib68.map.DefibrillatorInfoWindowAdapter;
 import com.fabiendem.defib68.map.MapUtils;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,7 +43,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -137,6 +140,8 @@ public class MapFragment extends Fragment
         mShowMyLocationBtn.setOnClickListener(this);
         mShowHautRhinBtn.setOnClickListener(this);
         mShowClosestDefibBtn.setOnClickListener(this);
+
+        ShowcaseUtils.showShowcaseHelp(getActivity(), mShowClosestDefibBtn, mShowHautRhinBtn);
 
         return view;
     }

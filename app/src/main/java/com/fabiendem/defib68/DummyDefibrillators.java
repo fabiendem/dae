@@ -1,12 +1,10 @@
 package com.fabiendem.defib68;
 
 import com.fabiendem.defib68.models.EnvironmentEnum;
-import com.fabiendem.defib68.models.defibrillator.Defibrillator;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
+import com.fabiendem.defib68.utils.HautRhinUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**

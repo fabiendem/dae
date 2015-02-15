@@ -8,14 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.fabiendem.defib68.R;
-import com.fabiendem.defib68.UiUtils;
-import com.fabiendem.defib68.fragments.AboutFragment;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.google.android.gms.maps.GoogleMap;
 

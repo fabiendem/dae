@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 
-import com.fabiendem.defib68.DummyDefibrillators;
-import com.fabiendem.defib68.HautRhinUtils;
-import com.fabiendem.defib68.UiUtils;
+import com.fabiendem.defib68.utils.HautRhinUtils;
+import com.fabiendem.defib68.utils.UiUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
