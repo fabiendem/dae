@@ -6,7 +6,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Collecte des donnees : Sebastien Storck"/>
+        android:text="Les defibrillateurs sont recenses un a un et les informations sont verifiees une fois par an, blablabla"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recensement des defibrillateurs : Sebastien Storck"/>
 
     <TextView
         android:layout_width="wrap_content"

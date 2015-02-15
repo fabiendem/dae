@@ -30,4 +30,5 @@
     <color name="deep_orange_A700">#dd2c00</color>
 
     <item name="white" type="color">#ffffffff</item>
+    <item name="black_85" type="color">#D9000000</item>
 </resources>
