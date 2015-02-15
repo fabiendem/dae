@@ -25,9 +25,8 @@
             android:layout_height="48dp"
             android:layout_marginTop="@dimen/topMarginBtnDrawer"
             android:layout_marginLeft="-6dp"
-            android:background="@drawable/btn_drawer"
-            android:src="@drawable/ic_menu_white_24dp"
             android:contentDescription="Menu"
+            style="@style/DrawerToggle"
             />
     </FrameLayout>
 
