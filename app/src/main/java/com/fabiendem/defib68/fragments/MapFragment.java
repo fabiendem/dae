@@ -14,11 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fabiendem.defib68.DummyDefibrillators;
+import com.fabiendem.defib68.models.defibrillator.json.DefibrillatorJsonConvertor;
+import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.utils.ShowcaseUtils;
@@ -29,8 +28,6 @@ import com.fabiendem.defib68.map.DefibrillatorInfoWindowAdapter;
 import com.fabiendem.defib68.map.MapUtils;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorClusterItem;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -123,8 +120,14 @@ public class MapFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setupDefibrillators();
         setupLocationClient();
+
+        mPointQuadTree = new PointQuadTree<DefibrillatorClusterItem>(
+                HautRhinUtils.LEFT_BOUND,
+                HautRhinUtils.RIGHT_BOUND,
+                HautRhinUtils.BOTTOM_BOUND,
+                HautRhinUtils.TOP_BOUND);
+        mMapDefibrillators = new HashMap<String, DefibrillatorModel>();
     }
 
     @Override
@@ -164,16 +167,6 @@ public class MapFragment extends Fragment
         setUpMapIfNeeded();
     }
 
-    private void setupDefibrillators() {
-        // Setup some defibrillators
-        mDefibrillators = DummyDefibrillators.ITEMS;
-        mPointQuadTree = new PointQuadTree<DefibrillatorClusterItem>(
-                HautRhinUtils.LEFT_BOUND,
-                HautRhinUtils.RIGHT_BOUND,
-                HautRhinUtils.BOTTOM_BOUND,
-                HautRhinUtils.TOP_BOUND);
-        mMapDefibrillators = new HashMap<String, DefibrillatorModel>();
-    }
 
     private void setupLocationClient() {
         mRequestingLocationUpdates = true;
@@ -356,10 +349,32 @@ public class MapFragment extends Fragment
         // Display my location
         mMap.setMyLocationEnabled(true);
 
-        setupClusterer();
+        new AsyncTask<Void, Void, List<DefibrillatorModel>>(){
+
+            @Override
+            protected List<DefibrillatorModel> doInBackground(Void... values) {
+                Log.d(TAG, "Loading defibs in background");
+                return loadDefibrillators();
+            }
+
+            @Override
+            protected void onPostExecute(List<DefibrillatorModel> defibrillatorModels) {
+                Log.d(TAG, "Loading defibs in background DONE");
+                super.onPostExecute(defibrillatorModels);
+                mDefibrillators = defibrillatorModels;
+                setupClusterer();
+            }
+        }.execute();
+
 
         // Listen to clicks on the map
         mMap.setOnMapClickListener(this);
+    }
+
+    private List<DefibrillatorModel> loadDefibrillators() {
+        String jsonDefibrillators = ApplicationUtils.loadJSONFromAsset(getActivity(), "defibs.json");
+        List<DefibrillatorModel> jsonToDefibrillatorList = (List<DefibrillatorModel>) DefibrillatorJsonConvertor.ConvertJsonStringToDefibrillatorsCollection(jsonDefibrillators);
+        return jsonToDefibrillatorList;
     }
 
     private void setupClusterer() {

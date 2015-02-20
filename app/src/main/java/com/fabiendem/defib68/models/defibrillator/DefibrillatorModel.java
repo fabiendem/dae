@@ -6,10 +6,15 @@ import com.fabiendem.defib68.models.EnvironmentEnum;
  * Created by Fabien on 26/10/2014.
  */
 public class DefibrillatorModel implements Defibrillator {
+
     private int mId;
+
     private String mLocationDescription;
+
     private EnvironmentEnum mEnvironment;
+
     private double mLatitude;
+
     private double mLongitude;
 
     public DefibrillatorModel(int id, String locationDescription, EnvironmentEnum environment, double latitude, double longitude) {
@@ -63,5 +68,42 @@ public class DefibrillatorModel implements Defibrillator {
     @Override
     public String toString() {
         return "ID: " + mId;
+    }
+
+    public static class Builder {
+        private int mId;
+        private String mLocationDescription;
+        private EnvironmentEnum mEnvironment;
+        private double mLatitude;
+        private double mLongitude;
+
+        public Builder setId(int id) {
+            mId = id;
+            return this;
+        }
+
+        public Builder setLocationDescription(String locationDescription) {
+            mLocationDescription = locationDescription;
+            return this;
+        }
+
+        public Builder setEnvironment(EnvironmentEnum environment) {
+            mEnvironment = environment;
+            return this;
+        }
+
+        public Builder setLatitude(double latitude) {
+            mLatitude = latitude;
+            return this;
+        }
+
+        public Builder setLongitude(double longitude) {
+            mLongitude = longitude;
+            return this;
+        }
+
+        public DefibrillatorModel build() {
+            return new DefibrillatorModel(mId, mLocationDescription, mEnvironment, mLatitude, mLongitude);
+        }
     }
 }
