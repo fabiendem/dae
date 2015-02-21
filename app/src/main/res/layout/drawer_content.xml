@@ -27,7 +27,7 @@
             android:id="@+id/map_type_chooser_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/DrawerButton"
+            style="@style/DrawerButton.Activable"
             android:text="Satellite"
             android:drawableLeft="@drawable/ic_satellite_grey600_24dp"
             />

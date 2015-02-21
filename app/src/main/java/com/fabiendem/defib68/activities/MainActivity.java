@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mDrawerContentClickListener = new DrawerContentClickListener();
         mMapTypeChooserButton = (Button) findViewById(R.id.map_type_chooser_btn);
         mMapTypeChooserButton.setOnClickListener(mDrawerContentClickListener);
+        mMapTypeChooserButton.setActivated(false);
         mAboutButton = (Button) findViewById(R.id.about_btn);
         mAboutButton.setOnClickListener(mDrawerContentClickListener);
 
@@ -128,10 +129,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     if(mapFragment != null) {
                         int mapType = mapFragment.toggleMapType();
                         if(mapType == GoogleMap.MAP_TYPE_HYBRID) {
-                            view.setBackgroundColor(Color.GREEN);
+                            mMapTypeChooserButton.setActivated(true);
                         }
                         else {
-                            view.setBackgroundColor(Color.GRAY);
+                            mMapTypeChooserButton.setActivated(false);
                         }
                         mDrawerLayout.closeDrawer(mDrawerContent);
                     }
