@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/DrawerButton.Activable"
-            android:text="Satellite"
+            android:text="@string/satellite"
             android:drawableLeft="@drawable/ic_satellite_grey600_24dp"
             />
 
@@ -38,14 +38,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
-            android:text="Settings"
+            android:text="@string/settings"
             android:drawableLeft="@drawable/ic_settings_grey600_24dp"
             />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
-            android:text="Contact us"
+            android:text="@string/contact_us"
             android:drawableLeft="@drawable/ic_email_grey600_24dp"
             />
         <Button
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/DrawerButton"
-            android:text="About"
+            android:text="@string/about"
             android:drawableLeft="@drawable/ic_info_grey600_24dp"
             />
 

@@ -514,13 +514,13 @@ public class MapFragment extends Fragment
 
     private void onReallyNewCurrentLocation() {
         if(! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
-            showErrorMessage("Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité");
+            showErrorMessage(getString(R.string.error_not_in_68));
         }
         drawCircleWalkingPerimeter();
     }
 
     private void onLocationUnknown() {
-        showErrorMessage("Votre localisation est inconnue");
+        showErrorMessage(getString(R.string.error_unknown_location));
     }
 
     @Override
@@ -546,7 +546,7 @@ public class MapFragment extends Fragment
 
         Intent intentWalkingDirections = MapUtils.getIntentGoogleMap(item.getPosition());
         // Create intent to show chooser
-        Intent chooserMapApplication = Intent.createChooser(intentWalkingDirections, "Display walking directions via:");
+        Intent chooserMapApplication = Intent.createChooser(intentWalkingDirections, getString(R.string.walking_direction_title));
 
         // Verify the intent will resolve to at least one activity
         if (intentWalkingDirections.resolveActivity(getActivity().getPackageManager()) != null) {

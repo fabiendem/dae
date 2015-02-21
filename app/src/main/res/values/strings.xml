@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Defib68</string>
+    <string name="app_name">DAE68</string>
     <string name="title_activity_map">Map</string>
+
+    <!-- Drawer -->
+    <string name="drawer_toggle_description">Menu</string>
+    <string name="satellite">Satellite</string>
+    <string name="settings">Settings</string>
+    <string name="contact_us">Contact us</string>
+    <string name="about">About</string>
+
+    <!-- Defib details -->
+    <string name="walking_direction_title">Afficher l\'itinéraire via :</string>
+
+    <!-- Errors -->
+    <string name="error_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>
+    <string name="error_unknown_location">Your location is unknown</string>
+
+    <!-- About -->
+    <string name="about_details">The defibrillators are tracked one by one and verified by ourselves.</string>
 
 </resources>
