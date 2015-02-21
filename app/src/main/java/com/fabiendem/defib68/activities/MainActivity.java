@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.fragments.MapFragment;
+import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.google.android.gms.maps.GoogleMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -34,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private DrawerContentClickListener mDrawerContentClickListener;
     private Button mMapTypeChooserButton;
     private Button mAboutButton;
+    private Button mContactUsButton;
 
 
     @Override
@@ -59,6 +61,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mMapTypeChooserButton.setActivated(false);
         mAboutButton = (Button) findViewById(R.id.about_btn);
         mAboutButton.setOnClickListener(mDrawerContentClickListener);
+        mContactUsButton = (Button) findViewById(R.id.contact_us_btn);
+        mContactUsButton.setOnClickListener(mDrawerContentClickListener);
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
@@ -136,6 +140,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                         }
                         mDrawerLayout.closeDrawer(mDrawerContent);
                     }
+                    break;
+                case R.id.contact_us_btn:
+                    ApplicationUtils.launchContactUsByEmailIntent(MainActivity.this, getString(R.string.contact_title_chooser), getString(R.string.contact_email));
                     break;
                 case R.id.about_btn:
                     Intent aboutActivity = new Intent(MainActivity.this, AboutActivity.class);

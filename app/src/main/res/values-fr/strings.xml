@@ -20,4 +20,8 @@
 
     <!-- About -->
     <string name="about_details">Les défibrillateurs sont recensés un à un et les informations relatives sont vérifiés manuellement par nos soins.</string>
+
+    <!-- Contact -->
+    <string name="contact_title_chooser">Nous contacter via :</string>
+    <string name="contact_email">android@dae68.fr</string>
 </resources>
