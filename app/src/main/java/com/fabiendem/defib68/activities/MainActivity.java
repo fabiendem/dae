@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.fabiendem.defib68.utils.ApplicationUtils;
@@ -44,9 +45,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         Log.d(TAG, "onCreate");
 
         setContentView(R.layout.activity_main);
-
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         mDrawerToogleButton = (ImageButton) findViewById(R.id.drawer_toggle_btn);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -87,6 +85,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+          
+        boolean isSatelliteActivated = PreferencesManager.getInstance(MainActivity.this).getMapType() == GoogleMap.MAP_TYPE_HYBRID;
+        mMapTypeChooserButton.setActivated(isSatelliteActivated);
     }
 
     @Override
@@ -139,6 +140,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             mMapTypeChooserButton.setActivated(false);
                         }
                         mDrawerLayout.closeDrawer(mDrawerContent);
+                        PreferencesManager.getInstance(MainActivity.this).setMapType(mapType);
                     }
                     break;
                 case R.id.contact_us_btn:

@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.models.defibrillator.json.DefibrillatorJsonConvertor;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
@@ -332,6 +333,10 @@ public class MapFragment extends Fragment
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+
+        // Map type from settings
+        mMap.setMapType(PreferencesManager.getInstance(getActivity()).getMapType());
+
 
         View infoWindow = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
         mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter(getActivity(), infoWindow, mMapDefibrillators));

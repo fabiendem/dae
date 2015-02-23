@@ -5,7 +5,7 @@
     android:layout_width="@dimen/drawerWidth"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:background="#FAFAFA" >
+    android:background="@color/drawer_bkg" >
 
     <LinearLayout android:id="@+id/left_drawer_content"
         android:layout_width="match_parent"
