@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="map_initial_lat" translatable="false">47.86573</string>
+    <string name="map_initial_lng" translatable="false">7.2315735</string>
+    <string name="map_initial_zoom" translatable="false">8</string>
+
     <string name="app_name">DAE68</string>
     <string name="map">Map</string>
 

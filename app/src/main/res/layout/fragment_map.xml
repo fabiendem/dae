@@ -16,6 +16,9 @@
         android:layout_height="match_parent"
         tools:context=".fragments.MapFragment"
         map:mapType="normal"
+        map:cameraTargetLat="@string/map_initial_lat"
+        map:cameraTargetLng="@string/map_initial_lng"
+        map:cameraZoom="@string/map_initial_zoom"
         />
 
     <!-- Add some top padding when we draw behind the status bar (API >= 19) -->
