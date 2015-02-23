@@ -22,7 +22,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/topMarginStatusBar"
+        android:paddingTop="@dimen/top_margin_status_bar"
         >
 
         <TextView

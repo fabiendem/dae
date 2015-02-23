@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- For API < 19 no need to push down the content as we don't draw behind the status bar -->
-    <dimen name="topMarginStatusBar">0dp</dimen>
-    <dimen name="topMarginBtnDrawer">16dp</dimen>
+    <dimen name="top_margin_status_bar">0dp</dimen>
+    <dimen name="top_margin_btn_drawer">16dp</dimen>
 
     <dimen name="showcase_radius">64dp</dimen>
     <dimen name="showcase_radius_inner">64dp</dimen>
     <dimen name="showcase_radius_outer">98dp</dimen>
+
+    <!-- Info window -->
+    <dimen name="info_window_padding">16dp</dimen>
+    <dimen name="info_window_padding_top">10dp</dimen>
 </resources>

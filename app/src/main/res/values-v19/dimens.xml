@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="topMarginStatusBar">25dp</dimen>
-    <dimen name="topMarginBtnDrawer">46dp</dimen>
+    <dimen name="top_margin_status_bar">25dp</dimen>
+    <dimen name="top_margin_btn_drawer">46dp</dimen>
 </resources>

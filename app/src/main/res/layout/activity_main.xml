@@ -23,7 +23,7 @@
             android:id="@+id/drawer_toggle_btn"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginTop="@dimen/topMarginBtnDrawer"
+            android:layout_marginTop="@dimen/top_margin_btn_drawer"
             android:layout_marginLeft="-6dp"
             android:contentDescription="@string/drawer_toggle_description"
             style="@style/DrawerToggle"
