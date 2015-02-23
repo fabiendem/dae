@@ -394,6 +394,8 @@ public class MapFragment extends Fragment
         getMap().setOnInfoWindowClickListener(mClusterManager);
 
         addDefibrillatorsMarkers();
+
+        mClusterManager.cluster();
     }
 
     private void addDefibrillatorsMarkers() {
