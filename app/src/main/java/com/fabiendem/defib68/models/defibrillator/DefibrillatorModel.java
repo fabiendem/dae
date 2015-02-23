@@ -11,15 +11,17 @@ public class DefibrillatorModel implements Defibrillator {
 
     private String mLocationDescription;
 
+    private String mCity;
+
     private EnvironmentEnum mEnvironment;
 
     private double mLatitude;
-
     private double mLongitude;
 
-    public DefibrillatorModel(int id, String locationDescription, EnvironmentEnum environment, double latitude, double longitude) {
+    public DefibrillatorModel(int id, String locationDescription, String city, EnvironmentEnum environment, double latitude, double longitude) {
         this.mId = id;
         this.mLocationDescription = locationDescription;
+        this.mCity = city;
         this.mEnvironment = environment;
         this.mLatitude = latitude;
         this.mLongitude = longitude;
@@ -39,6 +41,14 @@ public class DefibrillatorModel implements Defibrillator {
 
     public void setLocationDescription(String mLocationDescription) {
         this.mLocationDescription = mLocationDescription;
+    }
+
+    public String getCity() {
+        return mCity;
+    }
+
+    public void setCity(String city) {
+        this.mCity = city;
     }
 
     public EnvironmentEnum getEnvironment() {
@@ -73,6 +83,7 @@ public class DefibrillatorModel implements Defibrillator {
     public static class Builder {
         private int mId;
         private String mLocationDescription;
+        private String mCity;
         private EnvironmentEnum mEnvironment;
         private double mLatitude;
         private double mLongitude;
@@ -84,6 +95,11 @@ public class DefibrillatorModel implements Defibrillator {
 
         public Builder setLocationDescription(String locationDescription) {
             mLocationDescription = locationDescription;
+            return this;
+        }
+
+        public Builder setCity(String city) {
+            mCity = city;
             return this;
         }
 
@@ -103,7 +119,7 @@ public class DefibrillatorModel implements Defibrillator {
         }
 
         public DefibrillatorModel build() {
-            return new DefibrillatorModel(mId, mLocationDescription, mEnvironment, mLatitude, mLongitude);
+            return new DefibrillatorModel(mId, mLocationDescription, mCity, mEnvironment, mLatitude, mLongitude);
         }
     }
 }

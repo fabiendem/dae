@@ -20,6 +20,10 @@ public abstract class DefibrillatorDecorator implements Defibrillator {
         return mDefibrillator.getLocationDescription();
     }
 
+    public String getCity() {
+        return mDefibrillator.getCity();
+    }
+
     public EnvironmentEnum getEnvironment() {
         return mDefibrillator.getEnvironment();
     }

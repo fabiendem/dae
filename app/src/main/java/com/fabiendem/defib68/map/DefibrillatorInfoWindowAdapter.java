@@ -28,11 +28,6 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
 
     @Override
     public View getInfoWindow(Marker marker) {
-        return null;
-    }
-
-    @Override
-    public View getInfoContents(Marker marker) {
         String markerId = marker.getTitle();
         Log.d(TAG, "Marker id: " + markerId);
         final DefibrillatorModel defibrillatorModel = mMapDefibrillators.get(markerId);
@@ -50,12 +45,17 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
 
         TextView txtDescription = ((TextView) mInfoContentsView.findViewById(R.id.txt_description));
         TextView txtEnvironment = ((TextView) mInfoContentsView.findViewById(R.id.txt_environment));
-        TextView txtAddress = ((TextView) mInfoContentsView.findViewById(R.id.txt_address));
+        TextView txtCity = ((TextView) mInfoContentsView.findViewById(R.id.txt_city));
 
         txtDescription.setText(defibrillatorModel.getLocationDescription());
         txtEnvironment.setText(environment);
-        txtAddress.setText("Lat/Lng: " + defibrillatorModel.getLatitude() + "," + defibrillatorModel.getLongitude());
+        txtCity.setText(defibrillatorModel.getCity());
 
         return mInfoContentsView;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
     }
 }

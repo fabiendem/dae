@@ -18,7 +18,7 @@ public class DummyDefibrillators {
 
     static {
         for (int i = 0; i < 1000; i++) {
-            addItem(new DefibrillatorModel(i, "Défibrillateur " + i, EnvironmentEnum.INDOORS, getRandomDouble(HautRhinUtils.BOTTOM_BOUND, HautRhinUtils.TOP_BOUND), getRandomDouble(HautRhinUtils.LEFT_BOUND, HautRhinUtils.RIGHT_BOUND)));
+            addItem(new DefibrillatorModel(i, "Défibrillateur " + i, "Commune " + i, EnvironmentEnum.INDOORS, getRandomDouble(HautRhinUtils.BOTTOM_BOUND, HautRhinUtils.TOP_BOUND), getRandomDouble(HautRhinUtils.LEFT_BOUND, HautRhinUtils.RIGHT_BOUND)));
         }
     }
 

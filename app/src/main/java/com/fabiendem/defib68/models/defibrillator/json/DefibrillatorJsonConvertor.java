@@ -44,6 +44,7 @@ public class DefibrillatorJsonConvertor {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         defibrillatorModelBuilder.setId(jsonObject.get("OBJECTID").getAsInt());
         defibrillatorModelBuilder.setLocationDescription(jsonObject.get("EMPLACEMEN").getAsString());
+        defibrillatorModelBuilder.setCity(jsonObject.get("COMMUNE_DA").getAsString());
 
         JsonElement interieurJsonElement = jsonObject.get("INTERIEUR_");
         String interieur = null;

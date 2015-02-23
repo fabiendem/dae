@@ -10,6 +10,8 @@ public interface Defibrillator {
 
     public String getLocationDescription();
 
+    public String getCity();
+
     public EnvironmentEnum getEnvironment();
 
     public double getLatitude();
