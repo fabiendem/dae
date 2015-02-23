@@ -349,6 +349,10 @@ public class MapFragment extends Fragment
         // Display my location
         mMap.setMyLocationEnabled(true);
 
+        // Listen to clicks on the map
+        mMap.setOnMapClickListener(this);
+
+        // Add the defibrillators
         new AsyncTask<Void, Void, List<DefibrillatorModel>>(){
 
             @Override
@@ -366,9 +370,6 @@ public class MapFragment extends Fragment
             }
         }.execute();
 
-
-        // Listen to clicks on the map
-        mMap.setOnMapClickListener(this);
     }
 
     private List<DefibrillatorModel> loadDefibrillators() {

@@ -90,7 +90,7 @@ public class MapUtils {
 
     public static void animateCameraToHautRhin(Context context, GoogleMap map) {
         map.animateCamera(CameraUpdateFactory.newLatLngBounds(HautRhinUtils.getLatLngBounds(),
-                UiUtils.dpToPx(context, 100)));
+                UiUtils.dpToPx(context, 0)));
     }
 
     public static void animateCameraToCurrentLocation(GoogleMap map, Location currentLocation) {
