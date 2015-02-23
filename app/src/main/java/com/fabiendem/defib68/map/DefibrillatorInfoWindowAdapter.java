@@ -1,5 +1,6 @@
 package com.fabiendem.defib68.map;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -18,10 +19,12 @@ import java.util.Map;
 public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     public static final String TAG = "DefibrillatorInfoWindowAdapter";
 
+    private Context mContext;
     private View mInfoContentsView;
     private Map<String, DefibrillatorModel> mMapDefibrillators;
 
-    public DefibrillatorInfoWindowAdapter(View infoContentsView, Map<String, DefibrillatorModel> mapDefibrillators) {
+    public DefibrillatorInfoWindowAdapter(Context context, View infoContentsView, Map<String, DefibrillatorModel> mapDefibrillators) {
+        mContext = context;
         mInfoContentsView = infoContentsView;
         mMapDefibrillators = mapDefibrillators;
     }
@@ -38,9 +41,9 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
 
         String environment;
         if (defibrillatorModel.getEnvironment() == EnvironmentEnum.OUTDOORS) {
-            environment = "Extérieur";
+            environment = mContext.getString(R.string.environment_outdoors);
         } else {
-            environment = "Intérieur";
+            environment = mContext.getString(R.string.environment_outdoors);
         }
 
         TextView txtDescription = ((TextView) mInfoContentsView.findViewById(R.id.txt_description));

@@ -12,7 +12,9 @@
     <string name="about">About</string>
 
     <!-- Defib details -->
-    <string name="walking_direction_title">Afficher l\'itinéraire via :</string>
+    <string name="environment_outdoors">Outdoors</string>
+    <string name="environment_indoors">Indoors</string>
+    <string name="walking_direction_title">Show directions via:</string>
 
     <!-- Errors -->
     <string name="error_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>

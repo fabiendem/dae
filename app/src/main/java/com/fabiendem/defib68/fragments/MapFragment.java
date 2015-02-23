@@ -334,7 +334,7 @@ public class MapFragment extends Fragment
     private void setUpMap() {
 
         View infoWindow = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
-        mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter(infoWindow, mMapDefibrillators));
+        mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter(getActivity(), infoWindow, mMapDefibrillators));
 
         // Enable compass
         UiSettings uiMapSettings = mMap.getUiSettings();

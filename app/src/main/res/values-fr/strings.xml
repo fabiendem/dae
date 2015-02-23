@@ -12,6 +12,8 @@
     <string name="about">À propos</string>
 
     <!-- Defib details -->
+    <string name="environment_outdoors">Extérieur</string>
+    <string name="environment_indoors">Intérieur</string>
     <string name="walking_direction_title">Afficher l\'itinéraire via :</string>
 
     <!-- Errors -->
