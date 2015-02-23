@@ -505,6 +505,10 @@ public class MapFragment extends Fragment
                 mCurrentLocation = location;
                 onReallyNewCurrentLocation();
             }
+
+            if(! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
+                showErrorMessage(getString(R.string.error_not_in_68));
+            }
         }
         else {
             Log.e(TAG, "Current location unknown");
@@ -513,9 +517,6 @@ public class MapFragment extends Fragment
     }
 
     private void onReallyNewCurrentLocation() {
-        if(! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
-            showErrorMessage(getString(R.string.error_not_in_68));
-        }
         drawCircleWalkingPerimeter();
     }
 
