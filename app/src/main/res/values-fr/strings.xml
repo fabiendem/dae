@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">DAE68</string>
-    <string name="title_activity_map">Carte</string>
+    <string name="map">Carte</string>
 
     <!-- Drawer -->
     <string name="drawer_toggle_description">Menu</string>

@@ -28,7 +28,7 @@
 
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_map" >
+            android:label="@string/map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +39,7 @@
 
         <activity
             android:name=".activities.AboutActivity"
-            android:label="About"
+            android:label="@string/about"
             android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.OpaqueStatusBar">
             <meta-data
