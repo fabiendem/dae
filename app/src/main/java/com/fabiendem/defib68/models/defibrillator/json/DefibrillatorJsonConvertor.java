@@ -60,7 +60,8 @@ public class DefibrillatorJsonConvertor {
         if(! exterieurJsonElement.isJsonNull()) {
             exterieur = exterieurJsonElement.getAsString();
         }
-        if (exterieur != null && exterieur.equals("X")) {
+        if (exterieur != null &&
+                (exterieur.equals("X") || exterieur.equals("24h/24")) ) {
             defibrillatorModelBuilder.setEnvironment(EnvironmentEnum.OUTDOORS);
         }
 
