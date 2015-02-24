@@ -26,6 +26,7 @@
 
     <!-- About -->
     <string name="about_details">The defibrillators are tracked one by one and verified by ourselves.</string>
+    <string name="close">Close</string>
 
     <!-- Contact -->
     <string name="contact_title_chooser">Contact us via:</string>

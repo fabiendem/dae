@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
+import com.fabiendem.defib68.fragments.AboutFragment;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.google.android.gms.maps.GoogleMap;
@@ -123,6 +126,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    public void showAboutDialog() {
+        AboutFragment.show(this);
+    }
+
     private class DrawerContentClickListener implements View.OnClickListener {
 
         @Override
@@ -147,8 +154,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     ApplicationUtils.launchContactUsByEmailIntent(MainActivity.this, getString(R.string.contact_title_chooser), getString(R.string.contact_email));
                     break;
                 case R.id.about_btn:
-                    Intent aboutActivity = new Intent(MainActivity.this, AboutActivity.class);
-                    startActivity(aboutActivity);
+                    showAboutDialog();
                     break;
             }
         }
