@@ -590,6 +590,7 @@ public class MapFragment extends Fragment
         mClosestDefibrillatorMarker = closestDefibrillatorMarker;
         if(mClosestDefibrillatorMarker != null) {
             mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_closest));
+            mClosestDefibrillatorMarker.showInfoWindow();
         }
     }
 
