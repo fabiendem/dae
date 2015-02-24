@@ -618,7 +618,7 @@ public class MapFragment extends Fragment
                     .center(currentLocationLatLng)
                     .strokeColor(getResources().getColor(R.color.primary))
                     .strokeWidth(4)
-                    .fillColor(Color.argb(100, 255, 255, 255))
+                    .fillColor(Color.argb(75, 255, 255, 255))
                     .radius(200); // In meters, 400 hundreds meters return in 5 minutes
             // Get back the mutable Circle
             mCircleWalkingPerimeter = mMap.addCircle(circleOptions);
