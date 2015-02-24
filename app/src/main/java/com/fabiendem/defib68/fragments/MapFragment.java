@@ -649,7 +649,7 @@ public class MapFragment extends Fragment
                 mMap.animateCamera(
                     CameraUpdateFactory.newLatLngBounds(
                         boundsCurrentLocationAndDefibrillator,
-                        UiUtils.dpToPx(getActivity(), 100)),
+                        UiUtils.dpToPx(getActivity(), 150)),
                         new GoogleMap.CancelableCallback() {
                             @Override
                             public void onFinish() {
