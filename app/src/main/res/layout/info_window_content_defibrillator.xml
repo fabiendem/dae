@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingPrefix"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@drawable/info_window_bkg"
     android:paddingLeft="@dimen/info_window_padding"
@@ -16,21 +15,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        tools:text="City"
         />
 
-    <View style="@style/Divider"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_directions_grey600_24dp"
+        android:contentDescription="@string/directions"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/Divider"
+        android:layout_below="@id/txt_city"/>
 
     <TextView
         android:id="@+id/txt_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
         fontPath="fonts/Roboto-Bold.ttf"
         android:textSize="16sp"
+        tools:text="The description of defib location"
         />
+
     <TextView
         android:id="@+id/txt_environment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/txt_description"
+        tools:text="Environment"
         />
 
-</LinearLayout>
+</RelativeLayout>
