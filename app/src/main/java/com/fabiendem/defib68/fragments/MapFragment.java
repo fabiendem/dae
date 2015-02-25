@@ -555,7 +555,7 @@ public class MapFragment extends Fragment
 
         Intent intentWalkingDirections = MapUtils.getIntentGoogleMap(item.getPosition());
         // Create intent to show chooser
-        Intent chooserMapApplication = Intent.createChooser(intentWalkingDirections, getString(R.string.walking_direction_title));
+        Intent chooserMapApplication = Intent.createChooser(intentWalkingDirections, getString(R.string.walking_directions_title));
 
         // Verify the intent will resolve to at least one activity
         if (intentWalkingDirections.resolveActivity(getActivity().getPackageManager()) != null) {

@@ -14,7 +14,7 @@
     <!-- Defib details -->
     <string name="environment_outdoors">Extérieur</string>
     <string name="environment_indoors">Intérieur</string>
-    <string name="walking_direction_title">Afficher l\'itinéraire via :</string>
+    <string name="walking_directions_title">Afficher l\'itinéraire via :</string>
 
     <!-- Errors -->
     <string name="error_not_in_68">Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité</string>
