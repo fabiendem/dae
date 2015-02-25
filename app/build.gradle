@@ -43,7 +43,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:6.5.87'
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
-    compile 'com.melnykov:floatingactionbutton:1.1.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
     compile 'com.github.amlcurran.showcaseview:library:5.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.avast:android-styled-dialogs:2.1.0'
