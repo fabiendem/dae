@@ -13,7 +13,19 @@
         <item name="android:textColorPrimary">@color/white</item>
 
         <item name="android:windowBackground">@color/green_200</item>
+    </style>
 
+    <style name="DrawerButton" parent="android:Widget.Material.Light.Button.Borderless">
+        <item name="android:background">@drawable/btn_drawer_background_selector</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:drawablePadding">32dp</item>
+        <item name="fontPath">fonts/Roboto-Medium.ttf</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black_87</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:selectable">false</item>
     </style>
 
     <style name="DrawerToggle">

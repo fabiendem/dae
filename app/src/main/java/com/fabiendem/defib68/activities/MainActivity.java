@@ -88,9 +88,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-          
-        boolean isSatelliteActivated = PreferencesManager.getInstance(MainActivity.this).getMapType() == GoogleMap.MAP_TYPE_HYBRID;
-        mMapTypeChooserButton.setActivated(isSatelliteActivated);
+
+        boolean isActivated = PreferencesManager.getInstance(MainActivity.this).getMapType() == GoogleMap.MAP_TYPE_HYBRID;
+        updateSatelliteBtn(isActivated);
     }
 
     @Override
@@ -126,6 +126,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    private void updateSatelliteBtn(boolean isActivated) {
+        mMapTypeChooserButton.setActivated(isActivated);
+        if(isActivated) {
+//            mMapTypeChooserButton.setTextAppearance(this, R.style.TextAppearance_Black);
+        }
+        else {
+  //          mMapTypeChooserButton.setTextAppearance(this, R.style.TextAppearance_Black);
+        }
+    }
+
     public void showAboutDialog() {
         AboutFragment.show(this);
     }
@@ -140,12 +150,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if(mapFragment != null) {
                         int mapType = mapFragment.toggleMapType();
-                        if(mapType == GoogleMap.MAP_TYPE_HYBRID) {
-                            mMapTypeChooserButton.setActivated(true);
-                        }
-                        else {
-                            mMapTypeChooserButton.setActivated(false);
-                        }
+                        updateSatelliteBtn(mapType == GoogleMap.MAP_TYPE_HYBRID);
                         mDrawerLayout.closeDrawer(mDrawerContent);
                         PreferencesManager.getInstance(MainActivity.this).setMapType(mapType);
                     }

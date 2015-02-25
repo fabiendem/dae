@@ -3,7 +3,7 @@
 
     <item
         android:state_activated="true"
-        android:color="@color/primary_dark"
+        android:color="@color/primary"
         />
 
     <item
