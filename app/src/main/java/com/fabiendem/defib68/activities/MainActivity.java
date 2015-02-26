@@ -129,10 +129,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private void updateSatelliteBtn(boolean isActivated) {
         mMapTypeChooserButton.setActivated(isActivated);
         if(isActivated) {
-//            mMapTypeChooserButton.setTextAppearance(this, R.style.TextAppearance_Black);
+            mMapTypeChooserButton.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_satellite_green500_24dp, 0, 0, 0);
         }
         else {
-  //          mMapTypeChooserButton.setTextAppearance(this, R.style.TextAppearance_Black);
+            mMapTypeChooserButton.setCompoundDrawablesWithIntrinsicBounds( R.drawable.ic_satellite_grey600_24dp, 0, 0, 0);
         }
     }
 
