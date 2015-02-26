@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.models.EnvironmentEnum;
 import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
@@ -43,9 +44,10 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
         if (defibrillatorModel.getEnvironment() == EnvironmentEnum.OUTDOORS) {
             environment = mContext.getString(R.string.environment_outdoors);
         } else {
-            environment = mContext.getString(R.string.environment_outdoors);
+            environment = mContext.getString(R.string.environment_indoors);
         }
 
+        TextView txtTipDirections = ((TextView) mInfoContentsView.findViewById(R.id.txt_tip_directions));
         TextView txtDescription = ((TextView) mInfoContentsView.findViewById(R.id.txt_description));
         TextView txtEnvironment = ((TextView) mInfoContentsView.findViewById(R.id.txt_environment));
         TextView txtCity = ((TextView) mInfoContentsView.findViewById(R.id.txt_city));
@@ -53,6 +55,13 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
         txtDescription.setText(defibrillatorModel.getLocationDescription());
         txtEnvironment.setText(environment);
         txtCity.setText(defibrillatorModel.getCity());
+
+        if(! PreferencesManager.getInstance(mContext).hasTipInfoWindowShowDirectionsBeenShown()) {
+            txtTipDirections.setVisibility(View.VISIBLE);
+        }
+        else {
+            txtTipDirections.setVisibility(View.GONE);
+        }
 
         return mInfoContentsView;
     }

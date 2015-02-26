@@ -15,6 +15,8 @@ public class PreferencesManager {
 
     private static final String MAP_TYPE = "MAP_TYPE";
 
+    private static final String HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN = "HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN";
+
     private PreferencesManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_STORAGE_NAME, Context.MODE_PRIVATE);
     }
@@ -34,5 +36,15 @@ public class PreferencesManager {
 
     public int getMapType() {
         return mSharedPreferences.getInt(MAP_TYPE, GoogleMap.MAP_TYPE_NORMAL);
+    }
+
+    public void setHasTipInfoWindowShowDirectionsBeenShown (boolean hasTipInfoWindowShowDirectionsBeenShown) {
+        mSharedPreferences.edit()
+                .putBoolean(HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN, hasTipInfoWindowShowDirectionsBeenShown)
+                .apply();
+    }
+
+    public boolean hasTipInfoWindowShowDirectionsBeenShown() {
+        return mSharedPreferences.getBoolean(HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN, false);
     }
 }

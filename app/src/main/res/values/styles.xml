@@ -51,23 +51,4 @@
         <item name="android:textColor">@color/btn_drawer_activable_textcolor_selector</item>
     </style>
 
-    <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">@color/black_85</item>
-        <item name="sv_showcaseColor">#BF00a621</item>
-        <item name="sv_tintButtonColor">true</item>
-        <item name="sv_buttonText">OK</item>
-        <item name="sv_titleTextAppearance">@style/TitleCustomShowcaseTheme</item>
-        <item name="sv_detailTextAppearance">@style/DetailCustomShowcaseTheme</item>
-    </style>
-
-    <style name="TitleCustomShowcaseTheme" parent="TextAppearance.ShowcaseView.Title.Light">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:shadowRadius">0</item>
-    </style>
-
-    <style name="DetailCustomShowcaseTheme" parent="TextAppearance.ShowcaseView.Detail.Light">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:shadowRadius">0</item>
-    </style>
-
 </resources>

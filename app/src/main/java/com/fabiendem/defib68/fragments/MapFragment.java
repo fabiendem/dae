@@ -21,7 +21,6 @@ import com.fabiendem.defib68.models.defibrillator.json.DefibrillatorJsonConverto
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
 import com.fabiendem.defib68.R;
-import com.fabiendem.defib68.utils.ShowcaseUtils;
 import com.fabiendem.defib68.utils.UiUtils;
 import com.fabiendem.defib68.map.DefibrillatorClusterRenderer;
 import com.fabiendem.defib68.map.DefibrillatorFinder;
@@ -144,8 +143,6 @@ public class MapFragment extends Fragment
         mShowMyLocationBtn.setOnClickListener(this);
         mShowHautRhinBtn.setOnClickListener(this);
         mShowClosestDefibBtn.setOnClickListener(this);
-
-        ShowcaseUtils.showShowcaseHelp(getActivity(), mShowClosestDefibBtn, mShowHautRhinBtn);
 
         return view;
     }
@@ -559,6 +556,7 @@ public class MapFragment extends Fragment
 
         // Verify the intent will resolve to at least one activity
         if (intentWalkingDirections.resolveActivity(getActivity().getPackageManager()) != null) {
+            PreferencesManager.getInstance(getActivity()).setHasTipInfoWindowShowDirectionsBeenShown(true);
             startActivity(chooserMapApplication);
         }
     }

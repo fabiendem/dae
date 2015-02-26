@@ -44,6 +44,7 @@
     <item name="white" type="color">#ffffffff</item>
     <item name="drawer_bkg" type="color">#FAFAFA</item>
     <item name="white_90" type="color">#E6ffffff</item>
+    <item name="white_85" type="color">#D9ffffff</item>
     <item name="black_85" type="color">#D9000000</item>
     <item name="black_87" type="color">#DE000000</item>
 </resources>
