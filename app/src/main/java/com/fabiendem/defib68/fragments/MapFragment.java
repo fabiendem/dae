@@ -739,6 +739,7 @@ public class MapFragment extends Fragment
                             .text(getString(R.string.error_snackbar_unknown_location))
                             .type(SnackbarType.MULTI_LINE)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                            .swipeToDismiss(false)
                             .eventListener(new EventListener() {
                                 @Override
                                 public void onShow(Snackbar snackbar) {
@@ -788,6 +789,7 @@ public class MapFragment extends Fragment
                             .text(getString(R.string.error_snackbar_not_in_68))
                             .type(SnackbarType.MULTI_LINE)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                            .swipeToDismiss(false)
                             .eventListener(new EventListener() {
                                 @Override
                                 public void onShow(Snackbar snackbar) {
