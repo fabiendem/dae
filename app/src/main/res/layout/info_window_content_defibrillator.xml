@@ -21,7 +21,7 @@
         fontPath="fonts/Roboto-Bold.ttf"
         android:textStyle="bold"
         android:textColor="@color/primary"
-        android:drawableLeft="@drawable/ic_info_outline_grey600_24dp"
+        android:drawableLeft="@drawable/ic_info_outline_green500_24dp"
         android:drawablePadding="10dp"
         android:visibility="gone"
         />
