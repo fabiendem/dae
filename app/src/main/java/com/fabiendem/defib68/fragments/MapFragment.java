@@ -87,7 +87,6 @@ public class MapFragment extends Fragment
 
     private ViewGroup mContainer;
     private Circle mCircleWalkingPerimeter;
-    private TextView mErrorTxt;
     private ViewGroup mFabButtons;
     private ImageButton mShowMyLocationBtn;
     private ImageButton mShowHautRhinBtn;
@@ -164,7 +163,6 @@ public class MapFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         mContainer = container;
-        mErrorTxt = (TextView) view.findViewById(R.id.error_txt);
         mFabButtons = (ViewGroup) view.findViewById(R.id.fab_buttons);
         mShowMyLocationBtn = (ImageButton) view.findViewById(R.id.show_my_location_btn);
         mShowHautRhinBtn = (ImageButton) view.findViewById(R.id.show_haut_rhin_btn);
