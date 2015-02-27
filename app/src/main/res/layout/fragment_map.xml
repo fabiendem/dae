@@ -23,62 +23,54 @@
         map:cameraZoom="@string/map_initial_zoom"
         />
 
-    <!-- Add some top padding when we draw behind the status bar (API >= 19) -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/top_margin_status_bar"
+    <LinearLayout
+        android:id="@+id/fab_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom|end"
+        android:gravity="center"
         >
 
-        <LinearLayout
-            android:id="@+id/fab_buttons"
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/show_haut_rhin_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/fab_68"
+            fab:fab_type="mini"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/accent_ripple"
+             />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/show_my_location_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/fab_my_location"
+            fab:fab_type="mini"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/accent_ripple" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/show_closest_defib_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="center"
-            >
+            android:src="@drawable/fab_defib"
+            fab:fab_colorNormal="@color/accent_dark"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/accent_ripple"
+        />
+    </LinearLayout>
 
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/show_haut_rhin_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/fab_68"
-                fab:fab_type="mini"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/accent_pressed"
-                fab:fab_colorRipple="@color/accent_ripple"
-                 />
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/show_my_location_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/fab_my_location"
-                fab:fab_type="mini"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/accent_pressed"
-                fab:fab_colorRipple="@color/accent_ripple" />
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/show_closest_defib_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/fab_defib"
-                fab:fab_colorNormal="@color/accent_dark"
-                fab:fab_colorPressed="@color/accent_pressed"
-                fab:fab_colorRipple="@color/accent_ripple"
-                />
-        </LinearLayout>
-
+        <!--
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,6 +95,5 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="gone"/>
-
-    </RelativeLayout>
+    -->
 </FrameLayout>
