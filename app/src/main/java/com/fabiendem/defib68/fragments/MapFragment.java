@@ -455,7 +455,7 @@ public class MapFragment extends Fragment
     }
 
     private void onClickClosestBtn(View view) {
-        if(! isLocationServiceEnabled()) {
+        if(! LocationUtils.isLocationServiceEnabled(getActivity())) {
             showAlertLocationServiceDisabled();
         }
         else {
@@ -464,7 +464,7 @@ public class MapFragment extends Fragment
     }
 
     private void onClickMyLocationBtn(View view) {
-        if(! isLocationServiceEnabled()) {
+        if(! LocationUtils.isLocationServiceEnabled(getActivity())) {
             showAlertLocationServiceDisabled();
         }
         else {
@@ -883,14 +883,5 @@ public class MapFragment extends Fragment
 
     public int getMapType() {
         return mMap.getMapType();
-    }
-
-    private boolean isLocationServiceEnabled() {
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            return true;
-        }
-        return false;
     }
 }
