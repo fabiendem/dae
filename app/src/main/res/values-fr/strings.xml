@@ -19,9 +19,12 @@
     <string name="tip_directions">Tapez ici pour afficher l\'itinéraire</string>
 
     <!-- Errors -->
-    <string name="error_not_in_68">Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité</string>
-    <string name="error_location_disabled">Le service de géolocalisation est désactivé, veuillez l\'activer</string>
-    <string name="error_unknown_location">Votre localisation est inconnue</string>
+    <string name="error_snackbar_not_in_68">Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité</string>
+    <string name="error_snackbar_unknown_location">Votre localisation est inconnue</string>
+
+    <string name="error_alert_title_location_disabled">Services de localisation désactivés</string>
+    <string name="error_alert_details_location_disabled">Votre position doit être accessible pour trouver le défibrillateur le plus proche de vous.\nVeuillez activer la fonctionnalité d\'accès aux données de localisation.</string>
+    <string name="ignore">Ignorer</string>
 
     <!-- About -->
     <string name="about_details">Les défibrillateurs sont recensés un à un et les informations relatives sont vérifiés manuellement par nos soins.</string>

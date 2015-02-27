@@ -1,14 +1,11 @@
 package com.fabiendem.defib68.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,14 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
@@ -59,11 +49,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.quadtree.PointQuadTree;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.nispok.snackbar.listeners.EventListener;
 
 import java.util.HashMap;
@@ -748,7 +736,7 @@ public class MapFragment extends Fragment
             Log.d(TAG, "showSnackbarLocationUnknown");
             SnackbarManager.show(
                     Snackbar.with(getActivity().getApplicationContext())
-                            .text(getString(R.string.error_unknown_location))
+                            .text(getString(R.string.error_snackbar_unknown_location))
                             .type(SnackbarType.MULTI_LINE)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                             .eventListener(new EventListener() {
@@ -797,7 +785,7 @@ public class MapFragment extends Fragment
 
             SnackbarManager.show(
                     Snackbar.with(getActivity().getApplicationContext())
-                            .text(getString(R.string.error_not_in_68))
+                            .text(getString(R.string.error_snackbar_not_in_68))
                             .type(SnackbarType.MULTI_LINE)
                             .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
                             .eventListener(new EventListener() {
@@ -842,10 +830,10 @@ public class MapFragment extends Fragment
 
     private void showAlertLocationServiceDisabled() {
         SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
-                .setTitle("Services de localisation désactivés")
-                .setMessage("Votre position doit être accessible pour trouver le défibrillateur le plus proche de vous.\nVeuillez activer la fonctionnalité d'accès aux données de localisation.")
+                .setTitle(getString(R.string.error_alert_title_location_disabled))
+                .setMessage(getString(R.string.error_alert_details_location_disabled))
                 .setPositiveButtonText(getString(R.string.settings))
-                .setNegativeButtonText("Ignorer")
+                .setNegativeButtonText(getString(R.string.ignore))
                 .setTargetFragment(this, REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED)
                 .show();
     }

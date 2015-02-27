@@ -23,9 +23,12 @@
     <string name="walking_directions_title">Show directions via:</string>
 
     <!-- Errors -->
-    <string name="error_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>
-    <string name="error_location_disabled">The location service is disabled, please enable it</string>
-    <string name="error_unknown_location">Your location is unknown</string>
+    <string name="error_snackbar_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>
+    <string name="error_snackbar_unknown_location">Your location is unknown</string>
+
+    <string name="error_alert_title_location_disabled">Location services disabled</string>
+    <string name="error_alert_details_location_disabled">You position has to be accessible to find the closest defibrillator.\nPlease enable the access to location data feature.</string>
+    <string name="ignore">Ignore</string>
 
     <!-- About -->
     <string name="about_details">The defibrillators are tracked one by one and verified by ourselves.</string>
