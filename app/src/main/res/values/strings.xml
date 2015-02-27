@@ -24,6 +24,7 @@
 
     <!-- Errors -->
     <string name="error_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>
+    <string name="error_location_disabled">The location service is disabled, please enable it</string>
     <string name="error_unknown_location">Your location is unknown</string>
 
     <!-- About -->

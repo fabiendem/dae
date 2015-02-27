@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -58,6 +59,11 @@ public class ApplicationUtils {
         // popup box that the user can use to determine which app they would like
         // to use in order to send the email.
         context.startActivity(Intent.createChooser(emailIntent, emailClientChooserAlertTitle));
+    }
+
+    public static void launchLocationSettingsIntent(Context context) {
+        Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        context.startActivity(viewIntent);
     }
 
     @Nullable

@@ -13,7 +13,7 @@ public class MyApplication extends Application {
 
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         CalligraphyConfig.initDefault("fonts/Roboto-Regular.ttf", R.attr.fontPath);
     }
 }

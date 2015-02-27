@@ -20,6 +20,7 @@
 
     <!-- Errors -->
     <string name="error_not_in_68">Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité</string>
+    <string name="error_location_disabled">Le service de géolocalisation est désactivé, veuillez l\'activer</string>
     <string name="error_unknown_location">Votre localisation est inconnue</string>
 
     <!-- About -->
