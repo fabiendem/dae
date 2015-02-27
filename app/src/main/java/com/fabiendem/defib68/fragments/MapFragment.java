@@ -85,9 +85,10 @@ public class MapFragment extends Fragment
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
+    private ViewGroup mContainer;
     private Circle mCircleWalkingPerimeter;
     private TextView mErrorTxt;
-    private View mFabButtons;
+    private ViewGroup mFabButtons;
     private ImageButton mShowMyLocationBtn;
     private ImageButton mShowHautRhinBtn;
     private ImageButton mShowClosestDefibBtn;
@@ -162,8 +163,9 @@ public class MapFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+        mContainer = container;
         mErrorTxt = (TextView) view.findViewById(R.id.error_txt);
-        mFabButtons = view.findViewById(R.id.fab_buttons);
+        mFabButtons = (ViewGroup) view.findViewById(R.id.fab_buttons);
         mShowMyLocationBtn = (ImageButton) view.findViewById(R.id.show_my_location_btn);
         mShowHautRhinBtn = (ImageButton) view.findViewById(R.id.show_haut_rhin_btn);
         mShowClosestDefibBtn = (ImageButton) view.findViewById(R.id.show_closest_defib_btn);
@@ -779,7 +781,7 @@ public class MapFragment extends Fragment
                                 public void onDismissed(Snackbar snackbar) {
                                 }
                             })
-                    , getActivity()); // activity where it is displayed
+                    , mContainer); // activity where it is displayed
         }
     }
 
@@ -828,7 +830,7 @@ public class MapFragment extends Fragment
                                 public void onDismissed(Snackbar snackbar) {
                                 }
                             })
-                    , getActivity()); // activity where it is displayed
+                    , mContainer); // activity where it is displayed
         }
     }
 
