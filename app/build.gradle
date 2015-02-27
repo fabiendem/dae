@@ -27,9 +27,20 @@ android {
         versionName "1.0"
     }
     buildTypes {
+
+        debug {
+            buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'false'
+        }
+
+        releaseCandidate {
+            buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'true'
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'true'
         }
     }
 }
