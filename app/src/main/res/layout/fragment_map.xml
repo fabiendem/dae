@@ -23,6 +23,7 @@
         map:cameraZoom="@string/map_initial_zoom"
         />
 
+    <!-- Use margins on the last button to avoid shadow cliping -->
     <LinearLayout
         android:id="@+id/fab_buttons"
         android:layout_width="wrap_content"
