@@ -14,7 +14,7 @@ public class DummyDefibrillators {
     /**
      * An array of sample (dummy) items.
      */
-    public static ArrayList<DefibrillatorModel> ITEMS = new ArrayList<DefibrillatorModel>();
+    public static ArrayList<DefibrillatorModel> ITEMS = new ArrayList<>();
 
     static {
         for (int i = 0; i < 1000; i++) {

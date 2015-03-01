@@ -19,13 +19,11 @@ public class DefibrillatorModelsCollectionDeserializer implements JsonDeserializ
 
     @Override
     public Collection<DefibrillatorModel> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        ArrayList<DefibrillatorModel> newArray = new ArrayList<DefibrillatorModel>();
+        ArrayList<DefibrillatorModel> newArray = new ArrayList<>();
 
         JsonArray array= json.getAsJsonArray();
-        Iterator<JsonElement> iterator = array.iterator();
 
-        while(iterator.hasNext()){
-            JsonElement json2 = iterator.next();
+        for (JsonElement json2 : array) {
             DefibrillatorModel object = DefibrillatorJsonConvertor.ConvertJsonElementToDefibrillatorModel(json2);
             newArray.add(object);
         }
