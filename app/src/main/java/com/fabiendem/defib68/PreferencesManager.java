@@ -13,8 +13,6 @@ public class PreferencesManager {
     private static PreferencesManager sInstance;
     private final SharedPreferences mSharedPreferences;
 
-    private static final String SHOULD_NEVER_SHOW_RATING_PROMPT = "SHOULD_NEVER_SHOW_RATING_PROMPT";
-
     private static final String MAP_TYPE = "MAP_TYPE";
 
     private static final String HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN = "HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN";
@@ -28,16 +26,6 @@ public class PreferencesManager {
             sInstance = new PreferencesManager(context);
         }
         return sInstance;
-    }
-
-    public void setShouldNeverShowRatingPrompt(boolean shouldNeverShowRatingPrompt) {
-        mSharedPreferences.edit()
-                .putBoolean(SHOULD_NEVER_SHOW_RATING_PROMPT, shouldNeverShowRatingPrompt)
-                .apply();
-    }
-
-    public boolean shouldNeverShowRatingPrompt() {
-        return mSharedPreferences.getBoolean(SHOULD_NEVER_SHOW_RATING_PROMPT, false);
     }
 
     public void setMapType(int mapType) {

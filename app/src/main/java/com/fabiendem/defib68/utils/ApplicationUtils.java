@@ -20,29 +20,6 @@ import java.io.InputStream;
  */
 public class ApplicationUtils {
 
-    public static final int REQUEST_CODE_ALERT_RATING = 998899;
-
-    public void showRatingPromptIfNeeded(FragmentActivity activity) {
-        if(! PreferencesManager.getInstance(activity).shouldNeverShowRatingPrompt()) {
-            SimpleDialogFragment.createBuilder(activity, activity.getSupportFragmentManager())
-                    .setTitle(R.string.rate_app_alert_title)
-                    .setMessage(R.string.rate_app_alert_details)
-                    .setPositiveButtonText(R.string.rate_app_alert_positive)
-                    .setNeutralButtonText(R.string.rate_app_alert_neutral)
-                    .setNegativeButtonText(R.string.rate_app_alert_negative)
-                    .setRequestCode(REQUEST_CODE_ALERT_RATING)
-                    .show();
-        }
-    }
-
-    public void onRatingPromptNegativeClick(Context context) {
-        PreferencesManager.getInstance(context).setShouldNeverShowRatingPrompt(true);
-    }
-
-    public void onRatingPromptPositiveClick(Context context) {
-        rateTheApp(context);
-    }
-
     /**
      * Opens Google Play's application page.
      *
