@@ -36,10 +36,5 @@
 
     <!-- Noter appli-->
     <string name="rate_app">Noter l\'application</string>
-    <string name="rate_app_alert_title">Noter l\'application</string>
-    <string name="rate_app_alert_details">Noter l\'application</string>
-    <string name="rate_app_alert_positive">Noter</string>
-    <string name="rate_app_alert_neutral">Plus tard</string>
-    <string name="rate_app_alert_negative">Jamais</string>
 
 </resources>
