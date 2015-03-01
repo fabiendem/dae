@@ -38,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private DrawerContentClickListener mDrawerContentClickListener;
     private Button mMapTypeChooserButton;
+    private Button mRateAppButton;
     private Button mAboutButton;
     private Button mContactUsButton;
 
@@ -58,12 +59,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Drawer interactions
         mDrawerContentClickListener = new DrawerContentClickListener();
         mMapTypeChooserButton = (Button) findViewById(R.id.map_type_chooser_btn);
+        mAboutButton = (Button) findViewById(R.id.about_btn);
+        mRateAppButton = (Button) findViewById(R.id.rate_app_btn);
+        mContactUsButton = (Button) findViewById(R.id.contact_us_btn);
+
         mMapTypeChooserButton.setOnClickListener(mDrawerContentClickListener);
         mMapTypeChooserButton.setActivated(false);
-        mAboutButton = (Button) findViewById(R.id.about_btn);
         mAboutButton.setOnClickListener(mDrawerContentClickListener);
-        mContactUsButton = (Button) findViewById(R.id.contact_us_btn);
         mContactUsButton.setOnClickListener(mDrawerContentClickListener);
+        mRateAppButton.setOnClickListener(mDrawerContentClickListener);
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
@@ -157,6 +161,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     break;
                 case R.id.contact_us_btn:
                     ApplicationUtils.launchContactUsByEmailIntent(MainActivity.this, getString(R.string.contact_title_chooser), getString(R.string.contact_email));
+                    break;
+                case R.id.rate_app_btn:
+                    ApplicationUtils.rateTheApp(MainActivity.this);
                     break;
                 case R.id.about_btn:
                     showAboutDialog();

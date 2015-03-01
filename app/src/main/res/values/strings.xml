@@ -38,4 +38,6 @@
     <string name="contact_title_chooser">Contact us via:</string>
     <string name="contact_email">android@dae68.fr</string>
 
+    <!-- Noter appli-->
+    <string name="rate_app">Rate the app</string>
 </resources>

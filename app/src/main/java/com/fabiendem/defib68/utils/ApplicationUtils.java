@@ -1,12 +1,16 @@
 package com.fabiendem.defib68.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+
+import com.avast.android.dialogs.fragment.SimpleDialogFragment;
+import com.fabiendem.defib68.PreferencesManager;
+import com.fabiendem.defib68.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,14 +19,38 @@ import java.io.InputStream;
  * Created by Fabien on 15/11/14.
  */
 public class ApplicationUtils {
+
+    public static final int REQUEST_CODE_ALERT_RATING = 998899;
+
+    public void showRatingPromptIfNeeded(FragmentActivity activity) {
+        if(! PreferencesManager.getInstance(activity).shouldNeverShowRatingPrompt()) {
+            SimpleDialogFragment.createBuilder(activity, activity.getSupportFragmentManager())
+                    .setTitle(R.string.rate_app_alert_title)
+                    .setMessage(R.string.rate_app_alert_details)
+                    .setPositiveButtonText(R.string.rate_app_alert_positive)
+                    .setNeutralButtonText(R.string.rate_app_alert_neutral)
+                    .setNegativeButtonText(R.string.rate_app_alert_negative)
+                    .setRequestCode(REQUEST_CODE_ALERT_RATING)
+                    .show();
+        }
+    }
+
+    public void onRatingPromptNegativeClick(Context context) {
+        PreferencesManager.getInstance(context).setShouldNeverShowRatingPrompt(true);
+    }
+
+    public void onRatingPromptPositiveClick(Context context) {
+        rateTheApp(context);
+    }
+
     /**
      * Opens Google Play's application page.
      *
-     * @param activity : current activity, used to get application's package name
+     * @param context : current context, used to get application's package name
      */
-    public static void rateTheApp(@NonNull Activity activity) {
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + activity.getPackageName()));
-        activity.startActivity(goToMarket);
+    public static void rateTheApp(@NonNull Context context) {
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));
+        context.startActivity(goToMarket);
     }
 
     public static void launchContactUsByEmailIntent(Context context,
