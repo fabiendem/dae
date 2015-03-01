@@ -137,12 +137,12 @@ public class MapFragment extends Fragment
 
         setupLocationClient();
 
-        mPointQuadTree = new PointQuadTree<DefibrillatorClusterItem>(
+        mPointQuadTree = new PointQuadTree<>(
                 HautRhinUtils.LEFT_BOUND,
                 HautRhinUtils.RIGHT_BOUND,
                 HautRhinUtils.BOTTOM_BOUND,
                 HautRhinUtils.TOP_BOUND);
-        mMapDefibrillators = new HashMap<String, DefibrillatorModel>();
+        mMapDefibrillators = new HashMap<>();
     }
 
     @Override
@@ -398,7 +398,7 @@ public class MapFragment extends Fragment
     private void setupClusterer() {
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<DefibrillatorClusterItem>(getActivity(), getMap());
+        mClusterManager = new ClusterManager<>(getActivity(), getMap());
         mClusterRenderer = new DefibrillatorClusterRenderer(getActivity(), getMap(), mClusterManager);
         mClusterManager.setRenderer(mClusterRenderer);
         mClusterManager.setOnClusterItemClickListener(this);

@@ -25,7 +25,7 @@ public class DefibrillatorModelsCollectionDeserializer implements JsonDeserializ
         Iterator<JsonElement> iterator = array.iterator();
 
         while(iterator.hasNext()){
-            JsonElement json2 = (JsonElement)iterator.next();
+            JsonElement json2 = iterator.next();
             DefibrillatorModel object = DefibrillatorJsonConvertor.ConvertJsonElementToDefibrillatorModel(json2);
             newArray.add(object);
         }

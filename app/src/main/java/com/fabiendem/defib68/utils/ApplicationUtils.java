@@ -6,11 +6,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-
-import com.avast.android.dialogs.fragment.SimpleDialogFragment;
-import com.fabiendem.defib68.PreferencesManager;
-import com.fabiendem.defib68.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,7 +68,7 @@ public class ApplicationUtils {
 
     @Nullable
     public static String loadJSONFromAsset(@NonNull Context context, @NonNull String fileName) {
-        String json = null;
+        String json;
         try {
             InputStream is = context.getAssets().open(fileName);
             int size = is.available();
