@@ -2,6 +2,10 @@
 <resources>
     <dimen name="drawerWidth">304dp</dimen>
 
+    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="horizontal_margin_mini_fab">24dp</dimen>
+
+
     <!-- For API < 19 no need to push down the content as we don't draw behind the status bar -->
     <dimen name="top_margin_status_bar">0dp</dimen>
     <dimen name="top_margin_btn_drawer">16dp</dimen>

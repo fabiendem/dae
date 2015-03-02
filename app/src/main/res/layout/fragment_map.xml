@@ -24,122 +24,49 @@
         />
 
     <!-- Use margins on the last button to avoid shadow cliping -->
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/fab_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:orientation="vertical"
         >
 
-
-        <RelativeLayout
-            android:id="@+id/show_haut_rhin"
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/show_haut_rhin_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            >
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/show_haut_rhin_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/fab_68"
-                fab:fab_type="mini"
-                fab:fab_colorNormal="@color/white"
-                fab:fab_colorPressed="@color/accent_pressed"
-                fab:fab_colorRipple="@color/accent_ripple"
-                 />
-
-            <LinearLayout
-                android:id="@+id/tip_show_haut_rhin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                style="@style/Tip"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/show_haut_rhin_btn"
-                android:layout_toStartOf="@id/show_haut_rhin_btn" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TipNumber"
-                    android:text="2/2" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TipText"
-                    android:text="@string/tip_haut_rhin"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
+            android:layout_marginLeft="@dimen/horizontal_margin_mini_fab"
+            android:layout_marginRight="@dimen/horizontal_margin_mini_fab"
+            android:src="@drawable/fab_68"
+            fab:fab_type="mini"
+            fab:fab_colorNormal="@color/white"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/accent_ripple"
+             />
 
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/show_my_location_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_below="@id/show_haut_rhin"
+            android:layout_marginTop="@dimen/margin_fab"
+            android:layout_marginLeft="@dimen/horizontal_margin_mini_fab"
+            android:layout_marginRight="@dimen/horizontal_margin_mini_fab"
             android:src="@drawable/fab_my_location"
             fab:fab_type="mini"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/accent_pressed"
             fab:fab_colorRipple="@color/accent_ripple" />
 
-        <RelativeLayout
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/show_closest_defib_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/show_my_location_btn"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true">
-
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/show_closest_defib_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/fab_defib"
-                fab:fab_colorNormal="@color/accent_dark"
-                fab:fab_colorPressed="@color/accent_pressed"
-                fab:fab_colorRipple="@color/accent_ripple"
-                />
-
-            <LinearLayout
-                android:id="@+id/tip_show_closest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                style="@style/Tip"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/show_closest_defib_btn"
-                android:layout_toStartOf="@id/show_closest_defib_btn" >
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TipNumber"
-                    android:text="1/2" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/TipText"
-                    android:text="@string/tip_closest_defib"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+            android:layout_margin="@dimen/margin_fab"
+            android:src="@drawable/fab_defib"
+            fab:fab_colorNormal="@color/accent_dark"
+            fab:fab_colorPressed="@color/accent_pressed"
+            fab:fab_colorRipple="@color/accent_ripple"
+            />
+    </LinearLayout>
 </FrameLayout>
