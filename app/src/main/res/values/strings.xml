@@ -23,7 +23,7 @@
     <string name="walking_directions_title">Show directions via:</string>
 
     <!-- Errors -->
-    <string name="error_snackbar_not_in_68">It looks like you are not in the Haut-Rhin (France), there isn\'t any defibrillator around there referenced in this application</string>
+    <string name="error_snackbar_not_in_68">Out of the Haut-Rhin (France)?\nNo defibrillator referenced yet</string>
     <string name="error_snackbar_unknown_location">Your location is unknown</string>
 
     <string name="error_alert_title_location_disabled">Location services disabled</string>

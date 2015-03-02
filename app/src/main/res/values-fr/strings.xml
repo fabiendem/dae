@@ -19,7 +19,7 @@
     <string name="tip_directions">Tapez ici pour afficher l\'itinéraire</string>
 
     <!-- Errors -->
-    <string name="error_snackbar_not_in_68">Il semblerait que vous soyez hors du Haut-Rhin, pas de défibrillateur recensé à proximité</string>
+    <string name="error_snackbar_not_in_68">Hors du Haut-Rhin ?\nPas de défibrillateur recensé</string>
     <string name="error_snackbar_unknown_location">Votre localisation est inconnue</string>
 
     <string name="error_alert_title_location_disabled">Services de localisation désactivés</string>
