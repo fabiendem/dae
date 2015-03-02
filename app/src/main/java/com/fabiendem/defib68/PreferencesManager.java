@@ -16,6 +16,8 @@ public class PreferencesManager {
     private static final String MAP_TYPE = "MAP_TYPE";
 
     private static final String HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN = "HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN";
+    private static final String HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN = "HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN";
+    private static final String HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN = "HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN";
 
     private PreferencesManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_STORAGE_NAME, Context.MODE_PRIVATE);
@@ -46,5 +48,25 @@ public class PreferencesManager {
 
     public boolean hasTipInfoWindowShowDirectionsBeenShown() {
         return mSharedPreferences.getBoolean(HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN, false);
+    }
+
+    public void setHasTipShowClosestBeenShown (boolean hasTipInfoShowClosestBeenShown) {
+        mSharedPreferences.edit()
+                .putBoolean(HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN, hasTipInfoShowClosestBeenShown)
+                .apply();
+    }
+
+    public boolean hasTipShowClosestBeenShown() {
+        return mSharedPreferences.getBoolean(HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN, false);
+    }
+
+    public void setHasTipShowHautRhinBeenShown (boolean hasTipInfoShowHautRhinBeenShown) {
+        mSharedPreferences.edit()
+                .putBoolean(HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN, hasTipInfoShowHautRhinBeenShown)
+                .apply();
+    }
+
+    public boolean hasTipShowHautRhinBeenShown() {
+        return mSharedPreferences.getBoolean(HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN, false);
     }
 }

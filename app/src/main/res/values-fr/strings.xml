@@ -37,4 +37,8 @@
     <!-- Noter appli-->
     <string name="rate_app">Noter l\'application</string>
 
+    <!-- Other tips -->
+    <string name="tip_closest_defib">Trouvez le défibrillateur le plus proche</string>
+    <string name="tip_haut_rhin">Zoomez sur le Haut-Rhin</string>
+
 </resources>

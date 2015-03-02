@@ -40,4 +40,8 @@
 
     <!-- Noter appli-->
     <string name="rate_app">Rate the app</string>
+
+    <string name="tip_closest_defib">Find the closest defibrillator</string>
+    <string name="tip_haut_rhin">Zoom on the Haut-Rhin</string>
+
 </resources>

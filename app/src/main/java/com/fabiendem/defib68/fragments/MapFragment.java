@@ -57,6 +57,8 @@ import com.nispok.snackbar.listeners.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.view.View.GONE;
+
 public class MapFragment extends Fragment
         implements OnMapReadyCallback,
                     ClusterManager.OnClusterItemClickListener<DefibrillatorClusterItem>,
@@ -79,6 +81,8 @@ public class MapFragment extends Fragment
     private ImageButton mShowMyLocationBtn;
     private ImageButton mShowHautRhinBtn;
     private ImageButton mShowClosestDefibBtn;
+    private View mTipShowClosest;
+    private View mTipShowHautRhin;
 
     private Snackbar mSnackbarNotIn68;
     private Snackbar mSnackbarLocationUnknown;
@@ -155,10 +159,18 @@ public class MapFragment extends Fragment
         mShowMyLocationBtn = (ImageButton) view.findViewById(R.id.show_my_location_btn);
         mShowHautRhinBtn = (ImageButton) view.findViewById(R.id.show_haut_rhin_btn);
         mShowClosestDefibBtn = (ImageButton) view.findViewById(R.id.show_closest_defib_btn);
+        mTipShowClosest = view.findViewById(R.id.tip_show_closest);
+        mTipShowHautRhin = view.findViewById(R.id.tip_show_haut_rhin);
 
         mShowMyLocationBtn.setOnClickListener(this);
         mShowHautRhinBtn.setOnClickListener(this);
         mShowClosestDefibBtn.setOnClickListener(this);
+        mTipShowClosest.setOnClickListener(this);
+        mTipShowHautRhin.setOnClickListener(this);
+
+        if(! PreferencesManager.getInstance(getActivity()).hasTipShowClosestBeenShown()) {
+            mTipShowClosest.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
@@ -437,10 +449,17 @@ public class MapFragment extends Fragment
             case R.id.show_my_location_btn:
                 onClickMyLocationBtn(view);
                 break;
+            case R.id.tip_show_closest:
+                onClickTipShowClosest(view);
+                break;
+            case R.id.tip_show_haut_rhin:
+                onClickTipShowHautRhin(view);
+                break;
         }
     }
 
     private void onClickClosestBtn(View view) {
+        hideTipShowClosest();
         if(! LocationUtils.isLocationServiceEnabled(getActivity())) {
             showAlertLocationServiceDisabled();
         }
@@ -461,7 +480,37 @@ public class MapFragment extends Fragment
     }
 
     private void onClickHautRhinBtn(View view) {
+        hideTipShowHautRhin();
         MapUtils.animateCameraToHautRhin(getActivity(), mMap);
+    }
+
+    private void onClickTipShowClosest(View view) {
+        hideTipShowClosest();
+    }
+
+    private void onClickTipShowHautRhin(View view) {
+        hideTipShowHautRhin();
+    }
+
+    private void hideTipShowClosest() {
+        if(mTipShowClosest.getVisibility() == View.VISIBLE) {
+            mTipShowClosest.setVisibility(View.GONE);
+            PreferencesManager.getInstance(getActivity()).setHasTipShowClosestBeenShown(true);
+            if(! PreferencesManager.getInstance(getActivity()).hasTipShowHautRhinBeenShown()) {
+                showTipShowHautRhin();
+            }
+        }
+    }
+
+    private void showTipShowHautRhin() {
+        mTipShowHautRhin.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTipShowHautRhin() {
+        if(mTipShowHautRhin.getVisibility() == View.VISIBLE) {
+            mTipShowHautRhin.setVisibility(View.GONE);
+            PreferencesManager.getInstance(getActivity()).setHasTipShowHautRhinBeenShown(true);
+        }
     }
 
     /*
