@@ -81,8 +81,6 @@ public class MapFragment extends Fragment
     private ImageButton mShowMyLocationBtn;
     private ImageButton mShowHautRhinBtn;
     private ImageButton mShowClosestDefibBtn;
-    private View mTipShowClosest;
-    private View mTipShowHautRhin;
 
     private Snackbar mSnackbarNotIn68;
     private Snackbar mSnackbarLocationUnknown;
