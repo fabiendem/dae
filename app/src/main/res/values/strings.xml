@@ -31,7 +31,7 @@
     <string name="ignore">Ignore</string>
 
     <!-- About -->
-    <string name="about_details">The defibrillators are tracked one by one and verified by ourselves.</string>
+    <string name="about_details">The information found in this application are provided by the official website of the SAMU and firemen of the Haut-RHin www.dae68.fr\nIn case of cardiac arrest, do not lose time looking for an AED if you don't know its location.\nThe priority is to start a cardiopulmonary resuscitation and call the emergency services (112).</string>
     <string name="close">Close</string>
 
     <!-- Contact -->
