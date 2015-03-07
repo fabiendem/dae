@@ -1,6 +1,7 @@
 package com.fabiendem.defib68.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
@@ -398,23 +399,28 @@ public class MapFragment extends Fragment
     }
 
     private void setupClusterer() {
-        // Initialize the manager with the context and the map.
-        // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<>(getActivity(), getMap());
-        mClusterRenderer = new DefibrillatorClusterRenderer(getActivity(), getMap(), mClusterManager);
-        mClusterManager.setRenderer(mClusterRenderer);
-        mClusterManager.setOnClusterItemClickListener(this);
-        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
+        Context context = getActivity();
+        // If use closes the app while defib are being loaded
+        if(context != null &&
+                getMap() != null) {
+            // Initialize the manager with the context and the map.
+            // (Activity extends context, so we can pass 'this' in the constructor.)
+            mClusterManager = new ClusterManager<>(context, getMap());
+            mClusterRenderer = new DefibrillatorClusterRenderer(context, getMap(), mClusterManager);
+            mClusterManager.setRenderer(mClusterRenderer);
+            mClusterManager.setOnClusterItemClickListener(this);
+            mClusterManager.setOnClusterItemInfoWindowClickListener(this);
 
-        // Point the map's listeners at the listeners implemented by the cluster
-        // manager.
-        getMap().setOnCameraChangeListener(mClusterManager);
-        getMap().setOnMarkerClickListener(mClusterManager);
-        getMap().setOnInfoWindowClickListener(mClusterManager);
+            // Point the map's listeners at the listeners implemented by the cluster
+            // manager.
+            getMap().setOnCameraChangeListener(mClusterManager);
+            getMap().setOnMarkerClickListener(mClusterManager);
+            getMap().setOnInfoWindowClickListener(mClusterManager);
 
-        addDefibrillatorsMarkers();
+            addDefibrillatorsMarkers();
 
-        mClusterManager.cluster();
+            mClusterManager.cluster();
+        }
     }
 
     private void addDefibrillatorsMarkers() {
