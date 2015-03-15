@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    >
+
+    <ImageView
+        android:id="@+id/iv_map_bkg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/map"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="150dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fake_btn_68"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="272dp"
+        android:layout_marginRight="22dp"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fake_btn_location"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="224dp"
+        android:layout_marginRight="22dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fake_btn_closest"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="166dp"
+        android:layout_marginRight="16dp"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+    </android.support.v4.view.ViewPager>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <Button
+            android:id="@+id/btn_skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="24dp"
+            android:background="?android:selectableItemBackground"
+            android:text="@string/skip"
+            android:textColor="@color/green_200"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_marginTop="48dp"
+            android:text="@string/app_name"
+            android:drawableLeft="@drawable/ic_launcher"
+            android:drawablePadding="16dp"
+            android:textSize="24sp"
+            android:textColor="@color/primary"
+            fontPath="fonts/Roboto-Thin.ttf"
+            />
+
+        <TextView
+            android:id="@+id/tv_swipe_tutorial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/tv_app_name"
+            android:layout_margin="16dp"
+            android:text="Balayez l'écran"/>
+
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="64dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:text="Continuer"
+            android:background="?android:attr/selectableItemBackground"
+            android:textColor="@color/primary"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:gravity="center"
+             >
+
+            <github.chenupt.springindicator.SpringIndicator
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/indicator"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                app:siTextSize="14sp"
+                app:siRadiusMax="10dp"
+                app:siTextColor="@color/primary_dark"
+                app:siSelectedTextColor="@android:color/white"
+                app:siIndicatorColor="@color/primary"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

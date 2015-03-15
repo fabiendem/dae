@@ -31,7 +31,7 @@
     <string name="ignore">Ignore</string>
 
     <!-- About -->
-    <string name="about_details">The information found in this application are provided by the official website of the SAMU and firemen of the Haut-RHin www.dae68.fr\nIn case of cardiac arrest, do not lose time looking for an AED if you don't know its location.\nThe priority is to start a cardiopulmonary resuscitation and call the emergency services (112).</string>
+    <string name="about_details">The information found in this application are provided by the official website of the SAMU and firemen of the Haut-Rhin www.dae68.fr\nIn case of cardiac arrest, do not lose time looking for an AED if you don\'t know its location.\nThe priority is to start a cardiopulmonary resuscitation and call the emergency services (112).</string>
     <string name="close">Close</string>
 
     <!-- Contact -->
@@ -41,7 +41,8 @@
     <!-- Noter appli-->
     <string name="rate_app">Rate the app</string>
 
-    <string name="tip_closest_defib">Find the closest defibrillator</string>
-    <string name="tip_haut_rhin">Zoom on the Haut-Rhin</string>
-
+    <string name="skip">Skip</string>
+    <string name="tip_closest_defib">Find the closest AED</string>
+    <string name="tip_haut_rhin">Center the map on the Haut-Rhin</string>
+    <string name="tip_location">Center the map where you are</string>
 </resources>

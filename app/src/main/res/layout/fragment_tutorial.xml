@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingPrefix"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="166dp"
+        >
+        <TextView
+            android:id="@+id/tv_tip_1"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/tip_haut_rhin"
+            android:drawablePadding="12dp"
+            android:background="@drawable/bkg_tip_unactive"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/white_90"
+            />
+
+        <TextView
+            android:id="@+id/tv_tip_2"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/tip_location"
+            android:drawablePadding="12dp"
+            android:background="@drawable/bkg_tip_unactive"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/white_90"
+            />
+
+        <TextView
+            android:id="@+id/tv_tip_3"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/tip_closest_defib"
+            android:drawablePadding="12dp"
+            android:background="@drawable/bkg_tip_unactive"
+            fontPath="fonts/Roboto-Bold.ttf"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/white_90"
+            />
+
+        </LinearLayout>
+
+
+</RelativeLayout>

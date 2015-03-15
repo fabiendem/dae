@@ -14,10 +14,8 @@ public class PreferencesManager {
     private final SharedPreferences mSharedPreferences;
 
     private static final String MAP_TYPE = "MAP_TYPE";
-
     private static final String HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN = "HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN";
-    private static final String HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN = "HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN";
-    private static final String HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN = "HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN";
+    private static final String HAS_SLIDER_TUTORIAL_BEEN_SHOWN = "HAS_SLIDER_TUTORIAL_BEEN_SHOWN";
 
     private PreferencesManager(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCES_STORAGE_NAME, Context.MODE_PRIVATE);
@@ -50,23 +48,14 @@ public class PreferencesManager {
         return mSharedPreferences.getBoolean(HAS_TIP_INFO_WINDOW_SHOW_DIRECTIONS_BEEN_SHOWN, false);
     }
 
-    public void setHasTipShowClosestBeenShown (boolean hasTipInfoShowClosestBeenShown) {
+    public void setHasSliderTutorialBeenShown (boolean hasSliderTutorialBeenShown) {
         mSharedPreferences.edit()
-                .putBoolean(HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN, hasTipInfoShowClosestBeenShown)
+                .putBoolean(HAS_SLIDER_TUTORIAL_BEEN_SHOWN, hasSliderTutorialBeenShown)
                 .apply();
     }
 
-    public boolean hasTipShowClosestBeenShown() {
-        return mSharedPreferences.getBoolean(HAS_TIP_SHOW_CLOSEST_BEEN_SHOWN, false);
+    public boolean hasSliderTutorialBeenShown() {
+        return mSharedPreferences.getBoolean(HAS_SLIDER_TUTORIAL_BEEN_SHOWN, false);
     }
 
-    public void setHasTipShowHautRhinBeenShown (boolean hasTipInfoShowHautRhinBeenShown) {
-        mSharedPreferences.edit()
-                .putBoolean(HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN, hasTipInfoShowHautRhinBeenShown)
-                .apply();
-    }
-
-    public boolean hasTipShowHautRhinBeenShown() {
-        return mSharedPreferences.getBoolean(HAS_TIP_SHOW_HAUT_RHIN_BEEN_SHOWN, false);
-    }
 }

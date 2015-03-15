@@ -19,6 +19,14 @@
     <style name="AppTheme.OpaqueStatusBar">
     </style>
 
+    <style name="AppTheme.TranslucentStatusBar.WhiteBackground">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="AppTheme.OpaqueStatusBar.WhiteBackground">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
     <style name="DrawerHandler">
 
     </style>
