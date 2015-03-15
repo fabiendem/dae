@@ -30,7 +30,10 @@ import com.fabiendem.defib68.models.defibrillator.json.DefibrillatorJsonConverto
 import com.fabiendem.defib68.utils.AnimUtils;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
+import com.fabiendem.defib68.utils.ShowcaseTutorialManager;
 import com.fabiendem.defib68.utils.UiUtils;
+import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
+import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -58,8 +61,6 @@ import com.nispok.snackbar.listeners.EventListener;
 import java.util.HashMap;
 import java.util.List;
 
-import static android.view.View.GONE;
-
 public class MapFragment extends Fragment
         implements OnMapReadyCallback,
                     ClusterManager.OnClusterItemClickListener<DefibrillatorClusterItem>,
@@ -82,6 +83,8 @@ public class MapFragment extends Fragment
     private ImageButton mShowMyLocationBtn;
     private ImageButton mShowHautRhinBtn;
     private ImageButton mShowClosestDefibBtn;
+
+    private boolean mIsTutorialVisible;
 
     private Snackbar mSnackbarNotIn68;
     private Snackbar mSnackbarLocationUnknown;
@@ -138,6 +141,8 @@ public class MapFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mIsTutorialVisible = false;
+
         setupLocationClient();
 
         mPointQuadTree = new PointQuadTree<>(
@@ -162,6 +167,29 @@ public class MapFragment extends Fragment
         mShowMyLocationBtn.setOnClickListener(this);
         mShowHautRhinBtn.setOnClickListener(this);
         mShowClosestDefibBtn.setOnClickListener(this);
+
+        // Show the tutorial
+        new ShowcaseTutorialManager(getActivity(), mShowClosestDefibBtn, mShowHautRhinBtn, mShowMyLocationBtn, new OnShowcaseEventListener() {
+            @Override
+            public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                SnackbarManager.dismiss();
+                mIsTutorialVisible = true;
+            }
+
+            @Override
+            public void onShowcaseViewHide(ShowcaseView showcaseView) {
+
+            }
+
+            @Override
+            public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                // Listen to the end of the tutorial
+                mIsTutorialVisible = false;
+                // An error may have occured while the tuto was shown, double check
+                checkLocationValue();
+            }
+        }).showTutorial();
+
 
         return view;
     }
@@ -544,7 +572,13 @@ public class MapFragment extends Fragment
                 mCurrentLocation = location;
                 onReallyNewCurrentLocation();
             }
+        }
 
+        checkLocationValue();
+    }
+
+    private void checkLocationValue() {
+        if(mCurrentLocation != null) {
             if (! HautRhinUtils.isLocationInHautRhin(mCurrentLocation)) {
                 Log.d(TAG, "Not in Haut Rhin");
                 showSnackbarLocationOutOf68();
@@ -554,18 +588,15 @@ public class MapFragment extends Fragment
                 hideSnackbarLocationOutOf68();
                 hideSnackbarLocationUnknown();
             }
-        } else {
+        }
+        else {
             Log.e(TAG, "Current location unknown");
-            onLocationUnknown();
+            showSnackbarLocationUnknown();
         }
     }
 
     private void onReallyNewCurrentLocation() {
         drawCircleWalkingPerimeter();
-    }
-
-    private void onLocationUnknown() {
-        showSnackbarLocationUnknown();
     }
 
     @Override
@@ -738,8 +769,9 @@ public class MapFragment extends Fragment
 
     private void showSnackbarLocationUnknown() {
 
-        if(mSnackbarLocationUnknown == null ||
-                ! mSnackbarLocationUnknown.isShowing()) {
+        if((mSnackbarLocationUnknown == null ||
+                ! mSnackbarLocationUnknown.isShowing()) &&
+                ! mIsTutorialVisible) {
 
             Log.d(TAG, "showSnackbarLocationUnknown");
             SnackbarManager.show(
@@ -789,9 +821,9 @@ public class MapFragment extends Fragment
     }
 
     private void showSnackbarLocationOutOf68() {
-        if(mSnackbarNotIn68 == null ||
-                ! mSnackbarNotIn68.isShowing()) {
-
+        if((mSnackbarNotIn68 == null ||
+                ! mSnackbarNotIn68.isShowing()) &&
+                ! mIsTutorialVisible) {
             SnackbarManager.show(
                     Snackbar.with(getActivity().getApplicationContext())
                             .text(getString(R.string.error_snackbar_not_in_68))

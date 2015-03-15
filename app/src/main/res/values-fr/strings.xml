@@ -37,8 +37,12 @@
     <!-- Noter appli-->
     <string name="rate_app">Noter l\'application</string>
 
-    <!-- Other tips -->
-    <string name="tip_closest_defib">Trouvez le défibrillateur le plus proche</string>
-    <string name="tip_haut_rhin">Zoomez sur le Haut-Rhin</string>
+    <!-- Tutorial -->
+    <string name="tuto_title_closest">Aide 1/3 : Défibrillateur le plus proche</string>
+    <string name="tuto_details_closest">Pressez le bouton rouge pour trouver rapidement le défibrillateur le plus proche de votre position actuelle</string>
+    <string name="tuto_title_68">Aide 2/3: Zoomer sur le Haut-Rhin</string>
+    <string name="tuto_details_68">Pressez le bouton 68 pour zoomer et centrer la carte sur le Haut-Rhin</string>
+    <string name="tuto_title_location">Aide 3/3 : Position actuelle</string>
+    <string name="tuto_details_location">Pressez le bouton radar pour afficher votre localisation actuelle</string>
 
 </resources>

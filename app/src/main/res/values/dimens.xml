@@ -13,4 +13,8 @@
     <!-- Info window -->
     <dimen name="info_window_padding">16dp</dimen>
     <dimen name="info_window_padding_top">10dp</dimen>
+
+    <dimen name="showcase_radius">54dp</dimen>
+    <dimen name="showcase_radius_inner">54dp</dimen>
+    <dimen name="showcase_radius_outer">54dp</dimen>
 </resources>
