@@ -28,6 +28,10 @@
 
     <string name="error_alert_title_location_disabled">Location services disabled</string>
     <string name="error_alert_details_location_disabled">You position has to be accessible to find the closest defibrillator.\nPlease enable the access to location data feature.</string>
+    <string name="error_alert_title_airplane_enabled">Airplane mode enabled</string>
+    <string name="error_alert_details_airplane_enabled">Looks like the airplane mode is enabled, to use the application, make sure your phone is connected to the network.\nPlease disable the Airplane mode.</string>
+    <string name="error_alert_title_connectivity_unavailable">No network connection</string>
+    <string name="error_alert_details_connectivity_unavailable">Please verify your connection, to use the application, make sure you are connected to a 3G/4G or Wi-Fi network.</string>
     <string name="ignore">Ignore</string>
 
     <!-- About -->

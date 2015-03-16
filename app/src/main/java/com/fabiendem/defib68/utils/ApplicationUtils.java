@@ -61,9 +61,38 @@ public class ApplicationUtils {
         context.startActivity(Intent.createChooser(emailIntent, emailClientChooserAlertTitle));
     }
 
+    public static void launchSettingsIntent(Context context) {
+        context.startActivity(new Intent(Settings.ACTION_SETTINGS));
+    }
+
     public static void launchLocationSettingsIntent(Context context) {
-        Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        context.startActivity(viewIntent);
+        Intent locationSettingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        if (locationSettingsIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(locationSettingsIntent);
+        }
+        else {
+            launchSettingsIntent(context);
+        }
+    }
+
+    public static void launchWirelessSettingsIntent(Context context) {
+        Intent wirelessSettingsIntent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+        if (wirelessSettingsIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(wirelessSettingsIntent);
+        }
+        else {
+            launchSettingsIntent(context);
+        }
+    }
+
+    public static void launchAirplaneSettingsIntent(Context context) {
+        Intent airplaneSettingsIntent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+        if(airplaneSettingsIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(airplaneSettingsIntent);
+        }
+        else {
+            launchWirelessSettingsIntent(context);
+        }
     }
 
     @Nullable

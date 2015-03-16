@@ -1,4 +1,4 @@
-package com.fabiendem.defib68.fragments;
+package com.fabiendem.defib68.utils;
 
 import android.content.Context;
 import android.location.LocationManager;

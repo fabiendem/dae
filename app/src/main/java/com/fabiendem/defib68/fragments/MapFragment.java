@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -29,7 +30,9 @@ import com.fabiendem.defib68.models.defibrillator.DefibrillatorModel;
 import com.fabiendem.defib68.models.defibrillator.json.DefibrillatorJsonConvertor;
 import com.fabiendem.defib68.utils.AnimUtils;
 import com.fabiendem.defib68.utils.ApplicationUtils;
+import com.fabiendem.defib68.utils.ConnectivityUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
+import com.fabiendem.defib68.utils.LocationUtils;
 import com.fabiendem.defib68.utils.ShowcaseTutorialManager;
 import com.fabiendem.defib68.utils.UiUtils;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
@@ -92,6 +95,12 @@ public class MapFragment extends Fragment
     private static final int TRANSLATE_ANIMATION_DURATION_MS = 250;
 
     private static final int REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED = 0;
+    private static final int REQUEST_CODE_ALERT_AIRPLANE_MODE_ENABLED = 1;
+    private static final int REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE = 2;
+    private DialogFragment mAlertLocationServiceDialog;
+    private DialogFragment mAlertAirplaneModeEnabled;
+    private DialogFragment mAlertConnectivityUnavailable;
+
 
     private List<DefibrillatorModel> mDefibrillators;
     private DefibrillatorClusterRenderer mClusterRenderer;
@@ -256,6 +265,19 @@ public class MapFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+
+        // Check the connectivity
+        if(ConnectivityUtils.isAirplaneModeOn(getActivity())) {
+            Log.w(TAG, "Airplane mode enabled");
+            showAlertAirplaneModeEnabled();
+        }
+        else {
+            if(! ConnectivityUtils.isConnectedToInternet(getActivity())) {
+                Log.w(TAG, "Connectivity unavailable");
+                showAlertConnectivityUnavailable();
+            }
+        }
+
         setUpMapIfNeeded();
 
         if (mGoogleApiClient.isConnected()) {
@@ -871,12 +893,47 @@ public class MapFragment extends Fragment
     }
 
     private void showAlertLocationServiceDisabled() {
-        SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+        if(mAlertLocationServiceDialog != null &&
+                mAlertLocationServiceDialog.isVisible()) {
+            mAlertLocationServiceDialog.dismiss();
+        }
+
+        mAlertLocationServiceDialog = SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
                 .setTitle(getString(R.string.error_alert_title_location_disabled))
                 .setMessage(getString(R.string.error_alert_details_location_disabled))
                 .setPositiveButtonText(getString(R.string.settings))
                 .setNegativeButtonText(getString(R.string.ignore))
                 .setTargetFragment(this, REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED)
+                .show();
+    }
+
+    private void showAlertAirplaneModeEnabled() {
+        if(mAlertAirplaneModeEnabled != null &&
+                mAlertAirplaneModeEnabled.isVisible()) {
+            mAlertAirplaneModeEnabled.dismiss();
+        }
+
+        mAlertAirplaneModeEnabled = SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+                .setTitle(getString(R.string.error_alert_title_airplane_enabled))
+                .setMessage(getString(R.string.error_alert_details_airplane_enabled))
+                .setPositiveButtonText(getString(R.string.settings))
+                .setNegativeButtonText(getString(R.string.ignore))
+                .setTargetFragment(this, REQUEST_CODE_ALERT_AIRPLANE_MODE_ENABLED)
+                .show();
+    }
+
+    private void showAlertConnectivityUnavailable() {
+        if(mAlertConnectivityUnavailable != null &&
+                mAlertConnectivityUnavailable.isVisible()) {
+            mAlertConnectivityUnavailable.dismiss();
+        }
+
+        mAlertConnectivityUnavailable = SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+                .setTitle(getString(R.string.error_alert_title_connectivity_unavailable))
+                .setMessage(getString(R.string.error_alert_details_connectivity_unavailable))
+                .setPositiveButtonText(getString(R.string.settings))
+                .setNegativeButtonText(getString(R.string.ignore))
+                .setTargetFragment(this, REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE)
                 .show();
     }
 
@@ -892,8 +949,16 @@ public class MapFragment extends Fragment
 
     @Override
     public void onPositiveButtonClicked(int requestCode) {
-        if(requestCode == REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED) {
-            ApplicationUtils.launchLocationSettingsIntent(getActivity());
+        switch (requestCode) {
+            case REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED:
+                ApplicationUtils.launchLocationSettingsIntent(getActivity());
+                break;
+            case REQUEST_CODE_ALERT_AIRPLANE_MODE_ENABLED:
+                ApplicationUtils.launchAirplaneSettingsIntent(getActivity());
+                break;
+            case REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE:
+                ApplicationUtils.launchWirelessSettingsIntent(getActivity());
+                break;
         }
     }
 
