@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by Fabien on 01/12/14.
  */
 public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-    public static final String TAG = "DefibrillatorInfoWindowAdapter";
+    public static final String TAG = "DefibInfoWindowAdapter";
 
     private Context mContext;
     private View mInfoContentsView;
