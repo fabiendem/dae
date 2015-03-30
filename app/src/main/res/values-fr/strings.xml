@@ -18,6 +18,7 @@
     <string name="directions">Afficher l\'itinéraire</string>
     <string name="walking_directions_title">Afficher l\'itinéraire via :</string>
     <string name="tip_directions">Tapez ici pour afficher l\'itinéraire</string>
+    <string name="tip_closest">Défibrillateur le plus proche</string>
 
     <!-- Errors -->
     <string name="error_snackbar_not_in_68">Hors du Haut-Rhin ?\nPas de défibrillateur recensé</string>

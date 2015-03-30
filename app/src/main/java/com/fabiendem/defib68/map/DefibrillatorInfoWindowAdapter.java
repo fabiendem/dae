@@ -23,6 +23,15 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
     private Context mContext;
     private View mInfoContentsView;
     private Map<String, DefibrillatorModel> mMapDefibrillators;
+    private String mClosestMarkerId;
+
+    private String getClosestMarkerId() {
+        return mClosestMarkerId;
+    }
+
+    public void setClosestMarkerId(String closestMarkerId) {
+        mClosestMarkerId = closestMarkerId;
+    }
 
     public DefibrillatorInfoWindowAdapter(Context context, View infoContentsView, Map<String, DefibrillatorModel> mapDefibrillators) {
         mContext = context;
@@ -32,8 +41,11 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
 
     @Override
     public View getInfoWindow(Marker marker) {
+
+        // Maker ID is actually the marker title
         String markerId = marker.getTitle();
         Log.d(TAG, "Marker id: " + markerId);
+
         final DefibrillatorModel defibrillatorModel = mMapDefibrillators.get(markerId);
         if (defibrillatorModel == null) {
             Log.e(TAG, "Defibrillator " + markerId + " unknown");
@@ -48,6 +60,7 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
         }
 
         TextView txtTipDirections = ((TextView) mInfoContentsView.findViewById(R.id.txt_tip_directions));
+        TextView txtTipClosest = ((TextView) mInfoContentsView.findViewById(R.id.txt_tip_closest));
         TextView txtDescription = ((TextView) mInfoContentsView.findViewById(R.id.txt_description));
         TextView txtEnvironment = ((TextView) mInfoContentsView.findViewById(R.id.txt_environment));
         TextView txtCity = ((TextView) mInfoContentsView.findViewById(R.id.txt_city));
@@ -61,6 +74,14 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
         }
         else {
             txtTipDirections.setVisibility(View.GONE);
+        }
+
+        if(getClosestMarkerId() != null &&
+                getClosestMarkerId().equals(markerId)) {
+            txtTipClosest.setVisibility(View.VISIBLE);
+        }
+        else {
+            txtTipClosest.setVisibility(View.GONE);
         }
 
         return mInfoContentsView;

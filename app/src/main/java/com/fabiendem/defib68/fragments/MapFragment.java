@@ -34,7 +34,6 @@ import com.fabiendem.defib68.utils.ConnectivityUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
 import com.fabiendem.defib68.utils.LocationUtils;
 import com.fabiendem.defib68.utils.ShowcaseTutorialManager;
-import com.fabiendem.defib68.utils.UiUtils;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.google.android.gms.common.ConnectionResult;
@@ -52,7 +51,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.quadtree.PointQuadTree;
@@ -108,6 +106,7 @@ public class MapFragment extends Fragment
     private PointQuadTree<DefibrillatorClusterItem> mPointQuadTree;
     private HashMap<String, DefibrillatorModel> mMapDefibrillators;
 
+    private DefibrillatorInfoWindowAdapter mDefibrillatorInfoWindowAdapter;
     private Marker mActiveDefibrillatorMarker;
     private Marker mClosestDefibrillatorMarker;
 
@@ -404,7 +403,8 @@ public class MapFragment extends Fragment
 
 
         View infoWindow = getActivity().getLayoutInflater().inflate(R.layout.info_window_content_defibrillator, null);
-        mMap.setInfoWindowAdapter(new DefibrillatorInfoWindowAdapter(getActivity(), infoWindow, mMapDefibrillators));
+        mDefibrillatorInfoWindowAdapter = new DefibrillatorInfoWindowAdapter(getActivity(), infoWindow, mMapDefibrillators);
+        mMap.setInfoWindowAdapter(mDefibrillatorInfoWindowAdapter);
 
         // Enable compass
         UiSettings uiMapSettings = mMap.getUiSettings();
@@ -677,6 +677,7 @@ public class MapFragment extends Fragment
     private void highlightClosestMarker(Marker closestDefibrillatorMarker) {
         mClosestDefibrillatorMarker = closestDefibrillatorMarker;
         if (mClosestDefibrillatorMarker != null) {
+            mDefibrillatorInfoWindowAdapter.setClosestMarkerId(mClosestDefibrillatorMarker.getTitle());
             mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_closest));
             mClosestDefibrillatorMarker.showInfoWindow();
         }
@@ -684,6 +685,7 @@ public class MapFragment extends Fragment
 
     private void resetClosestMarker() {
         if (mClosestDefibrillatorMarker != null) {
+            mDefibrillatorInfoWindowAdapter.setClosestMarkerId(null);
             try {
                 mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin));
                 mClosestDefibrillatorMarker = null;

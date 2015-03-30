@@ -21,6 +21,7 @@
     <string name="environment_indoors">Indoors</string>
     <string name="directions">Show directions</string>
     <string name="tip_directions">Tap here to show the directions</string>
+    <string name="tip_closest">Closest defibrillator</string>
     <string name="walking_directions_title">Show directions via:</string>
 
     <!-- Errors -->
