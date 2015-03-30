@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
 import com.fabiendem.defib68.fragments.AboutFragment;
+import com.fabiendem.defib68.fragments.InCaseOfEmergencyFragment;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,6 +38,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button mRateAppButton;
     private Button mAboutButton;
     private Button mContactUsButton;
+    private Button mInCaseEmergencyButton;
 
 
     @Override
@@ -55,12 +57,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Drawer interactions
         mDrawerContentClickListener = new DrawerContentClickListener();
         mMapTypeChooserButton = (Button) findViewById(R.id.map_type_chooser_btn);
+        mInCaseEmergencyButton = (Button) findViewById(R.id.in_case_emergency_btn);
         mAboutButton = (Button) findViewById(R.id.about_btn);
         mRateAppButton = (Button) findViewById(R.id.rate_app_btn);
         mContactUsButton = (Button) findViewById(R.id.contact_us_btn);
 
         mMapTypeChooserButton.setOnClickListener(mDrawerContentClickListener);
         mMapTypeChooserButton.setActivated(false);
+        mInCaseEmergencyButton.setOnClickListener(mDrawerContentClickListener);
         mAboutButton.setOnClickListener(mDrawerContentClickListener);
         mContactUsButton.setOnClickListener(mDrawerContentClickListener);
         mRateAppButton.setOnClickListener(mDrawerContentClickListener);
@@ -136,6 +140,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    public void showInCaseOfEmergencyDialog() {
+        InCaseOfEmergencyFragment.show(this);
+    }
+
     public void showAboutDialog() {
         AboutFragment.show(this);
     }
@@ -154,6 +162,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                         mDrawerLayout.closeDrawer(mDrawerContent);
                         PreferencesManager.getInstance(MainActivity.this).setMapType(mapType);
                     }
+                    break;
+                case R.id.in_case_emergency_btn:
+                    showInCaseOfEmergencyDialog();
                     break;
                 case R.id.contact_us_btn:
                     ApplicationUtils.launchContactUsByEmailIntent(MainActivity.this, getString(R.string.contact_title_chooser), getString(R.string.contact_email));

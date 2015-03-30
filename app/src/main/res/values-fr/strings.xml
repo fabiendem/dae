@@ -7,6 +7,7 @@
     <!-- Drawer -->
     <string name="drawer_toggle_description">Menu</string>
     <string name="satellite">Satellite</string>
+    <string name="in_case_emergency">En cas d\'urgence</string>
     <string name="settings">Paramètres</string>
     <string name="contact_us">Nous contacter</string>
     <string name="about">À propos</string>
@@ -48,5 +49,14 @@
     <string name="tuto_details_68">Pressez le bouton 68 pour zoomer et centrer la carte sur le Haut-Rhin</string>
     <string name="tuto_title_location">Aide 3/3 : Position actuelle</string>
     <string name="tuto_details_location">Pressez le bouton radar pour afficher votre localisation actuelle</string>
+
+    <!-- En cas d'urgence -->
+    <string name="emerg_title">Les gestes qui sauvent</string>
+    <string name="emerg_call">Alerter</string>
+    <string name="emerg_call_details">Alerter les secours en composant le 112</string>
+    <string name="emerg_compress">Masser</string>
+    <string name="emerg_compress_details">Pratiquer environ 100 compressions par minute</string>
+    <string name="emerg_defib">Défibriller</string>
+    <string name="emerg_defib_details">Suivre les instructions du défibrillateur</string>
 
 </resources>
