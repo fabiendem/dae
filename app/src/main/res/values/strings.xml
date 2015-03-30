@@ -11,6 +11,7 @@
     <!-- Drawer -->
     <string name="drawer_toggle_description">Menu</string>
     <string name="satellite">Satellite</string>
+    <string name="in_case_emergency">In case of emergency</string>
     <string name="settings">Settings</string>
     <string name="contact_us">Contact us</string>
     <string name="about">About</string>
@@ -52,4 +53,15 @@
     <string name="tuto_details_68">Press the 68 button to zoom and center the map on the Haut-Rhin</string>
     <string name="tuto_title_location">Tip 3/3: Current location</string>
     <string name="tuto_details_location">Press the radar button to show your current location</string>
+
+    <!-- In case of emergency -->
+    <!-- English translation may be to improved -->
+    <string name="emerg_title">Save a life</string>
+    <string name="emerg_call">Alert</string>
+    <string name="emerg_call_details">Alert rescue services at the 112</string>
+    <string name="emerg_compress">Compress</string>
+    <string name="emerg_compress_details">Compress at 100 movements per minute</string>
+    <string name="emerg_defib">Use a defibrillator</string>
+    <string name="emerg_defib_details">Follow the instructions of the defibrillator</string>
+
 </resources>

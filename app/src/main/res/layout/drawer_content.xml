@@ -43,15 +43,17 @@
 
                 <View style="@style/Divider"/>
 
-                <!--
                 <Button
+                    android:id="@+id/in_case_emergency_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/DrawerButton"
-                    android:text="@string/settings"
-                    android:drawableLeft="@drawable/ic_settings_grey600_24dp"
+                    android:text="@string/in_case_emergency"
+                    android:drawableLeft="@drawable/ic_local_hospital_grey600_24dp"
                     />
-                -->
+
+                <View style="@style/Divider"/>
+
                 <Button
                     android:id="@+id/contact_us_btn"
                     android:layout_width="match_parent"
