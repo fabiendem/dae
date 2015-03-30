@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.quadtree.PointQuadTree;
 import com.nispok.snackbar.Snackbar;
@@ -61,6 +62,7 @@ import com.nispok.snackbar.listeners.EventListener;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapFragment extends Fragment
         implements OnMapReadyCallback,
@@ -677,7 +679,15 @@ public class MapFragment extends Fragment
     private void highlightClosestMarker(Marker closestDefibrillatorMarker) {
         mClosestDefibrillatorMarker = closestDefibrillatorMarker;
         if (mClosestDefibrillatorMarker != null) {
+            // Update closest defib id
             mDefibrillatorInfoWindowAdapter.setClosestMarkerId(mClosestDefibrillatorMarker.getTitle());
+
+            // Distance
+            double distanceLocationDefib = SphericalUtil.computeDistanceBetween(
+                    MapUtils.getLatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()),
+                    mClosestDefibrillatorMarker.getPosition());
+            mDefibrillatorInfoWindowAdapter.setDistanceLocationDefib(Math.round(distanceLocationDefib));
+
             mClosestDefibrillatorMarker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pin_closest));
             mClosestDefibrillatorMarker.showInfoWindow();
         }
