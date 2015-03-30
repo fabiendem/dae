@@ -35,7 +35,7 @@
 
     <!-- About -->
     <string name="close">Fermer</string>
-    <string name="about_details">Les informations que vous trouvez sur cette application sont issues du site officiel du SAMU et des Pompiers du Haut-Rhin www.dae68.fr\nEn cas d’arrêt cardiaque, ne perdez pas de temps à chercher un DAE si vous ne connaissez pas son emplacement.\nLe plus important est de commencer une réanimation et d\'alerter les secours (Tél 112).</string>
+    <string name="about_details">Les informations que vous trouvez sur cette application sont issues du site officiel du SAMU et des Pompiers du Haut-Rhin www.dae68.fr\n\nEn cas d’arrêt cardiaque, ne perdez pas de temps à chercher un DAE si vous ne connaissez pas son emplacement.\n\nLe plus important est de commencer une réanimation et d\'alerter les secours (Tél <b>112</b>).</string>
 
     <!-- Contact -->
     <string name="contact_title_chooser">Nous contacter via :</string>
