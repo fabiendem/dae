@@ -682,10 +682,6 @@ public class MapFragment extends Fragment
         }
     }
 
-    private void highlightClosestDefibrillator(DefibrillatorClusterItem defibrillatorClusterItem) {
-        highlightClosestMarker(mClusterRenderer.getMarker(defibrillatorClusterItem));
-    }
-
     private void resetClosestMarker() {
         if (mClosestDefibrillatorMarker != null) {
             try {
@@ -728,41 +724,45 @@ public class MapFragment extends Fragment
             if (closestDefib != null) {
                 Log.d(TAG, "Got it: " + closestDefib.getLocationDescription());
 
-                LatLng currentLocationLatLng = MapUtils.getLatLng(mCurrentLocation);
-                LatLngBounds boundsCurrentLocationAndDefibrillator =
-                        MapUtils.getLatLngBounds(currentLocationLatLng, closestDefib.getPosition());
-
                 mMap.animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(
-                                boundsCurrentLocationAndDefibrillator,
-                                UiUtils.dpToPx(getActivity(), 150)),
+                        // Zoom on the defib
+                        CameraUpdateFactory.newLatLngZoom(closestDefib.getPosition(), 15),
                         new GoogleMap.CancelableCallback() {
                             @Override
                             public void onFinish() {
                                 Log.d(TAG, "Map animation finished");
 
-                                // Reset active marker
+                                // Reset active marker, can be just in dark green
                                 resetActiveMarker();
 
                                 if (mClosestDefibrillatorMarker == null ||
-                                        !mClosestDefibrillatorMarker.equals(mClusterRenderer.getMarker(closestDefib))) {
+                                        ! mClosestDefibrillatorMarker.equals(mClusterRenderer.getMarker(closestDefib))) {
                                     Log.d(TAG, "Closest marker is null or different than new one");
 
-                                    // Because we zoom, the marker may be rendered later on
-                                    mClusterRenderer.setClusterItemRenderingListener(new DefibrillatorClusterRenderer.ClusterItemRenderingListener() {
-                                        @Override
-                                        public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
-                                            Log.d(TAG, "Cluster item rendered: " + defibrillatorClusterItem.getLocationDescription());
+                                    resetClosestMarker();
 
-                                            if (defibrillatorClusterItem.equals(closestDefib)) {
-                                                Log.d(TAG, "Marker rendered is the closest one, highlight");
-                                                highlightClosestDefibrillator(closestDefib);
+                                    Marker closestMarker = mClusterRenderer.getMarker(closestDefib);
+                                    if(closestMarker != null) {
+                                        // Marker is already rendered and visible
+                                        highlightClosestMarker(closestMarker);
+                                    }
+                                    else {
+                                        // Because we zoom, the marker may be rendered later on
+                                        mClusterRenderer.setClusterItemRenderingListener(new DefibrillatorClusterRenderer.ClusterItemRenderingListener() {
+                                            @Override
+                                            public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
+                                                Log.d(TAG, "Cluster item rendered: " + defibrillatorClusterItem.getLocationDescription());
 
-                                                // Self destruct
-                                                mClusterRenderer.setClusterItemRenderingListener(null);
+                                                if (defibrillatorClusterItem.equals(closestDefib)) {
+                                                    Log.d(TAG, "Marker rendered is the closest one, highlight");
+                                                    highlightClosestMarker(marker);
+
+                                                    // Self destruct
+                                                    mClusterRenderer.setClusterItemRenderingListener(null);
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
+                                    }
                                 } else {
                                     Log.d(TAG, "Active marker is still the same");
                                     highlightClosestMarker(mClosestDefibrillatorMarker);
