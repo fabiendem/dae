@@ -48,6 +48,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -630,13 +631,36 @@ public class MapFragment extends Fragment
     }
 
     @Override
-    public boolean onClusterItemClick(DefibrillatorClusterItem defibrillatorClusterItem) {
+    public boolean onClusterItemClick(final DefibrillatorClusterItem defibrillatorClusterItem) {
         Log.d(TAG, "onClusterItemClick");
         // Reset previous marker
         resetActiveMarker();
-        if (!mClusterRenderer.getMarker(defibrillatorClusterItem).equals(mClosestDefibrillatorMarker)) {
+        // If it's not the closest defibrillator, highlight the active one
+        if (! mClusterRenderer.getMarker(defibrillatorClusterItem).equals(mClosestDefibrillatorMarker)) {
             highlightActiveDefibrillator(defibrillatorClusterItem);
         }
+
+        // When user click on the pin, move up the camera manually once the native positioning is done
+        // so the info window is visible
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                // Move the camera so the info window is readable
+                mMap.animateCamera(
+                        // Zoom on the defib, move down the pin so the info window looks centered
+                        CameraUpdateFactory.newLatLngZoom(
+                                new LatLng(
+                                        defibrillatorClusterItem.getPosition().latitude + OFFSET_LATITUDE_CENTER_INFO_WINDOW,
+                                        defibrillatorClusterItem.getPosition().longitude),
+                                15),
+                        300, // 300ms looks natural
+                        null);
+
+                // /!\ IMPORTANT: Set back the listener for the cluster manager so it can update the clusters after
+                mMap.setOnCameraChangeListener(mClusterManager);
+            }
+        });
+
         return false;
     }
 
