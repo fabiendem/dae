@@ -97,4 +97,17 @@ public class MapUtils {
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(MapUtils.getLatLng(currentLocation), 15));
     }
 
+    public static String getDistanceFormatted(long distanceInMeters) {
+        String distanceFormatted = "";
+
+        // Prepend Km
+        if(distanceInMeters >= 1000) {
+            distanceFormatted += distanceInMeters / 1000 + " km";
+        }
+        else {
+            distanceFormatted += distanceInMeters + " m";
+        }
+
+        return distanceFormatted;
+    }
 }

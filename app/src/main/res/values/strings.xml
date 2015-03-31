@@ -23,7 +23,7 @@
     <string name="tip_directions">Tap here to show the directions</string>
     <string name="tip_closest">Closest defibrillator</string>
     <string name="walking_directions_title">Show directions via:</string>
-    <string name="at_distance">At %1$d meters</string>
+    <string name="at_distance">At %1$s</string>
 
     <!-- Errors -->
     <string name="error_snackbar_not_in_68">Out of the Haut-Rhin (France)?\nNo defibrillator referenced yet</string>

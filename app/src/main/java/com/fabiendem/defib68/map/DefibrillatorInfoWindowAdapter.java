@@ -91,7 +91,7 @@ public class DefibrillatorInfoWindowAdapter implements GoogleMap.InfoWindowAdapt
         if(getClosestMarkerId() != null &&
                 getClosestMarkerId().equals(markerId)) {
             txtTipClosest.setVisibility(View.VISIBLE);
-            txtDistance.setText(mContext.getString(R.string.at_distance, getDistanceLocationDefib()));
+            txtDistance.setText(mContext.getString(R.string.at_distance, MapUtils.getDistanceFormatted(getDistanceLocationDefib())));
             txtDistance.setVisibility(View.VISIBLE);
         }
         else {
