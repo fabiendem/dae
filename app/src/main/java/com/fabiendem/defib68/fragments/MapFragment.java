@@ -62,7 +62,6 @@ import com.nispok.snackbar.listeners.EventListener;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MapFragment extends Fragment
         implements OnMapReadyCallback,
@@ -76,6 +75,8 @@ public class MapFragment extends Fragment
                     ISimpleDialogListener {
 
     public static final String TAG = "MapFragment";
+
+    private static final double OFFSET_LATITUDE_CENTER_INFO_WINDOW = 0.003;
 
     private SupportMapFragment mSupportMapFragment;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -737,55 +738,58 @@ public class MapFragment extends Fragment
                 Log.d(TAG, "Got it: " + closestDefib.getLocationDescription());
 
                 mMap.animateCamera(
-                        // Zoom on the defib
-                        CameraUpdateFactory.newLatLngZoom(closestDefib.getPosition(), 15),
-                        new GoogleMap.CancelableCallback() {
-                            @Override
-                            public void onFinish() {
-                                Log.d(TAG, "Map animation finished");
+                    // Zoom on the defib, move down the pin so the info window looks centered
+                    CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(
+                                    closestDefib.getPosition().latitude + OFFSET_LATITUDE_CENTER_INFO_WINDOW, closestDefib.getPosition().longitude),
+                                    15),
+                    new GoogleMap.CancelableCallback() {
+                        @Override
+                        public void onFinish() {
+                            Log.d(TAG, "Map animation finished");
 
-                                // Reset active marker, can be just in dark green
-                                resetActiveMarker();
+                            // Reset active marker, can be just in dark green
+                            resetActiveMarker();
 
-                                if (mClosestDefibrillatorMarker == null ||
-                                        ! mClosestDefibrillatorMarker.equals(mClusterRenderer.getMarker(closestDefib))) {
-                                    Log.d(TAG, "Closest marker is null or different than new one");
+                            if (mClosestDefibrillatorMarker == null ||
+                                    ! mClosestDefibrillatorMarker.equals(mClusterRenderer.getMarker(closestDefib))) {
+                                Log.d(TAG, "Closest marker is null or different than new one");
 
-                                    resetClosestMarker();
+                                resetClosestMarker();
 
-                                    Marker closestMarker = mClusterRenderer.getMarker(closestDefib);
-                                    if(closestMarker != null) {
-                                        // Marker is already rendered and visible
-                                        highlightClosestMarker(closestMarker);
-                                    }
-                                    else {
-                                        // Because we zoom, the marker may be rendered later on
-                                        mClusterRenderer.setClusterItemRenderingListener(new DefibrillatorClusterRenderer.ClusterItemRenderingListener() {
-                                            @Override
-                                            public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
-                                                Log.d(TAG, "Cluster item rendered: " + defibrillatorClusterItem.getLocationDescription());
-
-                                                if (defibrillatorClusterItem.equals(closestDefib)) {
-                                                    Log.d(TAG, "Marker rendered is the closest one, highlight");
-                                                    highlightClosestMarker(marker);
-
-                                                    // Self destruct
-                                                    mClusterRenderer.setClusterItemRenderingListener(null);
-                                                }
-                                            }
-                                        });
-                                    }
-                                } else {
-                                    Log.d(TAG, "Active marker is still the same");
-                                    highlightClosestMarker(mClosestDefibrillatorMarker);
+                                Marker closestMarker = mClusterRenderer.getMarker(closestDefib);
+                                if(closestMarker != null) {
+                                    // Marker is already rendered and visible
+                                    highlightClosestMarker(closestMarker);
                                 }
-                            }
+                                else {
+                                    // Because we zoom, the marker may be rendered later on
+                                    mClusterRenderer.setClusterItemRenderingListener(new DefibrillatorClusterRenderer.ClusterItemRenderingListener() {
+                                        @Override
+                                        public void onClusterItemRendered(DefibrillatorClusterItem defibrillatorClusterItem, Marker marker) {
+                                            Log.d(TAG, "Cluster item rendered: " + defibrillatorClusterItem.getLocationDescription());
 
-                            @Override
-                            public void onCancel() {
+                                            if (defibrillatorClusterItem.equals(closestDefib)) {
+                                                Log.d(TAG, "Marker rendered is the closest one, highlight");
+                                                highlightClosestMarker(marker);
 
+                                                // Self destruct
+                                                mClusterRenderer.setClusterItemRenderingListener(null);
+                                            }
+                                        }
+                                    });
+                                }
+                            } else {
+                                Log.d(TAG, "Active marker is still the same");
+                                highlightClosestMarker(mClosestDefibrillatorMarker);
                             }
                         }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    }
                 );
             } else {
                 Log.d(TAG, "Couldn't find closest defib");
