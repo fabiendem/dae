@@ -3,6 +3,7 @@ package com.fabiendem.defib68.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
 import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
+import com.fabiendem.defib68.location.LocationServiceSettingsResultCallback;
 import com.fabiendem.defib68.map.DefibrillatorClusterRenderer;
 import com.fabiendem.defib68.map.DefibrillatorFinder;
 import com.fabiendem.defib68.map.DefibrillatorInfoWindowAdapter;
@@ -32,16 +34,22 @@ import com.fabiendem.defib68.utils.AnimUtils;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.fabiendem.defib68.utils.ConnectivityUtils;
 import com.fabiendem.defib68.utils.HautRhinUtils;
-import com.fabiendem.defib68.utils.LocationUtils;
 import com.fabiendem.defib68.utils.ShowcaseTutorialManager;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -99,10 +107,13 @@ public class MapFragment extends Fragment
     private static final int REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED = 0;
     private static final int REQUEST_CODE_ALERT_AIRPLANE_MODE_ENABLED = 1;
     private static final int REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE = 2;
+    private static final int REQUEST_CODE_ALERT_LOCATION_SERVICES_WARNING = 4;
+    private static final int REQUEST_CODE_CHECK_LOCATION_SERVICES_SETTINGS = 3;
+
     private DialogFragment mAlertLocationServiceDialog;
     private DialogFragment mAlertAirplaneModeEnabled;
     private DialogFragment mAlertConnectivityUnavailable;
-
+    private DialogFragment mAlertLocationServiceDisabledWarningDialog;
 
     private List<DefibrillatorModel> mDefibrillators;
     private DefibrillatorClusterRenderer mClusterRenderer;
@@ -143,8 +154,10 @@ public class MapFragment extends Fragment
 
     // Define an object that holds accuracy and frequency parameters
     private LocationRequest mLocationRequest;
+    private LocationSettingsRequest mLocationSettingsRequest;
     private Location mCurrentLocation;
     private boolean mRequestingLocationUpdates;
+    private Status mLocationSettingsResultStatus;
 
     public MapFragment() {
     }
@@ -251,6 +264,10 @@ public class MapFragment extends Fragment
         mLocationRequest.setInterval(UPDATE_INTERVAL);
         // Set the fastest update interval to 1 second
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        LocationSettingsRequest.Builder builderLocationSettingsRequest = new LocationSettingsRequest.Builder();
+        builderLocationSettingsRequest.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builderLocationSettingsRequest.build();
     }
 
     /*
@@ -366,6 +383,22 @@ public class MapFragment extends Fragment
         return mMap;
     }
 
+    public int toggleMapType() {
+        int newMapType;
+        if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL) {
+            newMapType = GoogleMap.MAP_TYPE_NORMAL;
+        }
+        else {
+            newMapType = GoogleMap.MAP_TYPE_HYBRID;
+        }
+        mMap.setMapType(newMapType);
+        return newMapType;
+    }
+
+    public int getMapType() {
+        return mMap.getMapType();
+    }
+
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
@@ -448,7 +481,8 @@ public class MapFragment extends Fragment
 
     private List<DefibrillatorModel> loadDefibrillators() {
         String jsonDefibrillators = ApplicationUtils.loadJSONFromAsset(getActivity(), "defibs.json");
-        List<DefibrillatorModel> jsonToDefibrillatorList = (List<DefibrillatorModel>) DefibrillatorJsonConvertor.ConvertJsonStringToDefibrillatorsCollection(jsonDefibrillators);
+        List<DefibrillatorModel> jsonToDefibrillatorList =
+                (List<DefibrillatorModel>) DefibrillatorJsonConvertor.ConvertJsonStringToDefibrillatorsCollection(jsonDefibrillators);
         return jsonToDefibrillatorList;
     }
 
@@ -503,23 +537,23 @@ public class MapFragment extends Fragment
     }
 
     private void onClickClosestBtn(View view) {
-        if(! LocationUtils.isLocationServiceEnabled(getActivity())) {
-            showAlertLocationServiceDisabled();
-        }
-        else {
-            new ShowClosestDefibrillatorAsyncTask().execute();
-        }
+        checkLocationServiceSettings(new LocationServiceSettingsResultCallback() {
+            @Override
+            public void onServiceAvailable() {
+                new ShowClosestDefibrillatorAsyncTask().execute();
+            }
+        });
     }
 
     private void onClickMyLocationBtn(View view) {
-        if(! LocationUtils.isLocationServiceEnabled(getActivity())) {
-            showAlertLocationServiceDisabled();
-        }
-        else {
-            if (mCurrentLocation != null) {
-                MapUtils.animateCameraToCurrentLocation(mMap, mCurrentLocation);
+        checkLocationServiceSettings(new LocationServiceSettingsResultCallback() {
+            @Override
+            public void onServiceAvailable() {
+                if (mCurrentLocation != null) {
+                    MapUtils.animateCameraToCurrentLocation(mMap, mCurrentLocation);
+                }
             }
-        }
+        });
     }
 
     private void onClickHautRhinBtn(View view) {
@@ -932,6 +966,20 @@ public class MapFragment extends Fragment
         }
     }
 
+    private void showAlertLocationServiceDisabledWarning() {
+        if(mAlertLocationServiceDisabledWarningDialog != null &&
+                mAlertLocationServiceDisabledWarningDialog.isVisible()) {
+            mAlertLocationServiceDisabledWarningDialog.dismiss();
+        }
+
+        mAlertLocationServiceDisabledWarningDialog = SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+                .setTitle(getString(R.string.error_alert_title_location_disabled))
+                .setMessage(getString(R.string.error_alert_details_location_disabled))
+                .setPositiveButtonText(getString(R.string.ok))
+                .setTargetFragment(this, REQUEST_CODE_ALERT_LOCATION_SERVICES_WARNING)
+                .show();
+    }
+
     private void showAlertLocationServiceDisabled() {
         if(mAlertLocationServiceDialog != null &&
                 mAlertLocationServiceDialog.isVisible()) {
@@ -993,6 +1041,9 @@ public class MapFragment extends Fragment
             case REQUEST_CODE_ALERT_LOCATION_SERVICES_DISABLED:
                 ApplicationUtils.launchLocationSettingsIntent(getActivity());
                 break;
+            case REQUEST_CODE_ALERT_LOCATION_SERVICES_WARNING:
+                showNativeDialogLocationSettings();
+                break;
             case REQUEST_CODE_ALERT_AIRPLANE_MODE_ENABLED:
                 ApplicationUtils.launchAirplaneSettingsIntent(getActivity());
                 break;
@@ -1002,19 +1053,48 @@ public class MapFragment extends Fragment
         }
     }
 
-    public int toggleMapType() {
-        int newMapType;
-        if(mMap.getMapType() != GoogleMap.MAP_TYPE_NORMAL) {
-            newMapType = GoogleMap.MAP_TYPE_NORMAL;
-        }
-        else {
-            newMapType = GoogleMap.MAP_TYPE_HYBRID;
-        }
-        mMap.setMapType(newMapType);
-        return newMapType;
+    private void checkLocationServiceSettings(@Nullable final LocationServiceSettingsResultCallback locationServiceSettingsResultCallback) {
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient, mLocationSettingsRequest);
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                mLocationSettingsResultStatus = result.getStatus();
+                final LocationSettingsStates locationSettingsStates = result.getLocationSettingsStates();
+                switch (mLocationSettingsResultStatus.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        // All location settings are satisfied. The client can initialize location
+                        // requests here.
+                        if(locationServiceSettingsResultCallback != null) {
+                            locationServiceSettingsResultCallback.onServiceAvailable();
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied. But could be fixed by showing the user
+                        // a dialog.
+                        showAlertLocationServiceDisabledWarning();
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        // Location settings are not satisfied. However, we have no way to fix the
+                        // settings so we won't show the native dialog
+                        // Show our home made dialog
+                        showAlertLocationServiceDisabled();
+                        break;
+                }
+            }
+        });
     }
 
-    public int getMapType() {
-        return mMap.getMapType();
+    private void showNativeDialogLocationSettings() {
+        try {
+            // Show the dialog by calling startResolutionForResult(),
+            // and check the result in onActivityResult().
+            // TODO: Grab back the result in the activity for a cooler UX
+            mLocationSettingsResultStatus.startResolutionForResult(
+                    getActivity(),
+                    REQUEST_CODE_CHECK_LOCATION_SERVICES_SETTINGS);
+        } catch (IntentSender.SendIntentException e) {
+            // Ignore the error.
+        }
     }
 }

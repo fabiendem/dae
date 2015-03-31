@@ -15,6 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# For google play services
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();
 }
