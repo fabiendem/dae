@@ -31,6 +31,9 @@
     <string name="error_alert_details_airplane_enabled">Il semblerait que le mode Avion est activé sur votre téléphone, pour le bon fonctionnement de l\'application, assurez-vous que votre téléphone est connecté au réseau.\nVeuillez désactiver le mode Avion dans les paramètres du téléphone.</string>
     <string name="error_alert_title_connectivity_unavailable">Pas de connexion réseau</string>
     <string name="error_alert_details_connectivity_unavailable">Veuillez vérifier votre connexion, pour le bon fonctionnement de l\'application, assurez-vous d\'être connecté à un réseau 3G/4G ou Wi-Fi.</string>
+    <string name="error_alert_title_play_services_missing">Services Google Play manquants</string>
+    <string name="error_alert_details_play_services_missing">Il est impossible d\'utiliser l\'application sans les services Google Play.\n\nCes services permettent d\'afficher la carte ainsi que votre localisation.\n\nSi vous pensez qu\'ils sont déjà installés veuillez réessayer plus tard, sinon pressez le bouton Installer.</string>
+    <string name="install">Installer</string>
     <string name="ignore">Ignorer</string>
 
     <!-- About -->

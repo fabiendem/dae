@@ -109,6 +109,7 @@ public class MapFragment extends Fragment
     private static final int REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE = 2;
     private static final int REQUEST_CODE_ALERT_LOCATION_SERVICES_WARNING = 4;
     private static final int REQUEST_CODE_CHECK_LOCATION_SERVICES_SETTINGS = 3;
+    private static final int REQUEST_CODE_ALERT_GOOGLE_PLAY_SERVICES_MISSING = 5;
 
     private DialogFragment mAlertLocationServiceDialog;
     private DialogFragment mAlertAirplaneModeEnabled;
@@ -158,6 +159,7 @@ public class MapFragment extends Fragment
     private Location mCurrentLocation;
     private boolean mRequestingLocationUpdates;
     private Status mLocationSettingsResultStatus;
+    private DialogFragment mAlertGooglePlayServicesMissingDialog;
 
     public MapFragment() {
     }
@@ -966,6 +968,21 @@ public class MapFragment extends Fragment
         }
     }
 
+    private void showAlertGooglePlayServicesMissing() {
+        if(mAlertGooglePlayServicesMissingDialog != null &&
+                mAlertGooglePlayServicesMissingDialog.isVisible()) {
+            mAlertGooglePlayServicesMissingDialog.dismiss();
+        }
+
+        mAlertGooglePlayServicesMissingDialog = SimpleDialogFragment.createBuilder(getActivity(), getActivity().getSupportFragmentManager())
+                .setTitle(getString(R.string.error_alert_title_play_services_missing))
+                .setMessage(getString(R.string.error_alert_details_play_services_missing))
+                .setPositiveButtonText(getString(R.string.install))
+                .setNegativeButtonText(getString(R.string.ignore))
+                .setTargetFragment(this, REQUEST_CODE_ALERT_GOOGLE_PLAY_SERVICES_MISSING)
+                .show();
+    }
+
     private void showAlertLocationServiceDisabledWarning() {
         if(mAlertLocationServiceDisabledWarningDialog != null &&
                 mAlertLocationServiceDisabledWarningDialog.isVisible()) {
@@ -1049,6 +1066,9 @@ public class MapFragment extends Fragment
                 break;
             case REQUEST_CODE_ALERT_CONNECTIVITY_UNAVAILABLE:
                 ApplicationUtils.launchWirelessSettingsIntent(getActivity());
+                break;
+            case REQUEST_CODE_ALERT_GOOGLE_PLAY_SERVICES_MISSING:
+                ApplicationUtils.openGooglePlayServicesPlayStorePage(getActivity());
                 break;
         }
     }

@@ -35,6 +35,9 @@
     <string name="error_alert_details_airplane_enabled">Looks like the airplane mode is enabled, to use the application, make sure your phone is connected to the network.\nPlease disable the Airplane mode.</string>
     <string name="error_alert_title_connectivity_unavailable">No network connection</string>
     <string name="error_alert_details_connectivity_unavailable">Please verify your connection, to use the application, make sure you are connected to a 3G/4G or Wi-Fi network.</string>
+    <string name="error_alert_title_play_services_missing">Google Play Services missing</string>
+    <string name="error_alert_details_play_services_missing">It is impossible to use the application without the Google Play services.\n\nThese services allow to display the map as well as your location.\n\nIf you think they are already installed please try again later, otherwise press on Install.</string>
+    <string name="install">Install</string>
     <string name="ignore">Ignore</string>
 
     <!-- About -->

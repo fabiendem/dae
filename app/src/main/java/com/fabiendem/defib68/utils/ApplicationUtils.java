@@ -15,14 +15,25 @@ import java.io.InputStream;
  */
 public class ApplicationUtils {
 
+    public static void openPlayStorePage(@NonNull Context context, @NonNull String appPackageName) {
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+    }
+
     /**
      * Opens Google Play's application page.
      *
      * @param context : current context, used to get application's package name
      */
     public static void rateTheApp(@NonNull Context context) {
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));
-        context.startActivity(goToMarket);
+        openPlayStorePage(context, context.getPackageName());
+    }
+
+    public static void openGooglePlayServicesPlayStorePage(@NonNull Context context) {
+        openPlayStorePage(context, "com.google.android.gms");
     }
 
     public static void launchContactUsByEmailIntent(Context context,
