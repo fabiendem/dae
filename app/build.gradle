@@ -26,6 +26,22 @@ android {
         versionCode 3
         versionName "0.3"
     }
+
+    signingConfigs {
+        releaseSigning {
+            // Keystore and alias are in ~/.gradle/gradle.properties
+            def console = System.console()
+            if (console != null) {
+                storePassword System.console().readLine("\nStore password: ")
+            }
+            storeFile file("${android_keystore}")
+            keyAlias "${android_key_alias}"
+            if (console != null) {
+                keyPassword System.console().readLine("\nKey password: ")
+            }
+        }
+    }
+
     buildTypes {
 
         debug {
@@ -45,6 +61,7 @@ android {
         }
 
         release {
+            signingConfig signingConfigs.releaseSigning
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'true'
