@@ -23,8 +23,7 @@ public class DefibrillatorJsonConvertor {
                 new DefibrillatorModelDeserializer());
         Gson gson = gsonBuilder.create();
         // Parse JSON to Java
-        DefibrillatorModel defibrillatorModel = gson.fromJson(json, DefibrillatorModel.class);
-        return  defibrillatorModel;
+        return gson.fromJson(json, DefibrillatorModel.class);
     }
 
     public static Collection<DefibrillatorModel> ConvertJsonStringToDefibrillatorsCollection(String jsonArrayString) {
@@ -35,8 +34,7 @@ public class DefibrillatorJsonConvertor {
         Gson gson = gsonBuilder.create();
 
         // Parse JSON to Java
-        Collection<DefibrillatorModel> defibrillatorModelsCollection = gson.fromJson(jsonArrayString, Collection.class);
-        return  defibrillatorModelsCollection;
+        return gson.fromJson(jsonArrayString, Collection.class);
     }
 
     protected static DefibrillatorModel ConvertJsonElementToDefibrillatorModel(JsonElement jsonElement) {

@@ -56,8 +56,7 @@ public class MapUtils {
         LatLng southwest = new LatLng(southLatitude, westLongitude);
         LatLng northeast = new LatLng(northLatitude, eastLongitude);
 
-        LatLngBounds latLngBounds = new LatLngBounds(southwest, northeast);
-        return latLngBounds;
+        return new LatLngBounds(southwest, northeast);
     }
 
     public static Intent getIntentGoogleMap(LatLng latLng) {

@@ -483,9 +483,7 @@ public class MapFragment extends Fragment
 
     private List<DefibrillatorModel> loadDefibrillators() {
         String jsonDefibrillators = ApplicationUtils.loadJSONFromAsset(getActivity(), "defibs.json");
-        List<DefibrillatorModel> jsonToDefibrillatorList =
-                (List<DefibrillatorModel>) DefibrillatorJsonConvertor.ConvertJsonStringToDefibrillatorsCollection(jsonDefibrillators);
-        return jsonToDefibrillatorList;
+        return (List<DefibrillatorModel>) DefibrillatorJsonConvertor.ConvertJsonStringToDefibrillatorsCollection(jsonDefibrillators);
     }
 
     private void setupClusterer() {
