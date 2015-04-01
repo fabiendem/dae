@@ -9,11 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.fabiendem.defib68.PreferencesManager;
 import com.fabiendem.defib68.R;
-import com.fabiendem.defib68.fragments.AboutFragment;
-import com.fabiendem.defib68.fragments.InCaseOfEmergencyFragment;
+import com.fabiendem.defib68.fragments.AboutDialogFragment;
+import com.fabiendem.defib68.fragments.InCaseOfEmergencyDialogFragment;
 import com.fabiendem.defib68.fragments.MapFragment;
 import com.fabiendem.defib68.utils.ApplicationUtils;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +40,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button mAboutButton;
     private Button mContactUsButton;
     private Button mInCaseEmergencyButton;
+    private TextView mVersionNameTv;
 
 
     @Override
@@ -54,6 +56,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         mDrawerToogleButton.setOnClickListener(this);
 
+        mVersionNameTv = (TextView) findViewById(R.id.version_name);
+        mVersionNameTv.setText(
+                getString(R.string.app_name) +
+                " " +
+                ApplicationUtils.getVersionName(this, getString(R.string.unknown_version)));
+
         // Drawer interactions
         mDrawerContentClickListener = new DrawerContentClickListener();
         mMapTypeChooserButton = (Button) findViewById(R.id.map_type_chooser_btn);
@@ -61,13 +69,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mAboutButton = (Button) findViewById(R.id.about_btn);
         mRateAppButton = (Button) findViewById(R.id.rate_app_btn);
         mContactUsButton = (Button) findViewById(R.id.contact_us_btn);
-
+        // Connect it
         mMapTypeChooserButton.setOnClickListener(mDrawerContentClickListener);
-        mMapTypeChooserButton.setActivated(false);
         mInCaseEmergencyButton.setOnClickListener(mDrawerContentClickListener);
         mAboutButton.setOnClickListener(mDrawerContentClickListener);
         mContactUsButton.setOnClickListener(mDrawerContentClickListener);
         mRateAppButton.setOnClickListener(mDrawerContentClickListener);
+
+        mMapTypeChooserButton.setActivated(false);
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
@@ -141,11 +150,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     public void showInCaseOfEmergencyDialog() {
-        InCaseOfEmergencyFragment.show(this);
+        InCaseOfEmergencyDialogFragment.show(this);
     }
 
     public void showAboutDialog() {
-        AboutFragment.show(this);
+        AboutDialogFragment.show(this);
     }
 
     private class DrawerContentClickListener implements View.OnClickListener {

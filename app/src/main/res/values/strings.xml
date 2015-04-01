@@ -7,6 +7,7 @@
 
     <string name="app_name">DAE68</string>
     <string name="map">Map</string>
+    <string name="unknown_version">Unknown version</string>
 
     <!-- Drawer -->
     <string name="drawer_toggle_description">Menu</string>

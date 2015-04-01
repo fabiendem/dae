@@ -2,10 +2,13 @@ package com.fabiendem.defib68.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.fabiendem.defib68.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -104,6 +107,17 @@ public class ApplicationUtils {
         else {
             launchWirelessSettingsIntent(context);
         }
+    }
+
+    public static String getVersionName(Context context, String defaultVersionName) {
+        String versionName = defaultVersionName;
+        try {
+            versionName = "v" + context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            // Do nothing, use default
+        }
+        return versionName;
     }
 
     @Nullable
