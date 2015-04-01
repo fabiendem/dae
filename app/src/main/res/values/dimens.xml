@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="drawerWidth">304dp</dimen>
+    <dimen name="drawerWidth">272dp</dimen>
 
     <dimen name="margin_fab">16dp</dimen>
     <dimen name="horizontal_margin_mini_fab">24dp</dimen>
