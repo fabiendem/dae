@@ -16,6 +16,15 @@
 #   public *;
 #}
 
+# --------------------------------------------------------------------
+# REMOVE all Log messages except warnings and errors
+# --------------------------------------------------------------------
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}
+
 # For google play services
 -keep class * extends java.util.ListResourceBundle {
     protected Object[][] getContents();

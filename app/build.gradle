@@ -54,7 +54,7 @@ android {
             debuggable true
             signingConfig signingConfigs.debug
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'true'
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
