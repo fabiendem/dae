@@ -16,11 +16,11 @@ public class HautRhinUtils {
     public static final double LEFT_BOUND = 6.242803931236267;
     public static final double RIGHT_BOUND = 8.220343999564648;
 
-    public static final Bounds getBounds() {
+    public static Bounds getBounds() {
         return new Bounds(LEFT_BOUND, RIGHT_BOUND, BOTTOM_BOUND, TOP_BOUND);
     }
 
-    public static final LatLngBounds getLatLngBounds() {
+    public static LatLngBounds getLatLngBounds() {
         return new LatLngBounds(
                 new LatLng(BOTTOM_BOUND, LEFT_BOUND),
                 new LatLng(TOP_BOUND, RIGHT_BOUND));
