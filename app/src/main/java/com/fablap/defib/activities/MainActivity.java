@@ -92,12 +92,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.d(TAG, "onRestoreInstanceState");
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
