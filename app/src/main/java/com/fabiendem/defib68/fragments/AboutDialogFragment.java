@@ -12,12 +12,12 @@ import com.fabiendem.defib68.R;
 /**
  * Created by Fabien on 15/11/14.
  */
-public class AboutFragment extends SimpleDialogFragment {
+public class AboutDialogFragment extends SimpleDialogFragment {
 
     public static String TAG = "AboutFragment";
 
     public static void show(FragmentActivity activity) {
-        new AboutFragment().show(activity.getSupportFragmentManager(), TAG);
+        new AboutDialogFragment().show(activity.getSupportFragmentManager(), TAG);
     }
 
     @Override

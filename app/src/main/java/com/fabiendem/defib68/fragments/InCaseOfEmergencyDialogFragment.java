@@ -12,11 +12,11 @@ import com.fabiendem.defib68.R;
 /**
  * Created by fabien on 30/03/2015.
  */
-public class InCaseOfEmergencyFragment extends SimpleDialogFragment {
+public class InCaseOfEmergencyDialogFragment extends SimpleDialogFragment {
     public static String TAG = "InCaseOfEmergencyFragment";
 
     public static void show(FragmentActivity activity) {
-        new InCaseOfEmergencyFragment().show(activity.getSupportFragmentManager(), TAG);
+        new InCaseOfEmergencyDialogFragment().show(activity.getSupportFragmentManager(), TAG);
     }
 
     @Override
