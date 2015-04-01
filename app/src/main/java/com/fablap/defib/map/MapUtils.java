@@ -26,10 +26,7 @@ public class MapUtils {
     }
 
     public static boolean isLocationInBounds(Location location, LatLngBounds bounds) {
-        if(bounds.contains(getLatLng(location))) {
-            return true;
-        }
-        return false;
+        return bounds.contains(getLatLng(location));
     }
 
     public static LatLngBounds getLatLngBounds(LatLng firstLocation, LatLng secondLocation) {
