@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="map_initial_lat" translatable="false">47.86573</string>
     <string name="map_initial_lng" translatable="false">7.2315735</string>
@@ -53,7 +53,7 @@
     <string name="rate_app">Rate the app</string>
 
     <!-- Tutorial -->
-    <string name="tuto_title_closest">Tip 1/3: Closest defibrillator</string>
+    <string name="tuto_title_closest" tools:ignore="TypographyFractions">Tip 1/3: Closest defibrillator</string>
     <string name="tuto_details_closest">Press the red button to quickly find the closest defibrillator from your current location</string>
     <string name="tuto_title_68">Tip 2/3: Show Haut-Rhin</string>
     <string name="tuto_details_68">Press the 68 button to zoom and center the map on the Haut-Rhin</string>
