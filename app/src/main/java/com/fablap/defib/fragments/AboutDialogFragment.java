@@ -14,7 +14,7 @@ import com.fablap.defib.R;
  */
 public class AboutDialogFragment extends SimpleDialogFragment {
 
-    public static String TAG = "AboutFragment";
+    public static final String TAG = "AboutFragment";
 
     public static void show(FragmentActivity activity) {
         new AboutDialogFragment().show(activity.getSupportFragmentManager(), TAG);

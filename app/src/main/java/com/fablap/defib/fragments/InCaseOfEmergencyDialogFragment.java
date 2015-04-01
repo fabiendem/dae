@@ -13,7 +13,7 @@ import com.fablap.defib.R;
  * Created by fabien on 30/03/2015.
  */
 public class InCaseOfEmergencyDialogFragment extends SimpleDialogFragment {
-    public static String TAG = "InCaseOfEmergencyFragment";
+    public static final String TAG = "InCaseOfEmergencyFragment";
 
     public static void show(FragmentActivity activity) {
         new InCaseOfEmergencyDialogFragment().show(activity.getSupportFragmentManager(), TAG);
