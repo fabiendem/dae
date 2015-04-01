@@ -55,7 +55,7 @@ public class UiUtils {
                                              ImageButton item, int iconResId) {
 
         item.setEnabled(enabled);
-        Drawable originalIcon = ctxt.getResources().getDrawable(iconResId);
+        Drawable originalIcon = ctxt.getDrawable(iconResId);
         Drawable icon = enabled ? originalIcon : convertDrawableToGrayScale(originalIcon);
         item.setImageDrawable(icon);
     }
