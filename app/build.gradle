@@ -63,7 +63,7 @@ android {
         release {
             signingConfig signingConfigs.releaseSigning
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_CRASHLYTICS_ENABLED', 'true'
         }
     }
